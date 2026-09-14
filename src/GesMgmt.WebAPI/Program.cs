@@ -1,13 +1,13 @@
 using System.Threading.RateLimiting;
-using GesMgmt.Application.DTOs.Analytics.PortfolioControlCenter;
-using GesMgmt.WebAPI.Controllers.Analytics;
+using GesMgmt.Application.DTOs.Analitica.CentroControlCartera;
+using GesMgmt.WebAPI.Controllers.Analitica;
 using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using NLog.Web;
 using GesMgmt.Infraestructure;
-using GesMgmt.Application.Interfaces.Analytics;
+using GesMgmt.Application.Interfaces.Analitica;
 using GesMgmt.WebAPI;
 using System.Text.Json.Serialization;
 
@@ -87,37 +87,37 @@ builder.Services.AddSwaggerGen(c =>
 // Add Infraestructure services
 builder.Services.AddInfraestructure(builder.Configuration);
 
-// Analytics consume la identidad del host sin registrar un esquema de autenticación propio.
+// Analítica consume la identidad del host sin registrar un esquema de autenticación propio.
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IAnalyticsUserContext, HttpAnalyticsUserContext>();
+builder.Services.AddScoped<IContextoUsuarioAnalitica, HttpContextoUsuarioAnalitica>();
 
-var portfolioPerformance = builder.Configuration
-    .GetSection(PortfolioControlCenterPerformanceOptions.SectionName)
-    .Get<PortfolioControlCenterPerformanceOptions>()
-    ?? new PortfolioControlCenterPerformanceOptions();
+var rendimientoCartera = builder.Configuration
+    .GetSection(RendimientoCentroControlCarteraOptions.NombreSeccion)
+    .Get<RendimientoCentroControlCarteraOptions>()
+    ?? new RendimientoCentroControlCarteraOptions();
 
-portfolioPerformance.Validate();
+rendimientoCartera.Validar();
 
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status503ServiceUnavailable;
     options.AddConcurrencyLimiter(
-        AnalyticsControllerBase.PortfolioConcurrencyPolicyName,
+        AnaliticaControllerBase.NombrePoliticaConcurrenciaCartera,
         limiter =>
         {
-            limiter.PermitLimit = portfolioPerformance.MaxConcurrentRequests;
+            limiter.PermitLimit = rendimientoCartera.MaximoSolicitudesConcurrentes;
             limiter.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-            limiter.QueueLimit = portfolioPerformance.QueueLimit;
+            limiter.QueueLimit = rendimientoCartera.LimiteCola;
         });
 });
 
 builder.Services.AddRequestTimeouts(options =>
 {
     options.AddPolicy(
-        AnalyticsControllerBase.PortfolioRequestTimeoutPolicyName,
+        AnaliticaControllerBase.NombrePoliticaTimeoutCartera,
         new RequestTimeoutPolicy
         {
-            Timeout = TimeSpan.FromSeconds(portfolioPerformance.RequestTimeoutSeconds),
+            Timeout = TimeSpan.FromSeconds(rendimientoCartera.SegundosTiempoEsperaSolicitud),
             TimeoutStatusCode = StatusCodes.Status503ServiceUnavailable
         });
 });

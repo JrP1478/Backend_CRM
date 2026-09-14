@@ -19,7 +19,8 @@ una infraestructura Dapper paralela.
 7. Los endpoints y contratos públicos de Analytics se conservan salvo cambio funcional
    explícitamente aprobado.
 8. Los repositories Analytics no se agregan al `IUnitOfWork` legacy: `AvalDbContext` y
-   `AnalyticsDbContext` representan bases de datos distintas.
+   `AnalyticsDbContext` permanecen como contextos EF Core separados, aunque la configuración
+   actual de este entorno los conecte a `aval_cob`.
 
 ## Contextos de datos
 
@@ -32,8 +33,8 @@ una infraestructura Dapper paralela.
 ### AnalyticsDbContext
 
 - Connection string: `ConnectionStrings:AvalAnalyticsConnection`.
-- Base: `aval_analytics`.
-- Modela `analytics_access`, dimensiones, facts y vistas utilizadas por Analytics y Portfolio
+- Base actual: `aval_cob`.
+- Modela `acceso_analitica`, dimensiones, facts y vistas utilizadas por Analytics y Portfolio
   Control Center.
 - `AnalyticsDatabase:CommandTimeoutSeconds` es opcional; default 15 segundos, rango 1-120.
 
@@ -45,7 +46,7 @@ SQL y clases `*Sql.cs`. Esa estrategia fue retirada para volver al patrón EF Co
 Quedaron migrados a EF Core:
 
 - acceso SISGES de Analytics;
-- opciones, usuarios, clientes y grupos de `analytics_access`;
+- opciones, usuarios, clientes y grupos de `acceso_analitica`;
 - configuración Power BI y publicaciones por cliente;
 - Bootstrap y FilterOptions de Portfolio Control Center;
 - Overview, Summary y Target Progress;
@@ -53,16 +54,17 @@ Quedaron migrados a EF Core:
 - Evolution;
 - Advisor, Supervisor y Campaign Performance.
 
-No quedan archivos `*Sql.cs` ni dependencias Dapper en los proyectos de aplicación o
-infraestructura.
+La ruta activa utiliza EF Core. Permanecen algunos archivos `*Sql.cs` residuales no
+referenciados por la implementación activa; se conservan por ahora para evitar una eliminación
+no funcional dentro de esta migración.
 
 ### Auditoría de scopes
 
 Las tablas:
 
-- `analytics_access.user_option_scope_audit`;
-- `analytics_access.option_client_scope_audit`;
-- `analytics_access.option_group_scope_audit`;
+- `acceso_analitica.auditoria_alcance_usuario_opcion`;
+- `acceso_analitica.auditoria_alcance_opcion_cliente`;
+- `acceso_analitica.auditoria_alcance_opcion_grupo`;
 
 se escriben mediante `ExecuteSqlInterpolatedAsync` del propio `AnalyticsDbContext`, dentro de
 la misma transacción EF Core que actualiza los scopes. El código fuente disponible no contiene
