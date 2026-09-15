@@ -1,15 +1,20 @@
 using GesMgmt.Application.Interfaces;
-using GesMgmt.Application.DTOs.Analytics;
-using GesMgmt.Application.DTOs.Analytics.PortfolioControlCenter;
-using GesMgmt.Application.Interfaces.Analytics.PortfolioControlCenter;
-using GesMgmt.Application.Services.Analytics.PortfolioControlCenter;
-using GesMgmt.Domain.Interfaces.Analytics.PortfolioControlCenter;
-using GesMgmt.Infraestructure.Repositories.Analytics.PortfolioControlCenter;
-using GesMgmt.Application.Interfaces.Analytics;
-using GesMgmt.Application.Services.Analytics;
-using GesMgmt.Domain.Interfaces.Analytics;
-using GesMgmt.Infraestructure.Repositories.Analytics;
+using GesMgmt.Application.DTOs.Analitica;
+using GesMgmt.Application.DTOs.Analitica.CentroControlCartera;
+using GesMgmt.Application.Interfaces.Analitica.CentroControlCartera;
+using GesMgmt.Application.Services.Analitica.CentroControlCartera;
+using GesMgmt.Domain.Interfaces.Analitica.CentroControlCartera;
+using GesMgmt.Infraestructure.Repositories.Analitica.CentroControlCartera;
+using GesMgmt.Application.Interfaces.Analitica;
+using GesMgmt.Application.Services.Analitica;
+using GesMgmt.Application.Interfaces.Analitica.SesionesPowerBi;
+using GesMgmt.Application.Services.Analitica.SesionesPowerBi;
+using GesMgmt.Domain.Interfaces.Analitica;
+using GesMgmt.Infraestructure.Repositories.Analitica;
+using GesMgmt.Domain.Interfaces.Analitica.SesionesPowerBi;
+using GesMgmt.Infraestructure.Repositories.Analitica.SesionesPowerBi;
 using GesMgmt.Application.Interfaces.Agenda;
+using GesMgmt.Application.Interfaces.Boton;
 using GesMgmt.Application.Interfaces.Cartera;
 using GesMgmt.Application.Interfaces.Cliente;
 using GesMgmt.Application.Interfaces.Deudor;
@@ -26,6 +31,7 @@ using GesMgmt.Application.Interfaces.Usuario;
 using GesMgmt.Application.Interfaces.UsuarioGrupoOpcion;
 using GesMgmt.Application.Services;
 using GesMgmt.Application.Services.Agenda;
+using GesMgmt.Application.Services.Boton;
 using GesMgmt.Application.Services.Cartera;
 using GesMgmt.Application.Services.Cliente;
 using GesMgmt.Application.Services.Deudor;
@@ -47,23 +53,23 @@ using GesMgmt.Infraestructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using GesMgmt.Application.Interfaces.Boton;
-using GesMgmt.Application.Services.Boton;
 
 namespace GesMgmt.Infraestructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfraestructure(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
             // Configuración de la cadena de conexión
             var connectionString = configuration.GetConnectionString("AvalCobConnection");
-            var analyticsConnectionString = configuration.GetConnectionString("AvalAnalyticsConnection");
+            var cadenaConexionAnalitica = configuration.GetConnectionString("AvalAnalyticsConnection");
 
-            var analyticsCommandTimeoutSeconds =
+            var segundosTimeoutComandoAnalitica =
                 configuration.GetValue<int?>("AnalyticsDatabase:CommandTimeoutSeconds") ?? 15;
 
-            if (analyticsCommandTimeoutSeconds is <= 0 or > 120)
+            if (segundosTimeoutComandoAnalitica is <= 0 or > 120)
             {
                 throw new InvalidOperationException(
                     "AnalyticsDatabase:CommandTimeoutSeconds debe estar entre 1 y 120.");
@@ -72,13 +78,14 @@ namespace GesMgmt.Infraestructure
             services.AddDbContext<AvalDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            services.AddDbContext<AnalyticsDbContext>(options =>
+            services.AddDbContext<AnaliticaDbContext>(options =>
                 options.UseSqlServer(
-                    analyticsConnectionString,
+                    cadenaConexionAnalitica,
                     sqlServerOptions =>
-                        sqlServerOptions.CommandTimeout(analyticsCommandTimeoutSeconds)));
-            AddAnalyticsAccess(services, configuration);
-            AddPortfolioControlCenter(services, configuration);
+                        sqlServerOptions.CommandTimeout(segundosTimeoutComandoAnalitica)));
+
+            AgregarAccesoAnalitica(services, configuration);
+            AgregarCentroControlCartera(services, configuration);
 
             // Memoria
             services.AddMemoryCache();
@@ -105,7 +112,6 @@ namespace GesMgmt.Infraestructure
             services.AddScoped<IUGrupoService, UGrupoService>();
             services.AddScoped<IUsuarioGrupoOpcionService, UsuarioGrupoOpcionService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
-            
             services.AddScoped<IValidationMessageService, ValidationMessageService>();
 
             // Logger
@@ -113,104 +119,115 @@ namespace GesMgmt.Infraestructure
 
             return services;
         }
-        private static void AddAnalyticsAccess(
+
+        private static void AgregarAccesoAnalitica(
             IServiceCollection services,
             IConfiguration configuration)
         {
-            var allowPublishToWeb = true;
-            var rawAllowPublishToWeb =
-                configuration[$"{AnalyticsPowerBiSecurityOptions.SectionName}:AllowPublishToWeb"];
+            var permitirPublicarEnWeb = true;
+            var valorPermitirPublicarEnWeb =
+                configuration[$"{SeguridadPowerBiAnaliticaOptions.NombreSeccion}:AllowPublishToWeb"];
 
-            if (!string.IsNullOrWhiteSpace(rawAllowPublishToWeb) &&
-                !bool.TryParse(rawAllowPublishToWeb, out allowPublishToWeb))
+            if (!string.IsNullOrWhiteSpace(valorPermitirPublicarEnWeb) &&
+                !bool.TryParse(valorPermitirPublicarEnWeb, out permitirPublicarEnWeb))
             {
                 throw new InvalidOperationException(
-                    $"{AnalyticsPowerBiSecurityOptions.SectionName}:AllowPublishToWeb debe ser true o false.");
+                    $"{SeguridadPowerBiAnaliticaOptions.NombreSeccion}:AllowPublishToWeb debe ser true o false.");
             }
 
-            services.AddSingleton(new AnalyticsPowerBiSecurityOptions
+            services.AddSingleton(new SeguridadPowerBiAnaliticaOptions
             {
-                AllowPublishToWeb = allowPublishToWeb
+                PermitirPublicarEnWeb = permitirPublicarEnWeb
             });
 
-            services.AddSingleton<IAnalyticsAccessCache, AnalyticsAccessMemoryCache>();
+            services.AddSingleton<ICacheAccesoAnalitica, AccesoAnaliticaMemoryCache>();
 
-            services.AddScoped<ISisgesUserClientRepository, SisgesUserClientRepository>();
-            services.AddScoped<ISisgesUserGroupRepository, SisgesUserGroupRepository>();
-            services.AddScoped<ISisgesClientGroupRepository, SisgesClientGroupRepository>();
+            services.AddScoped<ISisgesClienteUsuarioRepository, SisgesClienteUsuarioRepository>();
+            services.AddScoped<ISisgesGrupoUsuarioRepository, SisgesGrupoUsuarioRepository>();
+            services.AddScoped<ISisgesGrupoClienteRepository, SisgesGrupoClienteRepository>();
 
-            services.AddScoped<ISisgesOptionPermissionRepository, SisgesOptionPermissionRepository>();
-            services.AddScoped<IAnalyticsOptionConfigRepository, AnalyticsOptionConfigRepository>();
-            services.AddScoped<IAnalyticsOptionClientScopeRepository, AnalyticsOptionClientScopeRepository>();
-            services.AddScoped<IAnalyticsOptionGroupScopeRepository, AnalyticsOptionGroupScopeRepository>();
-            services.AddScoped<IAnalyticsUserOptionRepository, AnalyticsUserOptionRepository>();
-            services.AddScoped<IAnalyticsReportClientScopeRepository, AnalyticsReportClientScopeRepository>();
-            services.AddScoped<IAnalyticsReportClientCatalogRepository, AnalyticsReportClientCatalogRepository>();
-            services.AddScoped<IAnalyticsReportClientEmbedRepository, AnalyticsReportClientEmbedRepository>();
-            services.AddScoped<IAnalyticsReportClientPublicationWriter, AnalyticsReportClientPublicationWriter>();
-            services.AddScoped<IAnalyticsPowerBiConfigurationWriter, AnalyticsPowerBiConfigurationWriter>();
+            services.AddScoped<ISisgesOpcionPermisoRepository, SisgesOpcionPermisoRepository>();
+            services.AddScoped<IAnaliticaOpcionConfiguracionRepository, AnaliticaOpcionConfiguracionRepository>();
+            services.AddScoped<IAnaliticaAlcanceClienteOpcionRepository, AnaliticaAlcanceClienteOpcionRepository>();
+            services.AddScoped<IAnaliticaAlcanceGrupoOpcionRepository, AnaliticaAlcanceGrupoOpcionRepository>();
+            services.AddScoped<IAnaliticaOpcionUsuarioRepository, AnaliticaOpcionUsuarioRepository>();
+            services.AddScoped<IAnaliticaAlcanceReporteClienteRepository, AnaliticaAlcanceReporteClienteRepository>();
+            services.AddScoped<IAnaliticaCatalogoReporteClienteRepository, AnaliticaCatalogoReporteClienteRepository>();
+            services.AddScoped<IAnaliticaIncrustacionReporteClienteRepository, AnaliticaIncrustacionReporteClienteRepository>();
+            services.AddScoped<IAnaliticaPublicacionReporteClienteWriter, AnaliticaPublicacionReporteClienteWriter>();
+            services.AddScoped<IAnaliticaConfiguracionPowerBiWriter, AnaliticaConfiguracionPowerBiWriter>();
 
-            services.AddScoped<IAnalyticsAuthorizationService, AnalyticsAuthorizationService>();
-            services.AddScoped<IAnalyticsOptionService, AnalyticsOptionService>();
-            services.AddScoped<IAnalyticsUserOptionQueryService, AnalyticsUserOptionQueryService>();
-            services.AddScoped<IAnalyticsAccessService, AnalyticsAccessService>();
-            services.AddScoped<IAnalyticsGroupAccessService, AnalyticsGroupAccessService>();
-            services.AddScoped<IAnalyticsOptionAccessService, AnalyticsOptionAccessService>();
-            services.AddScoped<IAnalyticsOptionClientAdministrationService, AnalyticsOptionClientAdministrationService>();
-            services.AddScoped<IAnalyticsOptionGroupAdministrationService, AnalyticsOptionGroupAdministrationService>();
-            services.AddScoped<IAnalyticsUserOptionAdministrationService, AnalyticsUserOptionAdministrationService>();
-            services.AddScoped<IAnalyticsReportClientConfigurationService, AnalyticsReportClientConfigurationService>();
-            services.AddScoped<IAnalyticsReportClientAccessService, AnalyticsReportClientAccessService>();
-            services.AddScoped<IAnalyticsReportClientEmbedLookupService, AnalyticsReportClientEmbedLookupService>();
-            services.AddScoped<IAnalyticsOptionReportClientEmbedsAdministrationService, AnalyticsOptionReportClientEmbedsAdministrationService>();
-            services.AddScoped<IAnalyticsPowerBiConfigurationService, AnalyticsPowerBiConfigurationService>();
-            services.AddSingleton<IAnalyticsPowerBiSecurityPolicy, AnalyticsPowerBiSecurityPolicy>();
-            services.AddScoped<IAnalyticsPowerBiUserAccessService, AnalyticsPowerBiUserAccessService>();
-            services.AddScoped<IAnalyticsPowerBiViewerContextService, AnalyticsPowerBiViewerContextService>();
+            services.AddScoped<IAutorizacionAnaliticaService, AutorizacionAnaliticaService>();
+            services.AddScoped<IOpcionAnaliticaService, OpcionAnaliticaService>();
+            services.AddScoped<IConsultaOpcionesUsuarioAnaliticaService, ConsultaOpcionesUsuarioAnaliticaService>();
+            services.AddScoped<IAccesoAnaliticaService, AccesoAnaliticaService>();
+            services.AddScoped<IAccesoGrupoAnaliticaService, AccesoGrupoAnaliticaService>();
+            services.AddScoped<IAccesoOpcionAnaliticaService, AccesoOpcionAnaliticaService>();
+            services.AddScoped<IAdministracionClientesOpcionAnaliticaService, AdministracionClientesOpcionAnaliticaService>();
+            services.AddScoped<IAdministracionGruposOpcionAnaliticaService, AdministracionGruposOpcionAnaliticaService>();
+            services.AddScoped<IAdministracionOpcionesUsuarioAnaliticaService, AdministracionOpcionesUsuarioAnaliticaService>();
+            services.AddScoped<IConfiguracionReporteClienteAnaliticaService, ConfiguracionReporteClienteAnaliticaService>();
+            services.AddScoped<IAccesoReporteClienteAnaliticaService, AccesoReporteClienteAnaliticaService>();
+            services.AddScoped<IConsultaIncrustacionReporteClienteAnaliticaService, ConsultaIncrustacionReporteClienteAnaliticaService>();
+            services.AddScoped<IAdministracionIncrustacionesReporteClienteOpcionAnaliticaService, AdministracionIncrustacionesReporteClienteOpcionAnaliticaService>();
+            services.AddScoped<IConfiguracionPowerBiAnaliticaService, ConfiguracionPowerBiAnaliticaService>();
+            services.AddSingleton<ISeguridadPowerBiAnaliticaPolicy, SeguridadPowerBiAnaliticaPolicy>();
+            services.AddScoped<IAccesoUsuarioPowerBiAnaliticaService, AccesoUsuarioPowerBiAnaliticaService>();
+            services.AddScoped<IContextoVisorPowerBiAnaliticaService, ContextoVisorPowerBiAnaliticaService>();
+
+            // Sesiones Power BI
+            services.AddScoped<ICatalogoSesionPowerBiRepository, CatalogoSesionPowerBiRepository>();
+            services.AddScoped<ISesionPowerBiAnaliticaRepository, SesionPowerBiAnaliticaRepository>();
+            services.AddScoped<IConsultaSesionesPowerBiRepository, ConsultaSesionesPowerBiRepository>();
+            services.AddScoped<ISesionPowerBiAnaliticaService, SesionPowerBiAnaliticaService>();
+            services.AddScoped<IConsultaSesionesPowerBiService, ConsultaSesionesPowerBiService>();
         }
 
-        private static void AddPortfolioControlCenter(
+        private static void AgregarCentroControlCartera(
             IServiceCollection services,
             IConfiguration configuration)
         {
             var performance = configuration
-                .GetSection(PortfolioControlCenterPerformanceOptions.SectionName)
-                .Get<PortfolioControlCenterPerformanceOptions>()
-                ?? new PortfolioControlCenterPerformanceOptions();
-            performance.Validate();
+                .GetSection(RendimientoCentroControlCarteraOptions.NombreSeccion)
+                .Get<RendimientoCentroControlCarteraOptions>()
+                ?? new RendimientoCentroControlCarteraOptions();
+
+            performance.Validar();
 
             services.AddSingleton(performance);
-            services.AddSingleton<IPortfolioPerformanceCache, PortfolioPerformanceMemoryCache>();
+            services.AddSingleton<ICacheRendimientoCartera, RendimientoCarteraMemoryCache>();
 
-            services.AddScoped<IPortfolioControlCenterAccessService, PortfolioControlCenterAccessService>();
+            services.AddScoped<IAccesoCentroControlCarteraService, AccesoCentroControlCarteraService>();
 
-            services.AddScoped<IPortfolioSummaryRepository, PortfolioSummaryRepository>();
-            services.AddScoped<PortfolioAdvisorPerformanceRepository>();
-            services.AddScoped<IPortfolioAdvisorPerformanceRepository, CachedPortfolioAdvisorPerformanceRepository>();
-            services.AddScoped<PortfolioSupervisorPerformanceRepository>();
-            services.AddScoped<IPortfolioSupervisorPerformanceRepository, CachedPortfolioSupervisorPerformanceRepository>();
-            services.AddScoped<IPortfolioCampaignPerformanceRepository, PortfolioCampaignPerformanceRepository>();
-            services.AddScoped<IPortfolioBootstrapRepository, PortfolioBootstrapRepository>();
-            services.AddScoped<IPortfolioEvolutionRepository, PortfolioEvolutionRepository>();
-            services.AddScoped<IPortfolioFilterOptionsRepository, PortfolioFilterOptionsRepository>();
-            services.AddScoped<IPortfolioOverviewRepository, PortfolioOverviewRepository>();
-            services.AddScoped<IPortfolioPromisesRepository, PortfolioPromisesRepository>();
-            services.AddScoped<IPortfolioDueTodayPromisesRepository, PortfolioDueTodayPromisesRepository>();
-            services.AddScoped<IPortfolioOverduePromisesRepository, PortfolioOverduePromisesRepository>();
-            services.AddScoped<IPortfolioTargetProgressRepository, PortfolioTargetProgressRepository>();
+            services.AddScoped<IResumenCarteraRepository, ResumenCarteraRepository>();
+            services.AddScoped<RendimientoAsesorCarteraRepository>();
+            services.AddScoped<IRendimientoAsesorCarteraRepository, RendimientoAsesorCarteraCacheRepository>();
+            services.AddScoped<RendimientoSupervisorCarteraRepository>();
+            services.AddScoped<IRendimientoSupervisorCarteraRepository, RendimientoSupervisorCarteraCacheRepository>();
+            services.AddScoped<IRendimientoCampanaCarteraRepository, RendimientoCampanaCarteraRepository>();
+            services.AddScoped<IInicializacionCarteraRepository, InicializacionCarteraRepository>();
+            services.AddScoped<IEvolucionCarteraRepository, EvolucionCarteraRepository>();
+            services.AddScoped<IOpcionesFiltroCarteraRepository, OpcionesFiltroCarteraRepository>();
+            services.AddScoped<IPanoramaCarteraRepository, PanoramaCarteraRepository>();
+            services.AddScoped<IPromesasCarteraRepository, PromesasCarteraRepository>();
+            services.AddScoped<IPromesasVencenHoyCarteraRepository, PromesasVencenHoyCarteraRepository>();
+            services.AddScoped<ISeguimientoPromesasCarteraRepository, SeguimientoPromesasCarteraRepository>();
+            services.AddScoped<IPromesasVencidasCarteraRepository, PromesasVencidasCarteraRepository>();
+            services.AddScoped<IAvanceMetaCarteraRepository, AvanceMetaCarteraRepository>();
 
-            services.AddScoped<IPortfolioAdvisorPerformanceService, PortfolioAdvisorPerformanceService>();
-            services.AddScoped<IPortfolioBootstrapService, PortfolioBootstrapService>();
-            services.AddScoped<IPortfolioCampaignPerformanceService, PortfolioCampaignPerformanceService>();
-            services.AddScoped<IPortfolioEvolutionService, PortfolioEvolutionService>();
-            services.AddScoped<IPortfolioFilterOptionsService, PortfolioFilterOptionsService>();
-            services.AddScoped<IPortfolioOverviewService, PortfolioOverviewService>();
-            services.AddScoped<IPortfolioPromisesService, PortfolioPromisesService>();
-            services.AddScoped<IPortfolioDueTodayPromisesService, PortfolioDueTodayPromisesService>();
-            services.AddScoped<IPortfolioOverduePromisesService, PortfolioOverduePromisesService>();
-            services.AddScoped<IPortfolioSummaryService, PortfolioSummaryService>();
-            services.AddScoped<IPortfolioSupervisorPerformanceService, PortfolioSupervisorPerformanceService>();
-            services.AddScoped<IPortfolioTargetProgressService, PortfolioTargetProgressService>();
+            services.AddScoped<IRendimientoAsesorCarteraService, RendimientoAsesorCarteraService>();
+            services.AddScoped<IInicializacionCarteraService, InicializacionCarteraService>();
+            services.AddScoped<IRendimientoCampanaCarteraService, RendimientoCampanaCarteraService>();
+            services.AddScoped<IEvolucionCarteraService, EvolucionCarteraService>();
+            services.AddScoped<IOpcionesFiltroCarteraService, OpcionesFiltroCarteraService>();
+            services.AddScoped<IPanoramaCarteraService, PanoramaCarteraService>();
+            services.AddScoped<IPromesasCarteraService, PromesasCarteraService>();
+            services.AddScoped<IPromesasVencenHoyCarteraService, PromesasVencenHoyCarteraService>();
+            services.AddScoped<ISeguimientoPromesasCarteraService, SeguimientoPromesasCarteraService>();
+            services.AddScoped<IPromesasVencidasCarteraService, PromesasVencidasCarteraService>();
+            services.AddScoped<IResumenCarteraService, ResumenCarteraService>();
+            services.AddScoped<IRendimientoSupervisorCarteraService, RendimientoSupervisorCarteraService>();
+            services.AddScoped<IAvanceMetaCarteraService, AvanceMetaCarteraService>();
         }
     }
 }
