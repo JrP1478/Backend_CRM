@@ -117,6 +117,7 @@ namespace GesMgmt.Application.DTOs.Usuario
             public DateTime? dUsr_FecSalida { get; set; }
             public int? nId_UEstado { get; set; }
             public int? nid_perfil { get; set; }
+            public string? per_Nombre { get; set; }
             public string? cod_Recau { get; set; }
             public string? nUsr_CiuGestor { get; set; }
             public string? nUsr_Zona { get; set; }

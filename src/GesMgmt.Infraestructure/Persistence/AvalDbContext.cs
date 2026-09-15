@@ -27,6 +27,7 @@ namespace GesMgmt.Infraestructure.Persistence
         public DbSet<av_DocxCobrarOpe> av_DocxCobrarOpes { get; set; }
         public DbSet<av_DocxCobrarOpeEst> av_DocxCobrarOpeEsts { get; set; }
         public DbSet<av_DocxCobrarOpeGes> av_DocxCobrarOpeGess { get; set; }
+        public DbSet<av_DocxCobrarOpeResult> av_DocxCobrarOpeResults { get; set; }
         public DbSet<av_DocxCobrarParam> av_DocxCobrarParams { get; set; }
         public DbSet<av_DocxPago> av_DocxPagos { get; set; }
         public DbSet<av_EstadoAsteriskAval> av_EstadoAsteriskAvals { get; set; }
@@ -100,6 +101,7 @@ namespace GesMgmt.Infraestructure.Persistence
             modelBuilder.ApplyConfiguration(new av_DocxCobrarOpeConfiguration());
             modelBuilder.ApplyConfiguration(new av_DocxCobrarOpeEstConfiguration());
             modelBuilder.ApplyConfiguration(new av_DocxCobrarOpeGesConfiguration());
+            modelBuilder.ApplyConfiguration(new av_DocxCobrarOpeResultConfiguration());
             modelBuilder.ApplyConfiguration(new av_DocxCobrarParamConfiguration());
             modelBuilder.ApplyConfiguration(new av_DocxPagoConfiguration());
             modelBuilder.ApplyConfiguration(new av_EstadoAsteriskAvalConfiguration());

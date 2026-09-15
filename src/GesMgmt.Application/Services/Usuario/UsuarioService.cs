@@ -170,7 +170,7 @@ namespace GesMgmt.Application.Services.Usuario
             try
             {
                 GetUsuarioLoginResponseDto data = new GetUsuarioLoginResponseDto();
-
+                var q_perfil = await _unitOfWork.av_Perfils.ByIdAsync(validator.usuario.nid_perfil ?? 0);
                 if (validator.usuario != null)
                 {
                     data = new GetUsuarioLoginResponseDto()
@@ -206,7 +206,8 @@ namespace GesMgmt.Application.Services.Usuario
                         nId_Sucursal = validator.usuario.nId_Sucursal ?? 0,
                         dUsr_FecSalida = validator.usuario.dUsr_FecSalida ?? null,
                         nId_UEstado = validator.usuario.nId_UEstado ?? null,
-                        nid_perfil = validator.usuario.nid_perfil ?? 0
+                        nid_perfil = validator.usuario.nid_perfil ?? 0,
+                        per_Nombre = q_perfil?.per_Nombre ?? "",
                     };
                     await _unitOfWork.BeginTransactionAsync();
                     var usuarioIntento = await _unitOfWork.av_Usuarios.UpdateIntentoZeroLoginAsync(usuarioLoginDto.cUsr_Login);

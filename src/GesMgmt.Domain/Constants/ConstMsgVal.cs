@@ -117,5 +117,8 @@ namespace GesMgmt.Domain.Constants
         public const string CLAVE_VENCIDA = "092";
         public const string CLAVE_PROXIMA_VENCER = "093";
         public const string INTENTOS_MAXIMOS_SUPERADOS = "094";
+        public const string NID_DOCXCOBRAR_REQUIRED = "095";
+        public const string REPORTAR_CASOS_REQUIRED = "096";
+        public const string NID_DOCXCOBRAROPERESULT_REQUIRED = "097";
     }
 }

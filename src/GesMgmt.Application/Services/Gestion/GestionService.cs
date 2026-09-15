@@ -601,49 +601,7 @@ namespace GesMgmt.Application.Services.Gestion
         }
         #endregion
 
-        #region "Lista de Botones"
-        public async Task<ResultListDto<IEnumerable<GetGestionBotonesResponseDto>>> GetGestionBotonesAsync(GetGestionBotonesRequestDto gestionBotonesDto)
-        {
-            try
-            {
-                var q_repBot = await _unitOfWork.av_BotonClientes.Query();
-
-                IEnumerable<GetGestionBotonesResponseDto> data = Enumerable.Empty<GetGestionBotonesResponseDto>();
-                if (q_repBot != null)
-                {
-                    data = await (
-                                    from s in q_repBot
-                                    where s.bEstado == true
-                                    && s.nId_Cliente == gestionBotonesDto.nId_Cliente
-                                    && s.nId_Contrato == gestionBotonesDto.nId_Contrato
-                                    select new GetGestionBotonesResponseDto
-                                    {
-                                        nId_Cliente = s.nId_Cliente,
-                                        nId_Contrato = s.nId_Contrato,
-                                        nId_Boton = s.nId_Boton,
-                                        nombreBoton = s.nombreBoton,
-                                        descripcionBoton = s.descripcionBoton,
-                                        bEstado = s.bEstado,
-                                        nCrea = s.nCrea,
-                                        dFechaCrea = s.dFechaCrea,
-                                        nModifica = s.nModifica,
-                                        dFechaModifica = s.dFechaModifica,
-                                    }
-                    )
-                    .ToListAsync();
-                }
-
-                var response = ResultListDto<IEnumerable<GetGestionBotonesResponseDto>>.Success(data, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
-
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _Logger.LogError($"GetGestionBotones|DatabaseError: {ex.Message}");
-                return ResultListDto<IEnumerable<GetGestionBotonesResponseDto>>.Failure(Const.ERROR_REQUEST_CODE.ToString(), "Error interno del servidor.", ex.Message, Const.ERROR_REQUEST_CODE);
-            }
-        }
-        #endregion
+        
 
         #region "Gestiones Anteriores Cartera"
         public async Task<ResultListDto<IEnumerable<GetGestionGestionesCarteraDeudorResponseDto>>> GetGestionGestionesCarteraDeudorAsync(GetGestionGestionesCarteraDeudorRequestDto gestionCarteraDeudorDto)

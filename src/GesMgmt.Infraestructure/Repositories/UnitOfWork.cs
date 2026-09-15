@@ -32,6 +32,7 @@ namespace GesMgmt.Infraestructure.Repositories
         private Iav_DocxCobrarOpeEstRepository? _av_DocxCobrarOpeEsts;
         private Iav_DocxCobrarOpeGesRepository? _av_DocxCobrarOpeGess;
         private Iav_DocxCobrarOpeRepository? _av_DocxCobrarOpes;
+        private Iav_DocxCobrarOpeResultRepository? _av_DocxCobrarOpeResults;
         private Iav_DocxCobrarParamRepository? _av_DocxCobrarParams;
         private Iav_DocxCobrarRepository? _av_DocxCobrars;
         private Iav_DocxPagoRepository? _av_DocxPagos;
@@ -107,6 +108,7 @@ namespace GesMgmt.Infraestructure.Repositories
         public Iav_DocxCobrarCartaRepository av_DocxCobrarCartas => _av_DocxCobrarCartas ??= new av_DocxCobrarCartaRepository(_context);
         public Iav_DocxCobrarOpeEstRepository av_DocxCobrarOpeEsts => _av_DocxCobrarOpeEsts ??= new av_DocxCobrarOpeEstRepository(_context);
         public Iav_DocxCobrarOpeGesRepository av_DocxCobrarOpeGess => _av_DocxCobrarOpeGess ??= new av_DocxCobrarOpeGesRepository(_context);
+        public Iav_DocxCobrarOpeResultRepository av_DocxCobrarOpeResults => _av_DocxCobrarOpeResults ??= new av_DocxCobrarOpeResultRepository(_context);
         public Iav_DocxCobrarOpeRepository av_DocxCobrarOpes => _av_DocxCobrarOpes ??= new av_DocxCobrarOpeRepository(_context);
         public Iav_DocxCobrarParamRepository av_DocxCobrarParams => _av_DocxCobrarParams ??= new av_DocxCobrarParamRepository(_context);
         public Iav_DocxCobrarRepository av_DocxCobrars => _av_DocxCobrars ??= new av_DocxCobrarRepository(_context);

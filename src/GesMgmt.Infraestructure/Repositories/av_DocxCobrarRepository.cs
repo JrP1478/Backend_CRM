@@ -52,8 +52,6 @@ namespace GesMgmt.Infraestructure.Repositories
             return _dbSet
                 .Include(c => c.av_Cartera)
                 .Include(d => d.av_PersDeudor)
-                //.Include(m => m.av_Moneda)
-                //.Include(u => u.av_Usuario)
                 .AsNoTracking()
                 .Where(d => d.nId_Cliente == nId_Cliente
                        && d.nId_PersDeudor == nId_PersDeudor);
@@ -100,5 +98,29 @@ namespace GesMgmt.Infraestructure.Repositories
             }
             return null;
         }
+
+        public async Task<IQueryable<av_DocxCobrar>> GetDocumentosxCobrarByClienteAndCarteraAsync(int nId_Cliente, int nId_Cartera)
+        {
+            return _dbSet
+                .Include(c => c.av_Cartera)
+                .Include(d => d.av_PersDeudor)
+                .AsNoTracking()
+                .Where(d => d.nId_Cliente == nId_Cliente
+                       && d.nId_Cartera == nId_Cartera);
+        }
+
+        public async Task<av_DocxCobrar> GetDocxCobByClienteAndDeudorActivoAsync(int nId_Cliente, int nId_Cartera, int nId_PersDeudor)
+        {
+            return await _dbSet
+                .Include(cli => cli.av_Cliente)
+                .Include(c => c.av_Cartera)
+                .Include(d => d.av_PersDeudor)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.nId_Cliente == nId_Cliente 
+                                    && s.nId_Cartera == nId_Cartera 
+                                    && s.nId_PersDeudor == nId_PersDeudor 
+                                    && s.bEstado == 1);
+        }
+
     }
 }

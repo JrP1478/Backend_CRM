@@ -47,6 +47,8 @@ using GesMgmt.Infraestructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using GesMgmt.Application.Interfaces.Boton;
+using GesMgmt.Application.Services.Boton;
 
 namespace GesMgmt.Infraestructure
 {
@@ -88,6 +90,7 @@ namespace GesMgmt.Infraestructure
 
             // Services
             services.AddScoped<IAgendaService, AgendaService>();
+            services.AddScoped<IBotonService, BotonService>();
             services.AddScoped<ICarteraService, CarteraService>();
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IDeudorService, DeudorService>();
@@ -165,7 +168,6 @@ namespace GesMgmt.Infraestructure
             services.AddScoped<IAnalyticsPowerBiUserAccessService, AnalyticsPowerBiUserAccessService>();
             services.AddScoped<IAnalyticsPowerBiViewerContextService, AnalyticsPowerBiViewerContextService>();
         }
-
 
         private static void AddPortfolioControlCenter(
             IServiceCollection services,

@@ -458,20 +458,6 @@ namespace GesMgmt.Application.DTOs.Gestion
             public string? nGra_Instruccion { get; set; }
         }
 
-        public class GetGestionBotonesResponseDto
-        {
-            public int nId_Boton { get; set; }
-            public int nId_Cliente { get; set; }
-            public int nId_Contrato { get; set; }
-            public string nombreBoton { get; set; }
-            public string descripcionBoton { get; set; }
-            public bool bEstado { get; set; }
-            public int nCrea { get; set; }
-            public DateTime dFechaCrea { get; set; }
-            public int? nModifica { get; set; }
-            public DateTime? dFechaModifica { get; set; }
-        }
-
         public class GetGestionCabeceraResponseDto
         {
             public int idCabeceraPantalla { get; set; }

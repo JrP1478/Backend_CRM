@@ -1,4 +1,6 @@
 ﻿
+using GesMgmt.Domain.Entities;
+
 namespace GesMgmt.Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
@@ -23,6 +25,7 @@ namespace GesMgmt.Domain.Interfaces
         Iav_DocxCobrarOpeRepository av_DocxCobrarOpes { get; }
         Iav_DocxCobrarOpeEstRepository av_DocxCobrarOpeEsts { get; }
         Iav_DocxCobrarOpeGesRepository av_DocxCobrarOpeGess { get; }
+        Iav_DocxCobrarOpeResultRepository av_DocxCobrarOpeResults { get; }
         Iav_DocxCobrarParamRepository av_DocxCobrarParams { get; }
         Iav_DocxCobrarRepository av_DocxCobrars { get; }
         Iav_DocxPagoRepository av_DocxPagos { get; }
