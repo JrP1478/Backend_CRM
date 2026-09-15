@@ -2,6 +2,7 @@ using GesMgmt.Application.DTOs.Analitica;
 using GesMgmt.Application.Interfaces.Analitica;
 using GesMgmt.Application.Utils.Analitica;
 using GesMgmt.Application.Validators.Analitica;
+using GesMgmt.Domain.Constants;
 using GesMgmt.Domain.Constants.Analitica;
 using GesMgmt.Domain.Entities.Analitica;
 using GesMgmt.Domain.Interfaces.Analitica;
@@ -10,11 +11,13 @@ namespace GesMgmt.Application.Services.Analitica;
 
 public sealed class AccesoReporteClienteAnaliticaService(
     IAccesoOpcionAnaliticaService optionAccessService,
-    IConfiguracionReporteClienteAnaliticaService configurationService)
+    IConfiguracionReporteClienteAnaliticaService configurationService,
+    ISisgesOpcionPermisoRepository permissionRepository)
     : IAccesoReporteClienteAnaliticaService
 {
     public async Task<AnaliticaReporteClienteAccesoResult> ResolverAsync(
         int idUsuario,
+        int? idGrupo,
         int idOpcion,
         CancellationToken cancellationToken)
     {
@@ -28,16 +31,32 @@ public sealed class AccesoReporteClienteAnaliticaService(
             throw new ArgumentOutOfRangeException(nameof(idOpcion));
         }
 
+        var omiteValidacionAlcanceGrupoOpcion =
+            AnaliticaReporteAccesoPolicy.OmiteValidacionAlcanceGrupoOpcion(idOpcion);
+
+        if (omiteValidacionAlcanceGrupoOpcion)
+        {
+            var tienePermisoSisges = await permissionRepository.TienePermisoAsync(
+                idUsuario,
+                idGrupo,
+                idOpcion,
+                SisgesOptionPermission.Consult,
+                cancellationToken);
+
+            if (!tienePermisoSisges)
+            {
+                return Denegado();
+            }
+        }
+
         var optionAccess = await optionAccessService.ResolverAsync(
             idUsuario,
             idOpcion,
             cancellationToken);
 
-        if (!optionAccess.Permitido)
+        if (!omiteValidacionAlcanceGrupoOpcion && !optionAccess.Permitido)
         {
-            return new AnaliticaReporteClienteAccesoResult(
-                false,
-                Array.Empty<AnaliticaOpcionReporteCliente>());
+            return Denegado();
         }
 
         var activeUserGroupSet = optionAccess.IdsGruposUsuarioActivos.ToHashSet();
@@ -59,4 +78,9 @@ public sealed class AccesoReporteClienteAnaliticaService(
 
         return new AnaliticaReporteClienteAccesoResult(true, clientes);
     }
+
+    private static AnaliticaReporteClienteAccesoResult Denegado() =>
+        new(
+            false,
+            Array.Empty<AnaliticaOpcionReporteCliente>());
 }

@@ -7,6 +7,7 @@ public interface IAccesoReporteClienteAnaliticaService
 {
     Task<AnaliticaReporteClienteAccesoResult> ResolverAsync(
         int idUsuario,
+        int? idGrupo,
         int idOpcion,
         CancellationToken cancellationToken);
 }

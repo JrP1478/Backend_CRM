@@ -33,8 +33,12 @@ public sealed class AnaliticaUsuarioReportesController(
             return NotFound();
         }
 
+        int? idGrupo = userContext.IntentarObtenerIdGrupo(out var grupoActual)
+            ? grupoActual
+            : null;
         var access = await accessService.ResolverAsync(
             idUsuario,
+            idGrupo,
             idOpcion,
             cancellationToken);
 
@@ -86,8 +90,12 @@ public sealed class AnaliticaUsuarioReportesController(
             return NotFound();
         }
 
+        int? idGrupo = userContext.IntentarObtenerIdGrupo(out var grupoActual)
+            ? grupoActual
+            : null;
         var access = await accessService.ResolverAsync(
             idUsuario,
+            idGrupo,
             idOpcion,
             cancellationToken);
 

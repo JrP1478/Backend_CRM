@@ -64,12 +64,14 @@ public sealed class ContextoVisorPowerBiAnaliticaService(
                 UrlIncrustacion: null);
         }
 
+        var omiteValidacionAlcanceGrupoOpcion =
+            AnaliticaReporteAccesoPolicy.OmiteValidacionAlcanceGrupoOpcion(idOpcion);
         var accesoOpcion = await accesoOpcionService.ResolverAsync(
             idUsuario,
             idOpcion,
             cancellationToken);
 
-        if (!accesoOpcion.Permitido)
+        if (!omiteValidacionAlcanceGrupoOpcion && !accesoOpcion.Permitido)
         {
             return Denegado();
         }
