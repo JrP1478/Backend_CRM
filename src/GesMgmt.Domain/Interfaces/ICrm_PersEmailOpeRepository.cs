@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_PersEmailOpeRepository
+    public interface ICrm_PersEmailOpeRepository
     {
-        Task<IQueryable<av_PersEmailOpe>> Query();
+        Task<IQueryable<Crm_PersEmailOpe>> Query();
     }
 }
