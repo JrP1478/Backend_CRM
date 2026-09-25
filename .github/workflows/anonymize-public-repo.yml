@@ -44,7 +44,7 @@ jobs:
                   path.unlink()
 
           replacements = [
-              (r"172.23.1.180\\MSSQLSERVER,51601", "REPORTING_SERVER"),
+              ("172.23.1.180", "REPORTING_SERVER"),
               ("API.BS.GestionManagement", "Backend.CRM"),
               ("645a8240-c90e-4542-bf7a-5ecd7bee52a2", "Backend.CRM-LocalDevelopment"),
               ("SISGES", "CRM"),
