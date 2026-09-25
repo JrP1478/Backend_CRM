@@ -90,6 +90,7 @@ jobs:
 
               updated = replace_tokens(content)
               updated = re.sub(r"^.*192\.168\.100\.91.*(?:\r?\n|$)", "", updated, flags=re.MULTILINE)
+              updated = "\n".join(line.rstrip() for line in updated.splitlines()) + ("\n" if updated.endswith("\n") else "")
 
               if path.as_posix() == "README.md" and "Repositorio anonimizado para portafolio" not in updated:
                   lines = updated.splitlines(keepends=True)
