@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_PersDeudorConfiguration : IEntityTypeConfiguration<av_PersDeudor>
+    public class Crm_PersDeudorInfoParamConfiguration : IEntityTypeConfiguration<Crm_PersDeudorInfoParam>
     {
-        public void Configure(EntityTypeBuilder<av_PersDeudor> builder)
+        public void Configure(EntityTypeBuilder<Crm_PersDeudorInfoParam> builder)
         {
-            builder.ToTable("av_PersDeudor", "dbo");
+            builder.ToTable("Crm_PersDeudorInfoParam", "dbo");
             builder.HasKey(car => car.nId_PersDeudor);
         }
     }

@@ -7,18 +7,18 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_PersDeudorParamConfiguration : IEntityTypeConfiguration<av_PersDeudorParam>
+    public class Crm_PersDeudorParamConfiguration : IEntityTypeConfiguration<Crm_PersDeudorParam>
     {
-        public void Configure(EntityTypeBuilder<av_PersDeudorParam> builder)
+        public void Configure(EntityTypeBuilder<Crm_PersDeudorParam> builder)
         {
-            builder.ToTable("av_PersDeudorParam", "dbo");
+            builder.ToTable("Crm_PersDeudorParam", "dbo");
             builder.HasKey(car => car.nId_PersDeudorParam);
 
-            builder.HasOne(car => car.av_Cartera)
+            builder.HasOne(car => car.Crm_Cartera)
                 .WithMany()
                 .HasForeignKey(car => car.nId_Cartera);
 
-            builder.HasOne(car => car.av_PersDeudor)
+            builder.HasOne(car => car.Crm_PersDeudor)
                 .WithMany()
                 .HasForeignKey(car => car.nId_PersDeudor);
         }

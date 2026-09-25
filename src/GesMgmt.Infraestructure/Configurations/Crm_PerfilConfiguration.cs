@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_PerfilConfiguration : IEntityTypeConfiguration<av_Perfil>
+    public class Crm_PerfilConfiguration : IEntityTypeConfiguration<Crm_Perfil>
     {
-        public void Configure(EntityTypeBuilder<av_Perfil> builder)
+        public void Configure(EntityTypeBuilder<Crm_Perfil> builder)
         {
-            builder.ToTable("av_Perfil", "dbo");
+            builder.ToTable("Crm_Perfil", "dbo");
             builder.HasKey(dc => dc.nid_perfil);
         }
     }

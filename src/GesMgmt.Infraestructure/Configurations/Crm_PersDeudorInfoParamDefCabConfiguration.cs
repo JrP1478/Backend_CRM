@@ -7,12 +7,12 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_PersDeudorInfoParamDefCabConfiguration : IEntityTypeConfiguration<av_PersDeudorInfoParamDefCab>
+    public class Crm_PersDeudorInfoParamDefCabConfiguration : IEntityTypeConfiguration<Crm_PersDeudorInfoParamDefCab>
     {
-        public void Configure(EntityTypeBuilder<av_PersDeudorInfoParamDefCab> builder)
+        public void Configure(EntityTypeBuilder<Crm_PersDeudorInfoParamDefCab> builder)
         {
             builder.HasNoKey();
-            builder.ToTable("av_PersDeudorInfoParamDefCab", "dbo");
+            builder.ToTable("Crm_PersDeudorInfoParamDefCab", "dbo");
         }
     }
 }

@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_PersTelefConfiguration : IEntityTypeConfiguration<av_PersTelef>
+    public class Crm_PersTelefConfiguration : IEntityTypeConfiguration<Crm_PersTelef>
     {
-        public void Configure(EntityTypeBuilder<av_PersTelef> builder)
+        public void Configure(EntityTypeBuilder<Crm_PersTelef> builder)
         {
-            builder.ToTable("av_PersTelef", "dbo");
+            builder.ToTable("Crm_PersTelef", "dbo");
             builder.HasKey(tel => tel.nId_PersTelef);
 
             builder.Property(tel => tel.baseTelef).HasColumnName("base");
             builder.Property(tel => tel.nId_Fuente).HasColumnName("nfuenteBus");
 
-            builder.HasOne(tel => tel.av_PersDeudor)
+            builder.HasOne(tel => tel.Crm_PersDeudor)
             .WithMany()
             .HasForeignKey(tel => tel.nId_PersDeudor);
 

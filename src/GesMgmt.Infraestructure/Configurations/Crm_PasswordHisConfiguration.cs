@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_PasswordHisConfiguration : IEntityTypeConfiguration<av_PasswordHis>
+    public class Crm_PasswordHisConfiguration : IEntityTypeConfiguration<Crm_PasswordHis>
     {
-        public void Configure(EntityTypeBuilder<av_PasswordHis> builder)
+        public void Configure(EntityTypeBuilder<Crm_PasswordHis> builder)
         {
-            builder.ToTable("av_PasswordHis", "dbo");
+            builder.ToTable("Crm_PasswordHis", "dbo");
             builder.HasKey(pw => pw.nId_PasswordHis);
 
-            builder.HasOne(pw => pw.av_Usuario)
+            builder.HasOne(pw => pw.Crm_Usuario)
             .WithMany()
             .HasForeignKey(pw => pw.nId_Usuario);
         }
