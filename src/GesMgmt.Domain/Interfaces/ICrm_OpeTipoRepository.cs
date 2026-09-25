@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_OpeTipoRepository
+    public interface ICrm_OpeTipoRepository
     {
-        Task<IQueryable<av_OpeTipo>> Query();
+        Task<IQueryable<Crm_OpeTipo>> Query();
     }
 }
