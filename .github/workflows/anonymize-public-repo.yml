@@ -1,3 +1,4 @@
+# Trigger final anonymization pass
 name: One-time repository anonymization
 
 on:
