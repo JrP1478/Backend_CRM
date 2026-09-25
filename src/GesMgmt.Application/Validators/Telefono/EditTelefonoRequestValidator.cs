@@ -74,7 +74,7 @@ namespace GesMgmt.Application.Validators.Telefono
 
         private async Task<ResultDto<EditTelefonoResponseDto>> ValidateResultado()
         {
-            //nId_PersTelefOpe - SISGES: Resultado
+            //nId_PersTelefOpe - CRM: Resultado
             if (_requestDto.nId_PersTelefOpe == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.RESULTADO_REQUERIDO, "ESP");
@@ -91,7 +91,7 @@ namespace GesMgmt.Application.Validators.Telefono
 
         private async Task<ResultDto<EditTelefonoResponseDto>> ValidateOperadorTelefonico()
         {
-            //nId_OperadorTelefonico - SISGES: Operador Telefónico
+            //nId_OperadorTelefonico - CRM: Operador Telefónico
             if (_requestDto.nId_OperadorTelefonico == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPERADOR_TELEFONICO_REQUERIDO, "ESP");
@@ -107,7 +107,7 @@ namespace GesMgmt.Application.Validators.Telefono
 
         private async Task<ResultDto<EditTelefonoResponseDto>> ValidateUbicacion()
         {
-            //nId_PersRefUbi - SISGES: Ubicación
+            //nId_PersRefUbi - CRM: Ubicación
             if (_requestDto.nId_PersRefUbi == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.UBICACION_REQUERIDO, "ESP");

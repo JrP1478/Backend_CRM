@@ -79,9 +79,9 @@ namespace GesMgmt.Infraestructure.Persistence
             modelBuilder.Entity<AlcanceOpcionGrupoAnalitica>(builder =>
             {
                 builder.ToTable("alcance_opcion_grupo", "acceso_analitica");
-                builder.HasKey(scope => new { scope.IdOpcion, scope.IdGrupoSisges });
+                builder.HasKey(scope => new { scope.IdOpcion, scope.IdGrupoCrm });
                 builder.Property(scope => scope.IdOpcion).HasColumnName("id_opcion");
-                builder.Property(scope => scope.IdGrupoSisges).HasColumnName("id_grupo_sisges");
+                builder.Property(scope => scope.IdGrupoCrm).HasColumnName("id_grupo_crm");
                 builder.Property(scope => scope.EsActivo).HasColumnName("es_activo");
                 builder.Property(scope => scope.CreadoPor).HasColumnName("creado_por");
                 builder.Property(scope => scope.FechaCreacion).HasColumnName("fecha_creacion");
@@ -426,7 +426,7 @@ namespace GesMgmt.Infraestructure.Persistence
                     scope.IdOpcion,
                     scope.IdClienteCrm,
                     scope.ClienteReporte,
-                    scope.IdGrupoSisges
+                    scope.IdGrupoCrm
                 });
                 builder.Property(scope => scope.IdOpcion).HasColumnName("id_opcion");
                 builder.Property(scope => scope.IdClienteCrm).HasColumnName("id_cliente_crm");
@@ -434,7 +434,7 @@ namespace GesMgmt.Infraestructure.Persistence
                     .HasColumnName("valor_cliente_reporte")
                     .HasMaxLength(150)
                     .IsUnicode(false);
-                builder.Property(scope => scope.IdGrupoSisges).HasColumnName("id_grupo_sisges");
+                builder.Property(scope => scope.IdGrupoCrm).HasColumnName("id_grupo_crm");
                 builder.Property(scope => scope.EsActivo).HasColumnName("es_activo");
                 builder.Property(scope => scope.CreadoPor).HasColumnName("creado_por");
                 builder.Property(scope => scope.FechaCreacion).HasColumnName("fecha_creacion");

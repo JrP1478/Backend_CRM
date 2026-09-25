@@ -23,14 +23,14 @@ public sealed class AccesoReporteClienteAnaliticaServiceTests
         var accesoOpcion = new Mock<IAccesoOpcionAnaliticaService>(MockBehavior.Strict);
         var configuracion = new Mock<IConfiguracionReporteClienteAnaliticaService>(
             MockBehavior.Strict);
-        var permisos = new Mock<ISisgesOpcionPermisoRepository>(MockBehavior.Strict);
+        var permisos = new Mock<ICrmOpcionPermisoRepository>(MockBehavior.Strict);
 
         permisos
             .Setup(repository => repository.TienePermisoAsync(
                 idUsuario,
                 idGrupoActual,
                 AnaliticaOpcionIds.GestionIntegralCobranza,
-                SisgesOptionPermission.Consult,
+                CrmOptionPermission.Consult,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
@@ -82,7 +82,7 @@ public sealed class AccesoReporteClienteAnaliticaServiceTests
     }
 
     [Fact]
-    public async Task ResolverAsync_GestionIntegralCobranza_SinPermisoSisges_DenegaAntesDeConsultarAlcances()
+    public async Task ResolverAsync_GestionIntegralCobranza_SinPermisoCrm_DenegaAntesDeConsultarAlcances()
     {
         const int idUsuario = 10;
         const int idGrupo = 20;
@@ -90,14 +90,14 @@ public sealed class AccesoReporteClienteAnaliticaServiceTests
         var accesoOpcion = new Mock<IAccesoOpcionAnaliticaService>(MockBehavior.Strict);
         var configuracion = new Mock<IConfiguracionReporteClienteAnaliticaService>(
             MockBehavior.Strict);
-        var permisos = new Mock<ISisgesOpcionPermisoRepository>(MockBehavior.Strict);
+        var permisos = new Mock<ICrmOpcionPermisoRepository>(MockBehavior.Strict);
 
         permisos
             .Setup(repository => repository.TienePermisoAsync(
                 idUsuario,
                 idGrupo,
                 AnaliticaOpcionIds.GestionIntegralCobranza,
-                SisgesOptionPermission.Consult,
+                CrmOptionPermission.Consult,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
 
@@ -130,7 +130,7 @@ public sealed class AccesoReporteClienteAnaliticaServiceTests
         var accesoOpcion = new Mock<IAccesoOpcionAnaliticaService>(MockBehavior.Strict);
         var configuracion = new Mock<IConfiguracionReporteClienteAnaliticaService>(
             MockBehavior.Strict);
-        var permisos = new Mock<ISisgesOpcionPermisoRepository>(MockBehavior.Strict);
+        var permisos = new Mock<ICrmOpcionPermisoRepository>(MockBehavior.Strict);
 
         accesoOpcion
             .Setup(service => service.ResolverAsync(

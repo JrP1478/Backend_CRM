@@ -87,7 +87,7 @@ public static class AnaliticaPublicacionReporteClienteActualizarValidator
                 {
                     return Invalido(
                         "Grupo fuera del cliente",
-                        $"Uno o más grupos seleccionados para '{configuration.Nombre}' no están activos o no pertenecen al cliente SISGES {configuration.IdCliente}.");
+                        $"Uno o más grupos seleccionados para '{configuration.Nombre}' no están activos o no pertenecen al cliente CRM {configuration.IdCliente}.");
                 }
             }
 
@@ -120,7 +120,7 @@ public static class AnaliticaPublicacionReporteClienteActualizarValidator
             {
                 return Invalido(
                     "Acceso de cartera pendiente",
-                    $"Seleccione al menos un grupo SISGES para '{configuration.Nombre}' antes de habilitar su publicación.");
+                    $"Seleccione al menos un grupo CRM para '{configuration.Nombre}' antes de habilitar su publicación.");
             }
 
             normalizedUpdates.Add(

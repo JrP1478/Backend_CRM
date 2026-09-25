@@ -14,7 +14,7 @@ namespace GesMgmt.Application.Validators.Perfil
         private readonly IValidationMessageService _validationMessageService;
         private ValidationMessageDto _oValMsgDto;
         private GetPerfilByIdRequestDto _requestDto;
-        public av_Perfil av_perfil;
+        public Crm_Perfil Crm_perfil;
 
         public GetPerfilRequestValidator(
                 IUnitOfWork unitOfWork,
@@ -48,9 +48,9 @@ namespace GesMgmt.Application.Validators.Perfil
                 return ResultDto<GetPerfilByIdResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            av_perfil = await _unitOfWork.av_Perfils.ByIdAsync(_requestDto.nid_perfil);
+            Crm_perfil = await _unitOfWork.Crm_Perfils.ByIdAsync(_requestDto.nid_perfil);
 
-            if (av_perfil == null)
+            if (Crm_perfil == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.PERFIL_CODIGO_NO_EXISTE, "ESP");
                 return ResultDto<GetPerfilByIdResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);

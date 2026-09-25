@@ -63,8 +63,8 @@ namespace GesMgmt.Infraestructure
             IConfiguration configuration)
         {
             // Configuración de la cadena de conexión
-            var connectionString = configuration.GetConnectionString("AvalCobConnection");
-            var cadenaConexionAnalitica = configuration.GetConnectionString("AvalAnalyticsConnection");
+            var connectionString = configuration.GetConnectionString("CrmCobConnection");
+            var cadenaConexionAnalitica = configuration.GetConnectionString("CrmAnalyticsConnection");
 
             var segundosTimeoutComandoAnalitica =
                 configuration.GetValue<int?>("AnalyticsDatabase:CommandTimeoutSeconds") ?? 15;
@@ -75,7 +75,7 @@ namespace GesMgmt.Infraestructure
                     "AnalyticsDatabase:CommandTimeoutSeconds debe estar entre 1 y 120.");
             }
 
-            services.AddDbContext<AvalDbContext>(options =>
+            services.AddDbContext<CrmDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
             services.AddDbContext<AnaliticaDbContext>(options =>
@@ -92,7 +92,7 @@ namespace GesMgmt.Infraestructure
 
             // Repositories
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<Iav_DocxCobrarRepository, av_DocxCobrarRepository>();
+            services.AddScoped<ICrm_DocxCobrarRepository, Crm_DocxCobrarRepository>();
             services.AddScoped<IValidationMessageRepository, ValidationMessageRespository>();
 
             // Services
@@ -142,11 +142,11 @@ namespace GesMgmt.Infraestructure
 
             services.AddSingleton<ICacheAccesoAnalitica, AccesoAnaliticaMemoryCache>();
 
-            services.AddScoped<ISisgesClienteUsuarioRepository, SisgesClienteUsuarioRepository>();
-            services.AddScoped<ISisgesGrupoUsuarioRepository, SisgesGrupoUsuarioRepository>();
-            services.AddScoped<ISisgesGrupoClienteRepository, SisgesGrupoClienteRepository>();
+            services.AddScoped<ICrmClienteUsuarioRepository, CrmClienteUsuarioRepository>();
+            services.AddScoped<ICrmGrupoUsuarioRepository, CrmGrupoUsuarioRepository>();
+            services.AddScoped<ICrmGrupoClienteRepository, CrmGrupoClienteRepository>();
 
-            services.AddScoped<ISisgesOpcionPermisoRepository, SisgesOpcionPermisoRepository>();
+            services.AddScoped<ICrmOpcionPermisoRepository, CrmOpcionPermisoRepository>();
             services.AddScoped<IAnaliticaOpcionConfiguracionRepository, AnaliticaOpcionConfiguracionRepository>();
             services.AddScoped<IAnaliticaAlcanceClienteOpcionRepository, AnaliticaAlcanceClienteOpcionRepository>();
             services.AddScoped<IAnaliticaAlcanceGrupoOpcionRepository, AnaliticaAlcanceGrupoOpcionRepository>();

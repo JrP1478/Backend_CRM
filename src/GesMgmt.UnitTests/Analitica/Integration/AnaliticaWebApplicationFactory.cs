@@ -13,11 +13,11 @@ internal sealed class AnaliticaWebApplicationFactory(
     {
         builder.UseEnvironment("Testing");
         builder.UseSetting(
-            "ConnectionStrings:AvalCobConnection",
-            "Server=localhost;Database=aval_cob;Integrated Security=True;TrustServerCertificate=True;");
+            "ConnectionStrings:CrmCobConnection",
+            "Server=localhost;Database=crm_cob;Integrated Security=True;TrustServerCertificate=True;");
         builder.UseSetting(
-            "ConnectionStrings:AvalAnalyticsConnection",
-            "Server=localhost;Database=aval_analytics;Integrated Security=True;TrustServerCertificate=True;");
+            "ConnectionStrings:CrmAnalyticsConnection",
+            "Server=localhost;Database=crm_analytics;Integrated Security=True;TrustServerCertificate=True;");
 
         builder.ConfigureServices(services =>
         {

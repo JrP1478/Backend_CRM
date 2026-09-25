@@ -59,7 +59,7 @@ public sealed class AdministracionGruposOpcionAnaliticaService(
         {
             return AnaliticaAdministracionComandoResult.Invalido(
                 "Grupo asociado inválido",
-                "Gestión Integral de Cobranza debe tener exactamente un grupo SISGES asociado.");
+                "Gestión Integral de Cobranza debe tener exactamente un grupo CRM asociado.");
         }
 
         var previousGroupIds = await repository.ObtenerIdsGruposAsync(

@@ -40,8 +40,8 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var zonaCartera = await _unitOfWork.av_ZonaCarteras.GetZonaCarteraByIdClienteAsync(gestionZonaCartCamp.nId_Cliente);
-                var cartera = await _unitOfWork.av_Carteras.GetCarteraByIdClienteIdCarteraAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
+                var zonaCartera = await _unitOfWork.Crm_ZonaCarteras.GetZonaCarteraByIdClienteAsync(gestionZonaCartCamp.nId_Cliente);
+                var cartera = await _unitOfWork.Crm_Carteras.GetCarteraByIdClienteIdCarteraAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
 
                 var data = new GetGestionZonaCarteraCampannaResponseDto
                 {
@@ -73,7 +73,7 @@ namespace GesMgmt.Application.Services.Gestion
                 return validationResult;
             }
 
-            var filter = new av_CabPantallaCob
+            var filter = new Crm_CabPantallaCob
             {
                 nId_Cliente = gestionCabeceraDto.nId_Cliente,
                 nId_Contrato = gestionCabeceraDto.nId_Contrato
@@ -81,7 +81,7 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var query = _unitOfWork.av_CabPantallaCobs.GetCabeceraGestionesAsync(filter);
+                var query = _unitOfWork.Crm_CabPantallaCobs.GetCabeceraGestionesAsync(filter);
 
                 var data = await query
                     .Select(s => new GetGestionCabeceraResponseDto
@@ -136,7 +136,7 @@ namespace GesMgmt.Application.Services.Gestion
                 return validationResult;
             }
 
-            var filterdc = new av_DocxCobrar
+            var filterdc = new Crm_DocxCobrar
             {
                 nId_Cliente = gestionDto.nId_Cliente,
                 nId_Cartera = gestionDto.nId_Cartera,
@@ -145,10 +145,10 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_Dco = await _unitOfWork.av_DocxCobrarOpes.GetGestionesCarteraDeudorAsync(gestionDto.nId_Cliente, gestionDto.nId_Cartera, gestionDto.nId_Persdeudor, 0);
-                var q_Doc = await _unitOfWork.av_DocxCobrars.GetGestionesAsync(filterdc);
-                var q_dcp = await _unitOfWork.av_DocxCobrarParams.GetGestionesParamByIdCarteraAsync(gestionDto.nId_Cartera);
-                var q_ca = await _unitOfWork.av_Carteras.GetCarterasByIdClienteAndIdCarteraAsync(gestionDto.nId_Cliente, gestionDto.nId_Cartera);
+                var q_Dco = await _unitOfWork.Crm_DocxCobrarOpes.GetGestionesCarteraDeudorAsync(gestionDto.nId_Cliente, gestionDto.nId_Cartera, gestionDto.nId_Persdeudor, 0);
+                var q_Doc = await _unitOfWork.Crm_DocxCobrars.GetGestionesAsync(filterdc);
+                var q_dcp = await _unitOfWork.Crm_DocxCobrarParams.GetGestionesParamByIdCarteraAsync(gestionDto.nId_Cartera);
+                var q_ca = await _unitOfWork.Crm_Carteras.GetCarterasByIdClienteAndIdCarteraAsync(gestionDto.nId_Cliente, gestionDto.nId_Cartera);
 
                 var ultGestion =
                                     from op in q_Dco
@@ -203,7 +203,7 @@ namespace GesMgmt.Application.Services.Gestion
 
                                         nId_DocxCobrar = s.nId_DocxCobrar,
                                         mejorStatus = s.mej_status ?? 0,
-                                        nId_Moneda = s.av_Moneda.nId_Moneda,
+                                        nId_Moneda = s.Crm_Moneda.nId_Moneda,
                                         bEstado = s.bEstado,
                                         nZona = dcp.cDocParamZona ?? "",
                                         bSelected = false,
@@ -215,7 +215,7 @@ namespace GesMgmt.Application.Services.Gestion
                                         numeroDocumento = s.cDoc_Numero,
                                         estado = s.bEstado == 1 ? "ACTIVO" : "INACTIVO",
                                         fechaVencimiento = s.dDoc_FecVenc.HasValue ? FormatearFecha(s.dDoc_FecVenc) : "",
-                                        siglaMoneda = s.av_Moneda.cSigla_Moneda ?? "",
+                                        siglaMoneda = s.Crm_Moneda.cSigla_Moneda ?? "",
                                         importeTotal = s.nDoc_ImpTotal,
                                         importeSaldo = s.nDoc_ImpSaldo,
                                         diasAtrazo = s.nDoc_DiasAtrazo ?? 0,
@@ -252,7 +252,7 @@ namespace GesMgmt.Application.Services.Gestion
                                                           ug.nId_OpeCodOut.ToString() == "4734" ? "Trans." : ""
                                                           , //ug.nId_OpeCodOut.ToString(), //ObtenerTipoGestion(ug.nId_OpeCodOut.ToString()), // aquí luego agregarás el nId_OpeCodOut
                                         fechaStatusDocumento = dcp.cDocParam91 ?? "",
-                                        gestorCall = s.av_Usuario != null ? $"{s.av_Usuario.nId_Usuario} - {s.av_Usuario.cUsr_Login}" : "",
+                                        gestorCall = s.Crm_Usuario != null ? $"{s.Crm_Usuario.nId_Usuario} - {s.Crm_Usuario.cUsr_Login}" : "",
                                         bajaProvabilidad = dcp != null ? dcp.cDocParam85 : ""
                                     }
                                 )
@@ -270,7 +270,7 @@ namespace GesMgmt.Application.Services.Gestion
                                         equals new { nId_DocxCobrar = dcp.nId_DocxCobrar, nId_Cartera = dcp.nId_Cartera }
                                         into dcpJoin
                                     from dcp in dcpJoin.DefaultIfEmpty()
-                                    
+
                                     join ug in ultGestionCompleta
                                     on s.nId_DocxCobrar equals ug.nId_DocxCobrar
                                     into ugJoin
@@ -287,7 +287,7 @@ namespace GesMgmt.Application.Services.Gestion
 
                                         nId_DocxCobrar = s.nId_DocxCobrar,
                                         mejorStatus = s.mej_status ?? 0,
-                                        nId_Moneda = s.av_Moneda.nId_Moneda,
+                                        nId_Moneda = s.Crm_Moneda.nId_Moneda,
                                         bEstado = s.bEstado,
                                         nZona = dcp.cDocParamZona ?? "",
                                         bSelected = false,
@@ -300,7 +300,7 @@ namespace GesMgmt.Application.Services.Gestion
                                         estado = s.bEstado == 1 ? "ACTIVO" : "INACTIVO",
                                         numeroCuota = dcp.cDocParam107 ?? "",
                                         fechaVencimiento = s.dDoc_FecVenc.HasValue ? FormatearFecha(s.dDoc_FecVenc) : "",
-                                        siglaMoneda = s.av_Moneda.cSigla_Moneda ?? "",
+                                        siglaMoneda = s.Crm_Moneda.cSigla_Moneda ?? "",
                                         importeTotal = s.nDoc_ImpTotal,
                                         importeSaldo = s.nDoc_ImpSaldo,
                                         diasAtrazo = s.nDoc_DiasAtrazo ?? 0,
@@ -319,7 +319,7 @@ namespace GesMgmt.Application.Services.Gestion
                                         MARCA_ESPECIAL = dcp.cDocParam174 ?? "",
                                         plazoReprogramado = dcp.cDocParam175 ?? "",
                                         plazoMaximoReprogramado = dcp.cDocParam176 ?? "",
-                                        gestorCall = s.av_Usuario != null ? $"{s.av_Usuario.nId_Usuario} - {s.av_Usuario.cUsr_Login}" : "",
+                                        gestorCall = s.Crm_Usuario != null ? $"{s.Crm_Usuario.nId_Usuario} - {s.Crm_Usuario.cUsr_Login}" : "",
                                         MARCA_ESPECIAL2 = dcp.cDocParam166 ?? "",
                                         COMENTARIO_REPROG = dcp.cDocParam167 ?? "",
                                         TASA_INTERES = dcp.cDocParam60 ?? "",
@@ -330,8 +330,8 @@ namespace GesMgmt.Application.Services.Gestion
                                 .Take(gestionDto.PageSize)
                                 .ToListAsync();
                     }
-                    
-                    
+
+
 
                     int correlativo = (gestionDto.PageNumber - 1) * gestionDto.PageSize + 1;
 
@@ -388,7 +388,7 @@ namespace GesMgmt.Application.Services.Gestion
                 return validationResult;
             }
 
-            var filter = new av_TablaCampoGeneral
+            var filter = new Crm_TablaCampoGeneral
             {
                 nId_Cliente = gestionCabeceraAdicionalDto.nId_Cliente,
                 pantalla = gestionCabeceraAdicionalDto.pantalla
@@ -396,7 +396,7 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var query = await _unitOfWork.av_TablaCampoGenerals.GetCabeceraGestionesAdicionalAsync(filter);
+                var query = await _unitOfWork.Crm_TablaCampoGenerals.GetCabeceraGestionesAdicionalAsync(filter);
                 GetGestionCabeceraAdicionalResponseDto data = new GetGestionCabeceraAdicionalResponseDto();
                 if (query != null)
                 {
@@ -435,7 +435,7 @@ namespace GesMgmt.Application.Services.Gestion
                 return validationResult;
             }
 
-            var filter = new av_DocxCobrarAdicional
+            var filter = new Crm_DocxCobrarAdicional
             {
                 nId_Cliente = gestionAdicionalDto.nId_Cliente,
                 nId_Cartera = gestionAdicionalDto.nId_Cartera,
@@ -444,7 +444,7 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_DocAd = _unitOfWork.av_DocxCobrarAdicionals.GetGestionesAdicionalesAsync(filter);
+                var q_DocAd = _unitOfWork.Crm_DocxCobrarAdicionals.GetGestionesAdicionalesAsync(filter);
                 IEnumerable<GetGestionAdicionalResponseDto> data = Enumerable.Empty<GetGestionAdicionalResponseDto>();
 
                 if (q_DocAd != null)
@@ -506,15 +506,15 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_Deudor = await _unitOfWork.av_PersDeudors.Query();
-                var q_Maestra = await _unitOfWork.av_MaeTablas.Query();
+                var q_Deudor = await _unitOfWork.Crm_PersDeudors.Query();
+                var q_Maestra = await _unitOfWork.Crm_MaeTablas.Query();
                 var maestras = await q_Maestra.Where(x => x.cod_tabla == 13).ToListAsync();
 
-                var q_DocPago = await _unitOfWork.av_DocxPagos.Query();
-                var q_Agenda = await _unitOfWork.av_Agendas.Query();
-                var q_EstadoAsterikAval = await _unitOfWork.av_EstadoAsteriskAvals.Query();
-                var q_DocxCobrarParam = await _unitOfWork.av_DocxCobrarParams.Query();
-                var q_DocxCobrar = await _unitOfWork.av_DocxCobrars.Query();
+                var q_DocPago = await _unitOfWork.Crm_DocxPagos.Query();
+                var q_Agenda = await _unitOfWork.Crm_Agendas.Query();
+                var q_EstadoAsterikCrm = await _unitOfWork.Crm_EstadoAsteriskCrms.Query();
+                var q_DocxCobrarParam = await _unitOfWork.Crm_DocxCobrarParams.Query();
+                var q_DocxCobrar = await _unitOfWork.Crm_DocxCobrars.Query();
 
                 var docParamsQuery =
                                         from dp in q_DocxCobrarParam
@@ -570,7 +570,7 @@ namespace GesMgmt.Application.Services.Gestion
                                         agendas = q_Agenda.Any(x =>
                                                     x.nid_Cartera == gestionDeudorDto.nId_Cartera &&
                                                     x.nid_PersDeudor == d.nId_PersDeudor),
-                                        llamadas = q_EstadoAsterikAval.Any(x =>
+                                        llamadas = q_EstadoAsterikCrm.Any(x =>
                                                     x.nId_Cartera == gestionDeudorDto.nId_Cartera &&
                                                     x.nId_PersDeudor == d.nId_PersDeudor &&
                                                     x.dFec_Inicio.HasValue &&
@@ -601,7 +601,7 @@ namespace GesMgmt.Application.Services.Gestion
         }
         #endregion
 
-        
+
 
         #region "Gestiones Anteriores Cartera"
         public async Task<ResultListDto<IEnumerable<GetGestionGestionesCarteraDeudorResponseDto>>> GetGestionGestionesCarteraDeudorAsync(GetGestionGestionesCarteraDeudorRequestDto gestionCarteraDeudorDto)
@@ -616,19 +616,19 @@ namespace GesMgmt.Application.Services.Gestion
                 return validationResult;
             }
 
-            var filterdc = new av_DocxCobrarOpe
+            var filterdc = new Crm_DocxCobrarOpe
             {
                 nId_Cliente = gestionCarteraDeudorDto.nId_Cliente,
                 nId_Cartera = gestionCarteraDeudorDto.nId_Cartera,
                 nId_PersDeudor = gestionCarteraDeudorDto.nId_Persdeudor,
-                av_Usuario = new av_Usuario { nid_perfil = gestionCarteraDeudorDto.nId_PerfilUsuario }
+                Crm_Usuario = new Crm_Usuario { nid_perfil = gestionCarteraDeudorDto.nId_PerfilUsuario }
             };
 
             try
             {
-                var q_Doc = await _unitOfWork.av_DocxCobrarOpes.GetGestionesCarteraDeudorAsync(filterdc.nId_Cliente.Value, filterdc.nId_Cartera.Value, filterdc.nId_PersDeudor, filterdc.av_Usuario.nId_PerfilGest);
-                var q_DesGes = await _unitOfWork.av_OpeCodCliOuts.Query();
-                var q_DesGes2 = await _unitOfWork.av_OpeCodCliOuts.Query();
+                var q_Doc = await _unitOfWork.Crm_DocxCobrarOpes.GetGestionesCarteraDeudorAsync(filterdc.nId_Cliente.Value, filterdc.nId_Cartera.Value, filterdc.nId_PersDeudor, filterdc.Crm_Usuario.nId_PerfilGest);
+                var q_DesGes = await _unitOfWork.Crm_OpeCodCliOuts.Query();
+                var q_DesGes2 = await _unitOfWork.Crm_OpeCodCliOuts.Query();
 
                 IEnumerable<GetGestionGestionesCarteraDeudorResponseDto> data = Enumerable.Empty<GetGestionGestionesCarteraDeudorResponseDto>();
                 if (q_Doc != null)
@@ -645,9 +645,9 @@ namespace GesMgmt.Application.Services.Gestion
                                         nId_DocxCobrarOpe = s.nId_DocxCobrarOpe,
                                         nro = 0,
                                         fechaGestion = s.dDocCobOpe_FecIni.HasValue ? FormatearFecha(s.dDocCobOpe_FecIni) : "",
-                                        gestor = s.av_Usuario.cUsr_Login ?? "",
-                                        documento = s.av_DocxCobrar.cDoc_Numero ?? "",
-                                        operacion = s.av_TipoGestion.cNomTipoGestion ?? "",
+                                        gestor = s.Crm_Usuario.cUsr_Login ?? "",
+                                        documento = s.Crm_DocxCobrar.cDoc_Numero ?? "",
+                                        operacion = s.Crm_TipoGestion.cNomTipoGestion ?? "",
                                         respuesta = d.cNombre_OpeCodCliOut ?? "",
                                         comentario = (s.cDocOpeCobOut_Descr + " Nro Telef: " + s.nTelef_Nro) +
                                                     (s.monto_comp > 0 ? " Compromiso de Pago " + s.monto_comp.ToString() : "") +
@@ -701,10 +701,10 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_Doc = _unitOfWork.av_DocxCobrarOpes.GetGestionesCarteraDeudorHistoricas(gestionCarteraDeudorHisDto.nId_Cliente, gestionCarteraDeudorHisDto.nId_Cartera, gestionCarteraDeudorHisDto.nId_PersDeudor);
-                var q_DesGes = await _unitOfWork.av_OpeCodCliOuts.Query();
-                var q_cli = await _unitOfWork.av_Clientes.Query();
-                var q_car = await _unitOfWork.av_Carteras.Query();
+                var q_Doc = _unitOfWork.Crm_DocxCobrarOpes.GetGestionesCarteraDeudorHistoricas(gestionCarteraDeudorHisDto.nId_Cliente, gestionCarteraDeudorHisDto.nId_Cartera, gestionCarteraDeudorHisDto.nId_PersDeudor);
+                var q_DesGes = await _unitOfWork.Crm_OpeCodCliOuts.Query();
+                var q_cli = await _unitOfWork.Crm_Clientes.Query();
+                var q_car = await _unitOfWork.Crm_Carteras.Query();
 
                 IEnumerable<GestionCarteraDeudorHistoricaResponseDto> data = Enumerable.Empty<GestionCarteraDeudorHistoricaResponseDto>();
 
@@ -733,9 +733,9 @@ namespace GesMgmt.Application.Services.Gestion
                                         cartera = car.cCar_Nombre,
                                         campanna = car.cCampanna,
                                         fecha = s.dDocCobOpe_FecIni.HasValue ? FormatearFecha(s.dDocCobOpe_FecIni) : "",
-                                        gestor = s.av_Usuario.cUsr_Login ?? "",
-                                        documento = s.av_DocxCobrar.cDoc_Numero ?? "",
-                                        operacion = s.av_TipoGestion.cNomTipoGestion ?? "",
+                                        gestor = s.Crm_Usuario.cUsr_Login ?? "",
+                                        documento = s.Crm_DocxCobrar.cDoc_Numero ?? "",
+                                        operacion = s.Crm_TipoGestion.cNomTipoGestion ?? "",
                                         resultado = d.cNombre_OpeCodCliOut ?? "",
                                         comentario = (s.cDocOpeCobOut_Descr + " Nro Telef: " + s.nTelef_Nro ?? "") +
                                                     (s.monto_comp > 0 ? " Compromiso de Pago " + s.monto_comp.ToString() : "") +
@@ -788,7 +788,7 @@ namespace GesMgmt.Application.Services.Gestion
                 return validationResult;
             }
 
-            var filterdc = new av_DocxCobrarOpeEst
+            var filterdc = new Crm_DocxCobrarOpeEst
             {
                 nId_Cliente = gestionEstadosCarteraDeudorDto.nId_Cliente,
                 nId_Cartera = gestionEstadosCarteraDeudorDto.nId_Cartera,
@@ -797,8 +797,8 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_GesEst = _unitOfWork.av_DocxCobrarOpeEsts.GetGestionesEstadoCarteraDeudor(filterdc.nId_Cliente.Value, filterdc.nId_Cartera, filterdc.nId_PersDeudor);
-                var q_DesGesEst = await _unitOfWork.av_OpeCodCliOutEsts.Query();
+                var q_GesEst = _unitOfWork.Crm_DocxCobrarOpeEsts.GetGestionesEstadoCarteraDeudor(filterdc.nId_Cliente.Value, filterdc.nId_Cartera, filterdc.nId_PersDeudor);
+                var q_DesGesEst = await _unitOfWork.Crm_OpeCodCliOutEsts.Query();
 
                 IEnumerable<GetGestionEstadoGestionCarteraDeudorResponseDto> data = Enumerable.Empty<GetGestionEstadoGestionCarteraDeudorResponseDto>();
                 if (q_GesEst != null)
@@ -815,9 +815,9 @@ namespace GesMgmt.Application.Services.Gestion
                                         nId_DocxCobrarOpe = s.nId_DocxCobrarOpe,
                                         nro = 0,
                                         fechaGestion = s.dDocCobOpe_FecIni.HasValue ? FormatearFecha(s.dDocCobOpe_FecIni) : "",
-                                        operador = s.av_Usuario.cUsr_Login ?? "",
-                                        documento = s.av_DocxCobrar.cDoc_Numero ?? "",
-                                        operacion = s.av_TipoGestion.cNomTipoGestion ?? "",
+                                        operador = s.Crm_Usuario.cUsr_Login ?? "",
+                                        documento = s.Crm_DocxCobrar.cDoc_Numero ?? "",
+                                        operacion = s.Crm_TipoGestion.cNomTipoGestion ?? "",
                                         resultado = d.cNombre_OpeCodCliOut ?? "",
                                         comentario = (s.cDocOpeCobOut_Descr) +
                                                     (s.monto_comp > 0 ? " Compromiso de Pago " + s.monto_comp.ToString() : "") +
@@ -871,10 +871,10 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_GesEst = _unitOfWork.av_DocxCobrarOpeEsts.GetGestionesEstadoCarteraDeudorHistoricas(gestionEstadosCarteraDeudorHistoricoDto.nId_Cliente, gestionEstadosCarteraDeudorHistoricoDto.nId_Cartera, gestionEstadosCarteraDeudorHistoricoDto.nId_PersDeudor);
-                var q_DesGesEst = await _unitOfWork.av_OpeCodCliOutEsts.Query();
-                var q_cli = await _unitOfWork.av_Clientes.Query();
-                var q_car = await _unitOfWork.av_Carteras.Query();
+                var q_GesEst = _unitOfWork.Crm_DocxCobrarOpeEsts.GetGestionesEstadoCarteraDeudorHistoricas(gestionEstadosCarteraDeudorHistoricoDto.nId_Cliente, gestionEstadosCarteraDeudorHistoricoDto.nId_Cartera, gestionEstadosCarteraDeudorHistoricoDto.nId_PersDeudor);
+                var q_DesGesEst = await _unitOfWork.Crm_OpeCodCliOutEsts.Query();
+                var q_cli = await _unitOfWork.Crm_Clientes.Query();
+                var q_car = await _unitOfWork.Crm_Carteras.Query();
 
                 IEnumerable<GestionCarteraDeudorEstadoHistoricaResponseDto> data = Enumerable.Empty<GestionCarteraDeudorEstadoHistoricaResponseDto>();
                 if (q_GesEst != null)
@@ -902,9 +902,9 @@ namespace GesMgmt.Application.Services.Gestion
                                         cartera = car.cCar_Nombre,
                                         campanna = car.cCampanna,
                                         fecha = s.dDocCobOpe_FecIni.HasValue ? FormatearFecha(s.dDocCobOpe_FecIni) : "",
-                                        gestor = s.av_Usuario.cUsr_Login ?? "",
-                                        documento = s.av_DocxCobrar.cDoc_Numero ?? "",
-                                        operacion = s.av_TipoGestion.cNomTipoGestion ?? "",
+                                        gestor = s.Crm_Usuario.cUsr_Login ?? "",
+                                        documento = s.Crm_DocxCobrar.cDoc_Numero ?? "",
+                                        operacion = s.Crm_TipoGestion.cNomTipoGestion ?? "",
                                         resultado = d.cNombre_OpeCodCliOut ?? "",
                                         comentario = (s.cDocOpeCobOut_Descr) +
                                                     (s.monto_comp > 0 ? " Compromiso de Pago " + s.monto_comp.ToString() : "") +
@@ -959,7 +959,7 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_Agenda = _unitOfWork.av_Agendas.GetGestionAgendasDeudor(gestionAgendaDto.nId_Cliente, gestionAgendaDto.nId_Cartera, gestionAgendaDto.nId_Persdeudor, gestionAgendaDto.nId_PerfilUsuario);
+                var q_Agenda = _unitOfWork.Crm_Agendas.GetGestionAgendasDeudor(gestionAgendaDto.nId_Cliente, gestionAgendaDto.nId_Cartera, gestionAgendaDto.nId_Persdeudor, gestionAgendaDto.nId_PerfilUsuario);
 
                 IEnumerable<GetGestionAgendaResponseDto> data = Enumerable.Empty<GetGestionAgendaResponseDto>();
                 if (q_Agenda != null)
@@ -1015,7 +1015,7 @@ namespace GesMgmt.Application.Services.Gestion
 
             try
             {
-                var q_Pagos = _unitOfWork.av_DocxPagos.GetPagosByIdDeudorAsync(gestionPagosDto.nId_Cliente, gestionPagosDto.nId_Cartera, gestionPagosDto.nId_Persdeudor);
+                var q_Pagos = _unitOfWork.Crm_DocxPagos.GetPagosByIdDeudorAsync(gestionPagosDto.nId_Cliente, gestionPagosDto.nId_Cartera, gestionPagosDto.nId_Persdeudor);
 
                 IEnumerable<GetGestionPagosResponsetDto> data = Enumerable.Empty<GetGestionPagosResponsetDto>();
                 if (q_Pagos != null)
@@ -1082,9 +1082,9 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var query = await _unitOfWork.av_PersDeudorInfoParamDefCabs.GetPersDeudorInfoParamDefCabAsync(gestionInformacionDeudorDto.bTipo_Cabecera.Value);
+                var query = await _unitOfWork.Crm_PersDeudorInfoParamDefCabs.GetPersDeudorInfoParamDefCabAsync(gestionInformacionDeudorDto.bTipo_Cabecera.Value);
                 var data = new GetGestionInformacionDeudorRespondeDto();
-                if (query != null) 
+                if (query != null)
                 {
                     data = new GetGestionInformacionDeudorRespondeDto
                     {
@@ -1186,10 +1186,10 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var query = await _unitOfWork.av_PersDeudorInfoParams.GetGestionInformacionDeudorParamAsync(gestionInformacionDeudorParamDto.nId_Persdeudor);
+                var query = await _unitOfWork.Crm_PersDeudorInfoParams.GetGestionInformacionDeudorParamAsync(gestionInformacionDeudorParamDto.nId_Persdeudor);
 
                 var data = new GetGestionInformacionDeudorParamRespondeDto();
-                
+
                 if (query != null)
                 {
                     data = new GetGestionInformacionDeudorParamRespondeDto
@@ -1309,11 +1309,11 @@ namespace GesMgmt.Application.Services.Gestion
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => int.Parse(x.Trim()));
 
-                var lista = new List<av_DocxCobrarOpeGes>();
+                var lista = new List<Crm_DocxCobrarOpeGes>();
 
                 foreach (var idDocCobrar in idsDocCobrar)
                 {
-                    lista.Add(new av_DocxCobrarOpeGes
+                    lista.Add(new Crm_DocxCobrarOpeGes
                     {
                         nId_Cliente = OpeGesCreateDto.nId_Cliente,
                         nId_Contrato = OpeGesCreateDto.nId_Contrato,
@@ -1360,24 +1360,24 @@ namespace GesMgmt.Application.Services.Gestion
                         nId_OpeCodOutEst = OpeGesCreateDto.nESTADOGESTION,
                         cPeriodo = string.Empty,
                         cCorreo = string.Empty,
-                        nId_DocxCobrarOpe_orig = OpeGesCreateDto.nESTADOGESTIONCLARO,
+                        nId_DocxCobrarOpe_orig = OpeGesCreateDto.nESTADOGESTIONCLIENTE_A,
                         nId_OpeCodCliOutMotivoNoPago = OpeGesCreateDto.nMOTIVONOPAGO,
                         dDoc_FecIngresoGes = DateTime.Now
                     });
                 }
 
-                var OpeGesCreate = await _unitOfWork.av_DocxCobrarOpeGess.AddRangeAsync(lista);
+                var OpeGesCreate = await _unitOfWork.Crm_DocxCobrarOpeGess.AddRangeAsync(lista);
                 await _unitOfWork.SaveChangesAsync();
 
-                //insertar en av_DocxCobrarOpe
+                //insertar en Crm_DocxCobrarOpe
                 // Validar que exista al menos un registro
-                av_DocxCobrarOpe? opeCreate = null;
+                Crm_DocxCobrarOpe? opeCreate = null;
                 if (OpeGesCreate != null && OpeGesCreate.Any())
                 {
                     var first = OpeGesCreate.FirstOrDefault();
                     if (first != null)
                     {
-                        av_DocxCobrarOpe dcOpe = new av_DocxCobrarOpe
+                        Crm_DocxCobrarOpe dcOpe = new Crm_DocxCobrarOpe
                         {
                             nId_DocxCobrar = first.nId_DocxCobrar,
                             nId_OpeCodIn = 4,
@@ -1419,7 +1419,7 @@ namespace GesMgmt.Application.Services.Gestion
                             nId_OpeCodCliOutMotivoNoPago = first.nId_OpeCodCliOutMotivoNoPago,
                             dDoc_FecIngresoGes = DateTime.Now
                         };
-                        opeCreate = await _unitOfWork.av_DocxCobrarOpes.AddAsync(dcOpe);
+                        opeCreate = await _unitOfWork.Crm_DocxCobrarOpes.AddAsync(dcOpe);
                         await _unitOfWork.SaveChangesAsync();
                     }
                 }
@@ -1474,8 +1474,8 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var q_TipGes = await _unitOfWork.av_TipoGestions.Query();
-                
+                var q_TipGes = await _unitOfWork.Crm_TipoGestions.Query();
+
                 var    data = await (
                                     from s in q_TipGes
                                     select new GetGestionTipoGestionResponseDto
@@ -1504,7 +1504,7 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var q_TipGes = await _unitOfWork.av_OpeCodCliOutEsts.EstadoGestionByIdClienteAsync(estadoGestionDto.nId_Cliente);
+                var q_TipGes = await _unitOfWork.Crm_OpeCodCliOutEsts.EstadoGestionByIdClienteAsync(estadoGestionDto.nId_Cliente);
 
                 var data = await (
                                     from s in q_TipGes
@@ -1534,10 +1534,10 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var q_PalGes = _unitOfWork.av_OpeCodCliOuts.GetGestionPaletaRespuestaAsync(paletaGestionDto.nId_Cliente, 
-                                                                                        paletaGestionDto.nId_Contrato, 
-                                                                                        paletaGestionDto.nNivelPaleta, 
-                                                                                        paletaGestionDto.nId_SupOpeCodCliOut, 
+                var q_PalGes = _unitOfWork.Crm_OpeCodCliOuts.GetGestionPaletaRespuestaAsync(paletaGestionDto.nId_Cliente,
+                                                                                        paletaGestionDto.nId_Contrato,
+                                                                                        paletaGestionDto.nNivelPaleta,
+                                                                                        paletaGestionDto.nId_SupOpeCodCliOut,
                                                                                         paletaGestionDto.nId_TipoGestion);
 
                 var data = await (
@@ -1571,13 +1571,13 @@ namespace GesMgmt.Application.Services.Gestion
         }
         #endregion
 
-        #region "Estado Gestion Claro"
-        public async Task<ResultListDto<IEnumerable<GetGestionEstadoGestionClaroResponseDto>>> GetGestionEstadoGestionClaroAsync(GetGestionEstadoGestionClaroRequestDto estadoGestionClaroDto)
+        #region "Estado Gestion ClienteA"
+        public async Task<ResultListDto<IEnumerable<GetGestionEstadoGestionClienteAResponseDto>>> GetGestionEstadoGestionClienteAAsync(GetGestionEstadoGestionClienteARequestDto estadoGestionClienteADto)
         {
             try
             {
-                var q_car = await _unitOfWork.av_Carteras.GetCarteraByIdClienteIdCarteraAsync(estadoGestionClaroDto.nId_Cliente, estadoGestionClaroDto.nId_Cartera);
-                var q_estgescla = await _unitOfWork.av_OpeCodCliOutEsts.EstadoGestionByIdClienteAsync(estadoGestionClaroDto.nId_Cliente);
+                var q_car = await _unitOfWork.Crm_Carteras.GetCarteraByIdClienteIdCarteraAsync(estadoGestionClienteADto.nId_Cliente, estadoGestionClienteADto.nId_Cartera);
+                var q_estgescla = await _unitOfWork.Crm_OpeCodCliOutEsts.EstadoGestionByIdClienteAsync(estadoGestionClienteADto.nId_Cliente);
 
                 var data = await (from est in q_estgescla
                                   where est.bEstado == true
@@ -1589,21 +1589,21 @@ namespace GesMgmt.Application.Services.Gestion
                                          )
                                         && est.nId_Cliente == q_car.nId_Cliente
                                   orderby est.cNombre_OpeCodCliOut
-                                  select new GetGestionEstadoGestionClaroResponseDto
+                                  select new GetGestionEstadoGestionClienteAResponseDto
                                   {
                                         nId_OpeCodCliOut = est.nId_OpeCodCliOut,
                                         cNombre_OpeCodCliOut = est.cNombre_OpeCodCliOut + " (" + est.nId_OpeCodCliOut + ")"
                                   }
 
                     ).ToListAsync();
-            
-                var response = ResultListDto<IEnumerable<GetGestionEstadoGestionClaroResponseDto>>.Success(data, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
+
+                var response = ResultListDto<IEnumerable<GetGestionEstadoGestionClienteAResponseDto>>.Success(data, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
                 return response;
             }
             catch (Exception ex)
             {
-                _Logger.LogError($"GetGestionEstadoGestionClaro|DatabaseError: {ex.Message}");
-                return ResultListDto<IEnumerable<GetGestionEstadoGestionClaroResponseDto>>.Failure(Const.ERROR_REQUEST_CODE.ToString(), "Error interno del servidor.", ex.Message, Const.ERROR_REQUEST_CODE);
+                _Logger.LogError($"GetGestionEstadoGestionClienteA|DatabaseError: {ex.Message}");
+                return ResultListDto<IEnumerable<GetGestionEstadoGestionClienteAResponseDto>>.Failure(Const.ERROR_REQUEST_CODE.ToString(), "Error interno del servidor.", ex.Message, Const.ERROR_REQUEST_CODE);
             }
         }
         #endregion
@@ -1613,8 +1613,8 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var q_car = await _unitOfWork.av_Carteras.GetCarteraByIdClienteIdCarteraAsync(motivoNoPagoDto.nId_Cliente, motivoNoPagoDto.nId_Cartera);
-                var q_motnopag = await _unitOfWork.av_MotivoNoPagos.MotivoNoPagoByIdClienteAsync(motivoNoPagoDto.nId_Cliente);
+                var q_car = await _unitOfWork.Crm_Carteras.GetCarteraByIdClienteIdCarteraAsync(motivoNoPagoDto.nId_Cliente, motivoNoPagoDto.nId_Cartera);
+                var q_motnopag = await _unitOfWork.Crm_MotivoNoPagos.MotivoNoPagoByIdClienteAsync(motivoNoPagoDto.nId_Cliente);
 
                 var data = await (from est in q_motnopag
                                   where est.bEstado == true
@@ -1649,7 +1649,7 @@ namespace GesMgmt.Application.Services.Gestion
         {
             try
             {
-                var q_GesToDay = await _unitOfWork.av_DocxCobrarOpes.GetGestionesByIdUsuarioToDay(gestionToDayDto.nId_Cliente, gestionToDayDto.nId_Usuario);
+                var q_GesToDay = await _unitOfWork.Crm_DocxCobrarOpes.GetGestionesByIdUsuarioToDay(gestionToDayDto.nId_Cliente, gestionToDayDto.nId_Usuario);
                 var gestiones = await q_GesToDay.ToListAsync();
 
                 var q_Tmp = gestiones
@@ -1676,8 +1676,8 @@ namespace GesMgmt.Application.Services.Gestion
                         Total = 1,
 
                         TipoContact =
-                            x.av_OpeCodCliOut != null
-                                ? x.av_OpeCodCliOut.nId_OpeCodOut2 ?? 2
+                            x.Crm_OpeCodCliOut != null
+                                ? x.Crm_OpeCodCliOut.nId_OpeCodOut2 ?? 2
                                 : 2
                     })
                     .ToList();
@@ -1754,16 +1754,16 @@ namespace GesMgmt.Application.Services.Gestion
 
         private async Task<List<GetGestionEstadoCuentaResponseDto>> ObtenerGestionEstadoCuentaAsync(GetGestionEstadoCuentaRequestDto estadoCuentaDto, bool paginar)
         {
-            var filterdc = new av_DocxCobrar
+            var filterdc = new Crm_DocxCobrar
             {
                 nId_Cliente = estadoCuentaDto.nId_Cliente,
                 nId_Cartera = estadoCuentaDto.nId_Cartera,
                 nId_PersDeudor = estadoCuentaDto.nId_Persdeudor
             };
 
-            var q_DCar = await _unitOfWork.av_DocxCobrarCartas.Query();
-            var q_Doc = await _unitOfWork.av_DocxCobrars.GetGestionesAsync(filterdc);
-            var q_dcp = await _unitOfWork.av_DocxCobrarParams.Query();
+            var q_DCar = await _unitOfWork.Crm_DocxCobrarCartas.Query();
+            var q_Doc = await _unitOfWork.Crm_DocxCobrars.GetGestionesAsync(filterdc);
+            var q_dcp = await _unitOfWork.Crm_DocxCobrarParams.Query();
 
             var query =
                 from d in q_Doc

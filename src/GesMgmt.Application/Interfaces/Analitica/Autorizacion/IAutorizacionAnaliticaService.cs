@@ -8,6 +8,6 @@ public interface IAutorizacionAnaliticaService
     Task<AnaliticaAutorizacionResult> PuedeAccederAdministracionAsync(
         int idUsuario,
         int? idGrupo,
-        SisgesOptionPermission permiso,
+        CrmOptionPermission permiso,
         CancellationToken cancellationToken);
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GesMgmt.Infraestructure.Repositories.Analitica.SesionesPowerBi;
 
-internal sealed class CatalogoSesionPowerBiRepository(AvalDbContext context)
+internal sealed class CatalogoSesionPowerBiRepository(CrmDbContext context)
     : ICatalogoSesionPowerBiRepository
 {
     public async Task<SnapshotIdentidadReportePowerBi?> ObtenerSnapshotAsync(
@@ -13,7 +13,7 @@ internal sealed class CatalogoSesionPowerBiRepository(AvalDbContext context)
         int idOpcionReporte,
         CancellationToken cancellationToken)
     {
-        var usuario = await context.av_Usuarios
+        var usuario = await context.Crm_Usuarios
             .AsNoTracking()
             .Where(row => row.nId_Usuario == idUsuario && row.bEstado)
             .Select(row => new
@@ -31,7 +31,7 @@ internal sealed class CatalogoSesionPowerBiRepository(AvalDbContext context)
             return null;
         }
 
-        var reporte = await context.av_Opcions
+        var reporte = await context.Crm_Opcions
             .AsNoTracking()
             .Where(row => row.nId_Opcion == idOpcionReporte && row.bEstado)
             .Select(row => new

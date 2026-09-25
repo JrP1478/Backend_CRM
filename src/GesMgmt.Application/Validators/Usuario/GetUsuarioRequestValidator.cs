@@ -17,7 +17,7 @@ namespace GesMgmt.Application.Validators.Usuario
         private readonly IValidationMessageService _validationMessageService;
         private ValidationMessageDto _oValMsgDto;
         private GetUsuarioLoginRequestDto _requestDto;
-        public av_Usuario usuario;
+        public Crm_Usuario usuario;
         public int nIntentosMaximo = 0;
         public int nUsr_NroIntentoAcc = -1;
 
@@ -69,7 +69,7 @@ namespace GesMgmt.Application.Validators.Usuario
                 return ResultDto<GetUsuarioLoginResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var usu = await _unitOfWork.av_Usuarios.GetByUsuarioAsync(_requestDto.cUsr_Login);
+            var usu = await _unitOfWork.Crm_Usuarios.GetByUsuarioAsync(_requestDto.cUsr_Login);
             if (usu == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.USUARIO_LOGIN_NO_EXIST, "ESP");
@@ -98,9 +98,9 @@ namespace GesMgmt.Application.Validators.Usuario
                 return ResultDto<GetUsuarioLoginResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            nIntentosMaximo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.INTENTOS_MAXIMO)).cValor);
+            nIntentosMaximo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.INTENTOS_MAXIMO)).cValor);
 
-            var usu = await _unitOfWork.av_Usuarios.GetByUsuarioAsync(_requestDto.cUsr_Login);
+            var usu = await _unitOfWork.Crm_Usuarios.GetByUsuarioAsync(_requestDto.cUsr_Login);
             if (usu != null)
             {
                 nUsr_NroIntentoAcc = usu.nUsr_NroIntentoAcc ?? 0;
@@ -124,7 +124,7 @@ namespace GesMgmt.Application.Validators.Usuario
 
             // INICIO - Validar si la clave ha vencido
             int nDiasExpiraClave = 0;
-            nDiasExpiraClave = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_EXPIRA_CLAVE)).cValor);
+            nDiasExpiraClave = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_EXPIRA_CLAVE)).cValor);
 
             if (usuario.dUsr_PassUpdate == null)
             {
@@ -141,8 +141,8 @@ namespace GesMgmt.Application.Validators.Usuario
             // INICIO - Validar si la clave está próxima a vencer
             int nDiasPrevenirBloqueo = 0;
             int nDiasBloqueo = 0;
-            nDiasPrevenirBloqueo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_PREVENIR_BLOQUEO_CLAVE)).cValor);
-            nDiasBloqueo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_BLOQUEO_CLAVE)).cValor);
+            nDiasPrevenirBloqueo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_PREVENIR_BLOQUEO_CLAVE)).cValor);
+            nDiasBloqueo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_BLOQUEO_CLAVE)).cValor);
 
             string strFechaValidar = GetParteFecha(usuario.dUsr_PassUpdate.Value.ToString("dd/MM/yyyy HH:mm:ss"), 1);
             strFechaValidar = AumentarFecha(strFechaValidar, nDiasBloqueo * 24L * 60L * 60L);
@@ -177,7 +177,7 @@ namespace GesMgmt.Application.Validators.Usuario
             if (!string.IsNullOrEmpty(_requestDto.cUsr_Pass) && !string.IsNullOrEmpty(_requestDto.cUsr_Login))
             {
                 string passwordMd5 = CifrarClave(_requestDto.cUsr_Pass);
-                usuario = await _unitOfWork.av_Usuarios.GetLoginUsuarioAsync(_requestDto.cUsr_Login, passwordMd5);
+                usuario = await _unitOfWork.Crm_Usuarios.GetLoginUsuarioAsync(_requestDto.cUsr_Login, passwordMd5);
 
                 if (usuario == null)
                 {

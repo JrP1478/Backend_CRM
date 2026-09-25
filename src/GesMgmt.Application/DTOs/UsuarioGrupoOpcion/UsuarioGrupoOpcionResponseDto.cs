@@ -80,6 +80,6 @@ namespace GesMgmt.Application.DTOs.UsuarioGrupoOpcion
             public int? nId_Opcion { get; set; }
         }
 
-        
+
     }
 }

@@ -31,7 +31,7 @@ public sealed class AccesoCentroControlCarteraService(
             return CentroControlCarteraClienteAcceso.Error(
                 401,
                 "Identidad Analítica no disponible",
-                "No se pudo determinar el usuario SISGES para validar el acceso a Analítica.");
+                "No se pudo determinar el usuario CRM para validar el acceso a Analítica.");
         }
 
         if (requestedCrmClientId.HasValue)

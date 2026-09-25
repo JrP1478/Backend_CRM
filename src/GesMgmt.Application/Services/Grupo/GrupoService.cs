@@ -30,7 +30,7 @@ namespace GesMgmt.Application.Services.Grupo
         {
             try
             {
-                var q_Resultados = await _unitOfWork.av_Grupos.GetGruposActivos();
+                var q_Resultados = await _unitOfWork.Crm_Grupos.GetGruposActivos();
                 var data = await (
                                     from s in q_Resultados
                                     orderby s.cNombre_Grupo
@@ -55,8 +55,8 @@ namespace GesMgmt.Application.Services.Grupo
         {
             try
             {
-                var q_grupos = await _unitOfWork.av_Grupos.GetGruposActivos();
-                var q_clientes = await _unitOfWork.av_Clientes.Query();
+                var q_grupos = await _unitOfWork.Crm_Grupos.GetGruposActivos();
+                var q_clientes = await _unitOfWork.Crm_Clientes.Query();
 
                 var data = await (
                                     from gru in q_grupos
@@ -92,7 +92,7 @@ namespace GesMgmt.Application.Services.Grupo
             try
             {
                 GetGrupoByIdResponseDto data = new GetGrupoByIdResponseDto();
-                var q_grupo = await _unitOfWork.av_Grupos.ByIdAsync(nId_Grupo);
+                var q_grupo = await _unitOfWork.Crm_Grupos.ByIdAsync(nId_Grupo);
                 if (q_grupo != null)
                 {
                     data = new GetGrupoByIdResponseDto
@@ -132,7 +132,7 @@ namespace GesMgmt.Application.Services.Grupo
 
             try
             {
-                av_Grupo av_Grupo = new av_Grupo
+                Crm_Grupo Crm_Grupo = new Crm_Grupo
                 {
                     cNombre_Grupo = grupoCreateDto.cNombre_Grupo,
                     cSigla_Grupo = grupoCreateDto.cSigla_Grupo,
@@ -140,7 +140,7 @@ namespace GesMgmt.Application.Services.Grupo
                     nCant_Grupo = grupoCreateDto.nCant_Grupo,
                     nid_cliente = grupoCreateDto.nid_cliente
                 };
-                var grupoCreada = await _unitOfWork.av_Grupos.AddAsync(av_Grupo);
+                var grupoCreada = await _unitOfWork.Crm_Grupos.AddAsync(Crm_Grupo);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreateGrupoResponseDto responseDto = new CreateGrupoResponseDto
@@ -183,7 +183,7 @@ namespace GesMgmt.Application.Services.Grupo
 
             try
             {
-                av_Grupo av_Grupo = new av_Grupo
+                Crm_Grupo Crm_Grupo = new Crm_Grupo
                 {
                     nId_Grupo = grupoEditDto.nId_Grupo,
                     cNombre_Grupo = grupoEditDto.cNombre_GrupoNuevo,
@@ -192,7 +192,7 @@ namespace GesMgmt.Application.Services.Grupo
                     nCant_Grupo = grupoEditDto.nCant_Grupo,
                     nid_cliente = grupoEditDto.nid_cliente
                 };
-                var grupoEditada = await _unitOfWork.av_Grupos.UpdateAsync(av_Grupo);
+                var grupoEditada = await _unitOfWork.Crm_Grupos.UpdateAsync(Crm_Grupo);
                 await _unitOfWork.SaveChangesAsync();
 
                 EditGrupoResponseDto responseDto = new EditGrupoResponseDto
@@ -223,9 +223,9 @@ namespace GesMgmt.Application.Services.Grupo
         {
             try
             {
-                var q_grupos = await _unitOfWork.av_Grupos.GetGruposActivos();
-                var q_clientes = await _unitOfWork.av_Clientes.Query();
-                var q_ugrupos = await _unitOfWork.av_UGrupos.Query();
+                var q_grupos = await _unitOfWork.Crm_Grupos.GetGruposActivos();
+                var q_clientes = await _unitOfWork.Crm_Clientes.Query();
+                var q_ugrupos = await _unitOfWork.Crm_UGrupos.Query();
 
                 var data = await (
                                 from gru in q_grupos

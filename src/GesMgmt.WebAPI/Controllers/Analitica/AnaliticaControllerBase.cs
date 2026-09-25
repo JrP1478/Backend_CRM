@@ -28,13 +28,13 @@ public abstract class AnaliticaControllerBase : ControllerBase
         return ProblemaAnalitica(
             StatusCodes.Status401Unauthorized,
             "Identidad no disponible",
-            "No se pudo identificar al usuario SISGES.");
+            "No se pudo identificar al usuario CRM.");
     }
 
     protected async Task<AccesoAdministradorAnalitica> RequerirAdministradorAsync(
         IContextoUsuarioAnalitica userContext,
         IAutorizacionAnaliticaService authorizationService,
-        SisgesOptionPermission permiso,
+        CrmOptionPermission permiso,
         CancellationToken cancellationToken)
     {
         var identityError = RequerirUsuario(userContext, out var idUsuario);

@@ -15,7 +15,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
         private readonly IValidationMessageService _validationMessageService;
         private ValidationMessageDto _oValMsgDto;
         private PutUsuarioGrupoOpcionEditarRequestDto _requestDto;
-        public av_UsuarioGrupoOpcion usuarioGrupoOpcion;
+        public Crm_UsuarioGrupoOpcion usuarioGrupoOpcion;
 
         public EditUsuarioGrupoOpcionRequestValidator(
             IUnitOfWork unitOfWork,
@@ -58,7 +58,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
 
         private async Task<ResultDto<PutUsuarioGrupoOpcionModificarResponseDto>> ValidateUsuarioGrupoOpcion()
         {
-            usuarioGrupoOpcion = await _unitOfWork.av_UsuarioGrupoOpcions.ByIdAsync(_requestDto.nId_UsuarioGrupoOpcion);
+            usuarioGrupoOpcion = await _unitOfWork.Crm_UsuarioGrupoOpcions.ByIdAsync(_requestDto.nId_UsuarioGrupoOpcion);
             if (usuarioGrupoOpcion == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.USUARIO_GRUPO_OPCION_NO_EXISTE, "ESP");
@@ -87,7 +87,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
                 return ResultDto<PutUsuarioGrupoOpcionModificarResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var usuario = await _unitOfWork.av_Usuarios.GetByIdAsync(_requestDto.nId_Usuario);
+            var usuario = await _unitOfWork.Crm_Usuarios.GetByIdAsync(_requestDto.nId_Usuario);
             if (usuario == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.USUARIO_LOGIN_NO_EXIST, "ESP");
@@ -113,7 +113,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GRUPO_ID_NO_EXISTENTE, "ESP");
                 return ResultDto<PutUsuarioGrupoOpcionModificarResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
-            var q_grupo = await _unitOfWork.av_Grupos.ByIdAsync(_requestDto.nId_Grupo);
+            var q_grupo = await _unitOfWork.Crm_Grupos.ByIdAsync(_requestDto.nId_Grupo);
             if (q_grupo == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GRUPO_ID_NO_EXISTENTE, "ESP");
@@ -140,7 +140,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");
                 return ResultDto<PutUsuarioGrupoOpcionModificarResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
-            var q_opcion = await _unitOfWork.av_Opcions.ByIdAsync(_requestDto.nId_Opcion);
+            var q_opcion = await _unitOfWork.Crm_Opcions.ByIdAsync(_requestDto.nId_Opcion);
             if (q_opcion == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");

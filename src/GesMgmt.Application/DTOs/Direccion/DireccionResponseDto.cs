@@ -20,7 +20,7 @@ namespace GesMgmt.Application.DTOs.Direccion
             public string? cNombre_PersRefUbi { get; set; }
             public string? cDirecc_Nomb { get; set; }
             public string? tipoDeudor { get; set; }
-            public string? nombreAval { get; set; }
+            public string? nombreCrm { get; set; }
             public string? estado { get; set; }
             public int? nId_PersRefUbi { get; set; }
             public string? cDirecc_Coment { get; set; }
@@ -31,7 +31,7 @@ namespace GesMgmt.Application.DTOs.Direccion
             public int? nid_CalifDirecc { get; set; }
             public string cDescrip_Fija { get; set; }
             public int? nId_Ubigeo { get; set; }
-            public int? nId_Departamento { get; set; } 
+            public int? nId_Departamento { get; set; }
             public int? nId_Provincia { get; set; }
             public int? nId_Distrito { get; set; }
         }

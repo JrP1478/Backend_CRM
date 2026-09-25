@@ -29,14 +29,14 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
         {
             try
             {
-                var q_UsuarioGrupoOpcion = await _unitOfWork.av_UsuarioGrupoOpcions.Query();
-                var q_Usuario = await _unitOfWork.av_Usuarios.Query();
-                var q_Grupo = await _unitOfWork.av_Grupos.Query();
-                var q_Opcion = await _unitOfWork.av_Opcions.Query();
+                var q_UsuarioGrupoOpcion = await _unitOfWork.Crm_UsuarioGrupoOpcions.Query();
+                var q_Usuario = await _unitOfWork.Crm_Usuarios.Query();
+                var q_Grupo = await _unitOfWork.Crm_Grupos.Query();
+                var q_Opcion = await _unitOfWork.Crm_Opcions.Query();
 
                 var data = await (
                     from ugo in q_UsuarioGrupoOpcion
-                    
+
                     join u in q_Usuario on ugo.nId_Usuario equals u.nId_Usuario
                     into usuarioJoin
                     from u in usuarioJoin.DefaultIfEmpty()
@@ -103,7 +103,7 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
         {
             try
             {
-                var q_UsuarioGrupoOpcion = await _unitOfWork.av_UsuarioGrupoOpcions.ByIdUsuarioIdGrupoAsync(usuarioGrupoOpcionDto.nId_Usuario, usuarioGrupoOpcionDto.nId_Grupo);
+                var q_UsuarioGrupoOpcion = await _unitOfWork.Crm_UsuarioGrupoOpcions.ByIdUsuarioIdGrupoAsync(usuarioGrupoOpcionDto.nId_Usuario, usuarioGrupoOpcionDto.nId_Grupo);
 
                 var data = await (
                     from ugo in q_UsuarioGrupoOpcion
@@ -150,7 +150,7 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
             try
             {
                 GetUsuarioGrupoOpcionObtenerResponseDto data = new GetUsuarioGrupoOpcionObtenerResponseDto();
-                var q_UsuarioGrupoOpcion = await _unitOfWork.av_UsuarioGrupoOpcions.ByIdAsync(nId_UsuarioGrupoOpcion);
+                var q_UsuarioGrupoOpcion = await _unitOfWork.Crm_UsuarioGrupoOpcions.ByIdAsync(nId_UsuarioGrupoOpcion);
                 if (q_UsuarioGrupoOpcion != null)
                 {
                     data = new GetUsuarioGrupoOpcionObtenerResponseDto
@@ -198,7 +198,7 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
 
             try
             {
-                av_UsuarioGrupoOpcion av_UsuarioGrupoOpcion = new av_UsuarioGrupoOpcion
+                Crm_UsuarioGrupoOpcion Crm_UsuarioGrupoOpcion = new Crm_UsuarioGrupoOpcion
                 {
                     nId_Usuario = usuarioGrupoOpcionCrearDto.nId_Usuario,
                     nId_Grupo = usuarioGrupoOpcionCrearDto.nId_Grupo,
@@ -212,7 +212,7 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
                     nCrea = usuarioGrupoOpcionCrearDto.nCrea,
                     dFechaCrea = DateTime.Now
                 };
-                var usuarioGrupoOpcionCreada = await _unitOfWork.av_UsuarioGrupoOpcions.AddAsync(av_UsuarioGrupoOpcion);
+                var usuarioGrupoOpcionCreada = await _unitOfWork.Crm_UsuarioGrupoOpcions.AddAsync(Crm_UsuarioGrupoOpcion);
                 await _unitOfWork.SaveChangesAsync();
 
                 PostUsuarioGrupoOpcionCrearResponseDto responseDto = new PostUsuarioGrupoOpcionCrearResponseDto
@@ -262,8 +262,8 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                av_UsuarioGrupoOpcion av_UsuarioGrupoOpcion =
-                    new av_UsuarioGrupoOpcion
+                Crm_UsuarioGrupoOpcion Crm_UsuarioGrupoOpcion =
+                    new Crm_UsuarioGrupoOpcion
                     {
                         nId_UsuarioGrupoOpcion = usuarioGrupoOpcionEditarDto.nId_UsuarioGrupoOpcion,
                         nId_Usuario = usuarioGrupoOpcionEditarDto.nId_Usuario,
@@ -285,8 +285,8 @@ namespace GesMgmt.Application.Services.UsuarioGrupoOpcion
                     };
 
                 var usuarioGrupoOpcionModificada =
-                    await _unitOfWork.av_UsuarioGrupoOpcions
-                        .UpdateAsync(av_UsuarioGrupoOpcion);
+                    await _unitOfWork.Crm_UsuarioGrupoOpcions
+                        .UpdateAsync(Crm_UsuarioGrupoOpcion);
 
                 await _unitOfWork.SaveChangesAsync();
 

@@ -9,7 +9,7 @@ using GesMgmt.Domain.Interfaces.Analitica;
 namespace GesMgmt.Application.Services.Analitica;
 
 public sealed class AccesoAnaliticaService(
-    ISisgesClienteUsuarioRepository users,
+    ICrmClienteUsuarioRepository users,
     IAnaliticaAlcanceClienteOpcionRepository scopes) : IAccesoAnaliticaService
 {
     public async Task<IReadOnlyList<AnaliticaClientePermitido>> ObtenerClientesPermitidosAsync(
@@ -59,7 +59,7 @@ public sealed class AccesoAnaliticaService(
         // Resolve the Analítica-side authorization and client scope first.
         // Centro de Control de Cartera inherits authorization from its active client
         // scope; options with explicit user assignment keep user_option_scope.
-        // A denied/unconfigured option therefore avoids the SISGES read.
+        // A denied/unconfigured option therefore avoids the CRM read.
         var allowedClients = await scopes.ObtenerIdsClientesAutorizadosAsync(
             idUsuario,
             idOpcion,
@@ -70,7 +70,7 @@ public sealed class AccesoAnaliticaService(
             return [];
         }
 
-        // SISGES remains the source of truth for the user's current client
+        // CRM remains the source of truth for the user's current client
         // assignments, so revocations continue to take effect immediately.
         var userClients = await users.ObtenerIdsClientesActivosAsync(
             idUsuario,
@@ -98,14 +98,14 @@ public sealed class AccesoAnaliticaService(
             idOpcion,
             idCliente,
             cancellationToken);
-        var sisgesAssignmentTask = users.EsClienteActivoAsync(
+        var crmAssignmentTask = users.EsClienteActivoAsync(
             idUsuario,
             idCliente,
             cancellationToken);
 
-        await Task.WhenAll(analyticsAuthorizationTask, sisgesAssignmentTask);
+        await Task.WhenAll(analyticsAuthorizationTask, crmAssignmentTask);
 
-        return await analyticsAuthorizationTask && await sisgesAssignmentTask;
+        return await analyticsAuthorizationTask && await crmAssignmentTask;
     }
 
     public async Task<IReadOnlyList<int>> ObtenerIdsClientesAlcanceClienteAsync(
@@ -140,7 +140,7 @@ public sealed class AccesoAnaliticaService(
         }
 
         // These reads are independent and meta different authorization
-        // sources. Execute them concurrently, but share the resulting SISGES
+        // sources. Execute them concurrently, but share the resulting CRM
         // client snapshot only inside this request so revocations remain fresh
         // on the next request.
         var userClientsTask = users.ObtenerIdsClientesActivosAsync(

@@ -29,7 +29,7 @@
 
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<UserSecretsId>645a8240-c90e-4542-bf7a-5ecd7bee52a2</UserSecretsId>
+		<UserSecretsId>Backend.CRM-LocalDevelopment</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>

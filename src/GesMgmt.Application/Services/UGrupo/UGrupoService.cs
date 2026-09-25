@@ -27,11 +27,11 @@ namespace GesMgmt.Application.Services.UGrupo
         #region "Usuarios - UGrupos - Grupos"
         public async Task<ResultListDto<IEnumerable<GetUsuariosGrupoResponseDto>>> GetUsuariosGrupoAsync(GetUsuariosGrupoRequestDto usuarioGrupoDto)
         {
-            var q_Usuario = await _unitOfWork.av_Usuarios.GetUsuariosActivos();
-            var q_Grupos = await _unitOfWork.av_Grupos.GetGruposByCliente(usuarioGrupoDto.nId_Cliente);
-            var q_UsuGru = await _unitOfWork.av_UGrupos.Query();
-            var q_Perfil = await _unitOfWork.av_Perfils.Query();
-            var q_SubZonGen = await _unitOfWork.av_SubZonaGenerals.Query();
+            var q_Usuario = await _unitOfWork.Crm_Usuarios.GetUsuariosActivos();
+            var q_Grupos = await _unitOfWork.Crm_Grupos.GetGruposByCliente(usuarioGrupoDto.nId_Cliente);
+            var q_UsuGru = await _unitOfWork.Crm_UGrupos.Query();
+            var q_Perfil = await _unitOfWork.Crm_Perfils.Query();
+            var q_SubZonGen = await _unitOfWork.Crm_SubZonaGenerals.Query();
 
             List<GetUsuariosGrupoResponseDto> data = new();
             try
@@ -82,8 +82,8 @@ namespace GesMgmt.Application.Services.UGrupo
         #region "Grupos x Usuario - Listar"
         public async Task<ResultListDto<IEnumerable<GetGruposByUsuarioResponseDto>>> GetGruposByIdUsuarioAsync(GetGruposByUsuarioRequestDto usuarioGrupoDto)
         {
-            var q_GruUsu = await _unitOfWork.av_UGrupos.GetUGruposActivosByIdUsuarioAsync(usuarioGrupoDto.nId_Usuario);
-            var q_Grupos = await _unitOfWork.av_Grupos.Query();
+            var q_GruUsu = await _unitOfWork.Crm_UGrupos.GetUGruposActivosByIdUsuarioAsync(usuarioGrupoDto.nId_Usuario);
+            var q_Grupos = await _unitOfWork.Crm_Grupos.Query();
             List<GetGruposByUsuarioResponseDto> data = new();
             try
             {
@@ -127,9 +127,9 @@ namespace GesMgmt.Application.Services.UGrupo
         {
             try
             {
-                var q_Grupos = await _unitOfWork.av_Grupos.Query();
+                var q_Grupos = await _unitOfWork.Crm_Grupos.Query();
                 // TODOS los registros UGrupo del usuario
-                var q_GruUsu = await _unitOfWork.av_UGrupos.GetUGruposByIdUsuarioAsync(usuarioGrupoDto.nId_Usuario);
+                var q_GruUsu = await _unitOfWork.Crm_UGrupos.GetUGruposByIdUsuarioAsync(usuarioGrupoDto.nId_Usuario);
 
                 // ============================================================
                 // 1. GRUPOS QUE ESTÁN EN UGRUPO PERO ESTÁN INACTIVOS
@@ -218,9 +218,9 @@ namespace GesMgmt.Application.Services.UGrupo
         {
             try
             {
-                var q_uGrupo = await _unitOfWork.av_UGrupos.Query();
-                var q_grupo = await _unitOfWork.av_Grupos.Query();
-                var q_usuario = await _unitOfWork.av_Usuarios.Query();
+                var q_uGrupo = await _unitOfWork.Crm_UGrupos.Query();
+                var q_grupo = await _unitOfWork.Crm_Grupos.Query();
+                var q_usuario = await _unitOfWork.Crm_Usuarios.Query();
 
                 var data = await (
                     from ug in q_uGrupo
@@ -281,7 +281,7 @@ namespace GesMgmt.Application.Services.UGrupo
             try
             {
                 GetUsuarioGrupoObtenerResponseDto data = new GetUsuarioGrupoObtenerResponseDto();
-                var q_uGrupo = await _unitOfWork.av_UGrupos.ByIdAsync(nId_UGrupo);
+                var q_uGrupo = await _unitOfWork.Crm_UGrupos.ByIdAsync(nId_UGrupo);
                 if (q_uGrupo != null)
                 {
                     data = new GetUsuarioGrupoObtenerResponseDto
@@ -323,7 +323,7 @@ namespace GesMgmt.Application.Services.UGrupo
 
             try
             {
-                av_UGrupo av_UGrupo = new av_UGrupo
+                Crm_UGrupo Crm_UGrupo = new Crm_UGrupo
                 {
                     nId_Usuario = usuarioGrupoCrearDto.nId_Usuario,
                     nId_Grupo = usuarioGrupoCrearDto.nId_Grupo,
@@ -333,7 +333,7 @@ namespace GesMgmt.Application.Services.UGrupo
                     bActivo = usuarioGrupoCrearDto.bActivo,
                     bGestion = usuarioGrupoCrearDto.bGestion
                 };
-                var usuarioGrupoCreada = await _unitOfWork.av_UGrupos.AddAsync(av_UGrupo);
+                var usuarioGrupoCreada = await _unitOfWork.Crm_UGrupos.AddAsync(Crm_UGrupo);
                 await _unitOfWork.SaveChangesAsync();
 
                 PostUsuarioGrupoCrearResponseDto responseDto = new PostUsuarioGrupoCrearResponseDto
@@ -378,7 +378,7 @@ namespace GesMgmt.Application.Services.UGrupo
             {
                 if (usuarioGrupoModificarDto.nId_UGrupo <= 0)
                 {
-                    av_UGrupo av_UGrupo = new av_UGrupo
+                    Crm_UGrupo Crm_UGrupo = new Crm_UGrupo
                     {
                         nId_Usuario = usuarioGrupoModificarDto.nId_Usuario,
                         nId_Grupo = usuarioGrupoModificarDto.nId_Grupo,
@@ -388,7 +388,7 @@ namespace GesMgmt.Application.Services.UGrupo
                         bActivo = usuarioGrupoModificarDto.bActivo,
                         bGestion = usuarioGrupoModificarDto.bGestion
                     };
-                    var usuarioGrupoCreada = await _unitOfWork.av_UGrupos.AddAsync(av_UGrupo);
+                    var usuarioGrupoCreada = await _unitOfWork.Crm_UGrupos.AddAsync(Crm_UGrupo);
                     await _unitOfWork.SaveChangesAsync();
 
                     PutUsuarioGrupoModificarResponseDto responseDto = new PutUsuarioGrupoModificarResponseDto
@@ -406,7 +406,7 @@ namespace GesMgmt.Application.Services.UGrupo
                 }
                 else
                 {
-                    av_UGrupo av_UGrupo = new av_UGrupo
+                    Crm_UGrupo Crm_UGrupo = new Crm_UGrupo
                     {
                         nId_UGrupo = usuarioGrupoModificarDto.nId_UGrupo,
                         nId_Usuario = usuarioGrupoModificarDto.nId_Usuario,
@@ -417,7 +417,7 @@ namespace GesMgmt.Application.Services.UGrupo
                         bActivo = usuarioGrupoModificarDto.bActivo,
                         bGestion = usuarioGrupoModificarDto.bGestion
                     };
-                    var usuarioGrupoModificada = await _unitOfWork.av_UGrupos.UpdateAsync(av_UGrupo);
+                    var usuarioGrupoModificada = await _unitOfWork.Crm_UGrupos.UpdateAsync(Crm_UGrupo);
                     await _unitOfWork.SaveChangesAsync();
 
                     PutUsuarioGrupoModificarResponseDto responseDto = new PutUsuarioGrupoModificarResponseDto

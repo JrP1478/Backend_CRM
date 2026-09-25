@@ -83,10 +83,10 @@ namespace GesMgmt.Application.Validators.Gestion
                 return validationEstadoGestion;
             }
 
-            var validationEstadoGestionClaro = await ValidateEstadoGestionClaro();
-            if (validationEstadoGestionClaro.Code != Const.SUCCESS_CODE)
+            var validationEstadoGestionClienteA = await ValidateEstadoGestionClienteA();
+            if (validationEstadoGestionClienteA.Code != Const.SUCCESS_CODE)
             {
-                return validationEstadoGestionClaro;
+                return validationEstadoGestionClienteA;
             }
 
             var validationMotivoNoPago = await ValidateMotivoNoPago();
@@ -100,7 +100,7 @@ namespace GesMgmt.Application.Validators.Gestion
 
         private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateDocumento()
         {
-            //cPers_Email - SISGES: Documento gestionado
+            //cPers_Email - CRM: Documento gestionado
             if (_requestDto.nId_DocxCobrars == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_SELECTED_ID, "ESP");
@@ -118,7 +118,7 @@ namespace GesMgmt.Application.Validators.Gestion
 
         private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateNP0()
         {
-            //SISGES: NP0
+            //CRM: NP0
             if (_requestDto.nNP0 == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_SELECTED_NP0, "ESP");
@@ -135,7 +135,7 @@ namespace GesMgmt.Application.Validators.Gestion
 
         private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateNP1()
         {
-            //SISGES: NP0
+            //CRM: NP0
             if (_requestDto.nNP1 == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_SELECTED_NP1, "ESP");
@@ -152,7 +152,7 @@ namespace GesMgmt.Application.Validators.Gestion
 
         private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateCompromiso()
         {
-            var result = await _unitOfWork.av_OpeCodCliOuts.GetTipificacionById2Async(_requestDto.nId_Cliente.Value, _requestDto.nNP1.Value);
+            var result = await _unitOfWork.Crm_OpeCodCliOuts.GetTipificacionById2Async(_requestDto.nId_Cliente.Value, _requestDto.nNP1.Value);
 
             if (result == null)
             {
@@ -182,7 +182,7 @@ namespace GesMgmt.Application.Validators.Gestion
 
         private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateTipoGestion()
         {
-            //SISGES: TIPO GESTION
+            //CRM: TIPO GESTION
             if (_requestDto.nTIPOGESTION == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_MANAGEMENT_TYPE_REQUIRED, "ESP");
@@ -252,17 +252,17 @@ namespace GesMgmt.Application.Validators.Gestion
             return ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>.Success(default, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
         }
 
-        private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateEstadoGestionClaro()
+        private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateEstadoGestionClienteA()
         {
-            if (_requestDto.nESTADOGESTIONCLARO == null)
+            if (_requestDto.nESTADOGESTIONCLIENTE_A == null)
             {
-                _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_STATUS_MANAGEMENT_CLARO_REQUIRED, "ESP");
+                _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_STATUS_MANAGEMENT_CLIENTE_A_REQUIRED, "ESP");
                 return ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            if (_requestDto.nESTADOGESTIONCLARO == 0)
+            if (_requestDto.nESTADOGESTIONCLIENTE_A == 0)
             {
-                _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_STATUS_MANAGEMENT_CLARO_REQUIRED, "ESP");
+                _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_STATUS_MANAGEMENT_CLIENTE_A_REQUIRED, "ESP");
                 return ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
             return ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>.Success(default, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
@@ -270,13 +270,13 @@ namespace GesMgmt.Application.Validators.Gestion
 
         private async Task<ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>> ValidateMotivoNoPago()
         {
-            if (_requestDto.nESTADOGESTIONCLARO == null)
+            if (_requestDto.nESTADOGESTIONCLIENTE_A == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_REASON_FOR_NO_PAYMENT, "ESP");
                 return ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            if (_requestDto.nESTADOGESTIONCLARO == 0)
+            if (_requestDto.nESTADOGESTIONCLIENTE_A == 0)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GESTION_REASON_FOR_NO_PAYMENT, "ESP");
                 return ResultListDto<IEnumerable<CreateGestionOpeGesResponseDto>>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);

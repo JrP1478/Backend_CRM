@@ -46,11 +46,11 @@ namespace GesMgmt.Domain.Constants
         public const int CHARGE_TYPE_FIXED = 1;
         public const int CHARGE_TYPE_VARIABLE = 2;
 
-        public const string STAT_CONFIRM_APPROVE = "A"; 
+        public const string STAT_CONFIRM_APPROVE = "A";
         public const string STAT_CONFIRM_DENY = "D";
 
         public const int MAXIMUM_DAYS_OF_DIFFERENCE = 180;
-        
+
         public const int CODIGO_TABLA_CONFIGURACION_SISTEMA = 161;
         public const string CLAVE_LONGITUD_MINIMA = "CLAVE_MIN_LARGO";
         public const string CLAVE_LONGITUD_MAXIMA = "CLAVE_MAX_LARGO";

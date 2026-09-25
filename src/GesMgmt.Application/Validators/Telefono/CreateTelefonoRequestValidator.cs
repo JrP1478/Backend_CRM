@@ -70,14 +70,14 @@ namespace GesMgmt.Application.Validators.Telefono
                 return ResultDto<CreateTelefonoResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var v_telefono_01 = await _unitOfWork.av_PersTelefs.GetTelefonoNroTelefonoByIdDeudorAsync(_requestDto.nTelef_Nro, _requestDto.nId_PersDeudor.Value);
+            var v_telefono_01 = await _unitOfWork.Crm_PersTelefs.GetTelefonoNroTelefonoByIdDeudorAsync(_requestDto.nTelef_Nro, _requestDto.nId_PersDeudor.Value);
             if (v_telefono_01 != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.TELEFONO_DEUDOR_EXISTE, "ESP");
                 return ResultDto<CreateTelefonoResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var v_telefono_02 = await _unitOfWork.av_PersTelefs.GetTelefonoNroTelefonoAsync(_requestDto.nTelef_Nro);
+            var v_telefono_02 = await _unitOfWork.Crm_PersTelefs.GetTelefonoNroTelefonoAsync(_requestDto.nTelef_Nro);
             if (v_telefono_02 != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.TELEFONO_EXISTE, "ESP");
@@ -89,7 +89,7 @@ namespace GesMgmt.Application.Validators.Telefono
 
         private async Task<ResultDto<CreateTelefonoResponseDto>> ValidateResultado()
         {
-            //nId_PersTelefOpe - SISGES: Resultado
+            //nId_PersTelefOpe - CRM: Resultado
             if (_requestDto.nId_PersTelefOpe == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.RESULTADO_REQUERIDO, "ESP");
@@ -106,7 +106,7 @@ namespace GesMgmt.Application.Validators.Telefono
 
         private async Task<ResultDto<CreateTelefonoResponseDto>> ValidateOperadorTelefonico()
         {
-            //nId_OperadorTelefonico - SISGES: Operador Telefónico
+            //nId_OperadorTelefonico - CRM: Operador Telefónico
             if (_requestDto.nId_OperadorTelefonico == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPERADOR_TELEFONICO_REQUERIDO, "ESP");
@@ -122,7 +122,7 @@ namespace GesMgmt.Application.Validators.Telefono
 
         private async Task<ResultDto<CreateTelefonoResponseDto>> ValidateUbicacion()
         {
-            //nId_PersRefUbi - SISGES: Ubicación
+            //nId_PersRefUbi - CRM: Ubicación
             if (_requestDto.nId_PersRefUbi == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.UBICACION_REQUERIDO, "ESP");

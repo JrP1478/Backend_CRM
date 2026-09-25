@@ -9,7 +9,7 @@ using GesMgmt.Domain.Interfaces.Analitica;
 namespace GesMgmt.Application.Services.Analitica;
 
 public sealed class AccesoGrupoAnaliticaService(
-    ISisgesGrupoUsuarioRepository users,
+    ICrmGrupoUsuarioRepository users,
     IAnaliticaAlcanceGrupoOpcionRepository scopes)
     : IAccesoGrupoAnaliticaService
 {

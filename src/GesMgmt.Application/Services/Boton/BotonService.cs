@@ -31,7 +31,7 @@ namespace GesMgmt.Application.Services.Boton
         {
             try
             {
-                var q_repBot = await _unitOfWork.av_BotonClientes.Query();
+                var q_repBot = await _unitOfWork.Crm_BotonClientes.Query();
 
                 IEnumerable<GetGestionBotonesResponseDto> data = Enumerable.Empty<GetGestionBotonesResponseDto>();
                 if (q_repBot != null)
@@ -70,15 +70,15 @@ namespace GesMgmt.Application.Services.Boton
         }
         #endregion
 
-        #region "Lista de Reportar Casos: + REPORTAR CASO - MAF"
+        #region "Lista de Reportar Casos: + REPORTAR CASO - CLIENTE_B"
         public async Task<ResultListDto<IEnumerable<GetReportarCasosResponseDto>>>GetReportarCasosAsync(GetReportarCasosRequestDto gestionZonaCartCamp)
         {
             try
             {
-                var q_dcor = await _unitOfWork.av_DocxCobrarOpeResults.GetReporteCasosByClienteAndCarterasActivoAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
-                var q_dc = await _unitOfWork.av_DocxCobrars.GetDocumentosxCobrarByClienteAndCarteraAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
-                var q_c = await _unitOfWork.av_Carteras.GetCarteraByClienteCarteraAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
-                var q_usu = await _unitOfWork.av_Usuarios.Query();
+                var q_dcor = await _unitOfWork.Crm_DocxCobrarOpeResults.GetReporteCasosByClienteAndCarterasActivoAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
+                var q_dc = await _unitOfWork.Crm_DocxCobrars.GetDocumentosxCobrarByClienteAndCarteraAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
+                var q_c = await _unitOfWork.Crm_Carteras.GetCarteraByClienteCarteraAsync(gestionZonaCartCamp.nId_Cliente, gestionZonaCartCamp.nId_Cartera);
+                var q_usu = await _unitOfWork.Crm_Usuarios.Query();
 
                 var rawData = await (
                     from op in q_dcor
@@ -137,13 +137,13 @@ namespace GesMgmt.Application.Services.Boton
         }
         #endregion
 
-        #region "Obtener de Reportar Casos: + REPORTAR CASO - MAF"
+        #region "Obtener de Reportar Casos: + REPORTAR CASO - CLIENTE_B"
         public async Task<ResultDto<GetReportarCasosByIdResponseDto>> GetReportarCasosByIdAsync(int nId_DocxCobrarOpeResult)
         {
             try
             {
                 GetReportarCasosByIdResponseDto data = new GetReportarCasosByIdResponseDto();
-                var q_dcor = await _unitOfWork.av_DocxCobrarOpeResults.GetReporteCasosByIdAsync(nId_DocxCobrarOpeResult);
+                var q_dcor = await _unitOfWork.Crm_DocxCobrarOpeResults.GetReporteCasosByIdAsync(nId_DocxCobrarOpeResult);
                 if (q_dcor != null)
                 {
                     data = new GetReportarCasosByIdResponseDto()
@@ -171,7 +171,7 @@ namespace GesMgmt.Application.Services.Boton
         }
         #endregion
 
-        #region "Crear Reportar Casos: + REPORTAR CASO - MAF"
+        #region "Crear Reportar Casos: + REPORTAR CASO - CLIENTE_B"
         public async Task<ResultDto<CreateReportarCasosResponseDto>> CreateReportarCasosAsync(CreateReportarCasosRequestDto reportarCasosCreateDto)
         {
             CreateReportarCasosRequestValidator validator = new CreateReportarCasosRequestValidator(_unitOfWork, _validationMessageService, reportarCasosCreateDto);
@@ -188,9 +188,9 @@ namespace GesMgmt.Application.Services.Boton
 
             try
             {
-                var q_dc = await _unitOfWork.av_DocxCobrars.GetDocxCobByClienteAndDeudorActivoAsync(reportarCasosCreateDto.nId_Cliente, reportarCasosCreateDto.nId_Cartera, reportarCasosCreateDto.nId_PersDeudor);
+                var q_dc = await _unitOfWork.Crm_DocxCobrars.GetDocxCobByClienteAndDeudorActivoAsync(reportarCasosCreateDto.nId_Cliente, reportarCasosCreateDto.nId_Cartera, reportarCasosCreateDto.nId_PersDeudor);
 
-                var newReportarCasos = new av_DocxCobrarOpeResult
+                var newReportarCasos = new Crm_DocxCobrarOpeResult
                 {
                     nId_DocxCobrar = q_dc.nId_DocxCobrar,
                     dDocCobOpe_FecIni = reportarCasosCreateDto.dDocCobOpe_FecIni,
@@ -203,7 +203,7 @@ namespace GesMgmt.Application.Services.Boton
                     cDocParam01 = reportarCasosCreateDto.cDocParam01,
                     cDocParam04 = reportarCasosCreateDto.cDocParam04
                 };
-                var resNew = await _unitOfWork.av_DocxCobrarOpeResults.AddAsync(newReportarCasos);
+                var resNew = await _unitOfWork.Crm_DocxCobrarOpeResults.AddAsync(newReportarCasos);
                 await _unitOfWork.SaveChangesAsync();
                 await _unitOfWork.CommitTransactionAsync();
                 var responseDto = new CreateReportarCasosResponseDto
@@ -224,7 +224,7 @@ namespace GesMgmt.Application.Services.Boton
         }
         #endregion
 
-        #region "Modificar Reportar Casos: + REPORTAR CASO - MAF"
+        #region "Modificar Reportar Casos: + REPORTAR CASO - CLIENTE_B"
         public async Task<ResultDto<EditReportarCasosResponseDto>> EditReportarCasosAsync(EditReportarCasosRequestDto reportarCasosUpdateDto)
         {
             EditReportarCasosRequestValidator validator = new EditReportarCasosRequestValidator(_unitOfWork, _validationMessageService, reportarCasosUpdateDto);
@@ -240,7 +240,7 @@ namespace GesMgmt.Application.Services.Boton
 
             try
             {
-                var editReportarCasos = new av_DocxCobrarOpeResult
+                var editReportarCasos = new Crm_DocxCobrarOpeResult
                 {
                     nId_DocxCobrar = reportarCasosUpdateDto.nId_DocxCobrar,
                     dDocCobOpe_FecIni = reportarCasosUpdateDto.dDocCobOpe_FecIni,
@@ -253,7 +253,7 @@ namespace GesMgmt.Application.Services.Boton
                     cDocParam01 = reportarCasosUpdateDto.cDocParam01,
                     cDocParam04 = reportarCasosUpdateDto.cDocParam04
                 };
-                var resEdit = await _unitOfWork.av_DocxCobrarOpeResults.UpdateAsync(editReportarCasos);
+                var resEdit = await _unitOfWork.Crm_DocxCobrarOpeResults.UpdateAsync(editReportarCasos);
                 await _unitOfWork.SaveChangesAsync();
                 await _unitOfWork.CommitTransactionAsync();
                 var responseDto = new EditReportarCasosResponseDto

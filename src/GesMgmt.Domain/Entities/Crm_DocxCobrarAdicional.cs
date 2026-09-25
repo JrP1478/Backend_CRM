@@ -4,7 +4,7 @@ namespace GesMgmt.Domain.Entities
     public class Crm_DocxCobrarAdicional
     {
         public int nId_DocxCobrarAd { get; set; }
-        
+
         public int? nId_Cliente { get; set; }
         public int? nId_Cartera { get; set; }
         public int? nId_DocxCobrar { get; set; }
@@ -20,7 +20,7 @@ namespace GesMgmt.Domain.Entities
         public string? adParam03 { get; set; }
         public string? adParam04 { get; set; }
         public string? adParam05 { get; set; }
-        
+
         public DateTime? dFecRegistro { get; set; }
         public string? adParam06 { get; set; }
         public string? adParam07 { get; set; }

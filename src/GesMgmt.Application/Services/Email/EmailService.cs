@@ -28,9 +28,9 @@ namespace GesMgmt.Application.Services.Email
         {
             try
             {
-                var q_PerEmail = _unitOfWork.av_PersEmails.GetEmailsByIdDeudorAsync(gestionTelefonoDto.nId_Cliente, gestionTelefonoDto.nId_Persdeudor);
-                var q_Empresa = await _unitOfWork.av_Clientes.Query();
-                var q_PeEmOpe = await _unitOfWork.av_PersEmailOpes.Query();
+                var q_PerEmail = _unitOfWork.Crm_PersEmails.GetEmailsByIdDeudorAsync(gestionTelefonoDto.nId_Cliente, gestionTelefonoDto.nId_Persdeudor);
+                var q_Empresa = await _unitOfWork.Crm_Clientes.Query();
+                var q_PeEmOpe = await _unitOfWork.Crm_PersEmailOpes.Query();
 
                 var data = await (
                                     from pe in q_PerEmail
@@ -84,7 +84,7 @@ namespace GesMgmt.Application.Services.Email
         {
             try
             {
-                var q_PerEma = _unitOfWork.av_PersEmails.GetEmailsByIdPersEmail(nId_PersEmail);
+                var q_PerEma = _unitOfWork.Crm_PersEmails.GetEmailsByIdPersEmail(nId_PersEmail);
 
                 var data = await (
                     from pe in q_PerEma
@@ -139,7 +139,7 @@ namespace GesMgmt.Application.Services.Email
 
             try
             {
-                av_PersEmail persemail = new av_PersEmail
+                Crm_PersEmail persemail = new Crm_PersEmail
                 {
                     nId_PersDeudor = emailCreateDto.nId_PersDeudor,
                     cPers_Email = emailCreateDto.cPers_Email,
@@ -154,7 +154,7 @@ namespace GesMgmt.Application.Services.Email
                     nEmail_Prioridad = emailCreateDto.nEmail_Prioridad,
                     nId_PersEmailOpe = emailCreateDto.nId_PersEmailOpe
                 };
-                var emailCreate = await _unitOfWork.av_PersEmails.AddAsync(persemail);
+                var emailCreate = await _unitOfWork.Crm_PersEmails.AddAsync(persemail);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreateEmailResponseDto responseDto = new CreateEmailResponseDto
@@ -197,7 +197,7 @@ namespace GesMgmt.Application.Services.Email
 
             try
             {
-                av_PersEmail persemail = new av_PersEmail
+                Crm_PersEmail persemail = new Crm_PersEmail
                 {
                     nId_PersEmail = emailEditDto.nId_PersEmail,
                     nId_PersDeudor = emailEditDto.nId_PersDeudor,
@@ -213,7 +213,7 @@ namespace GesMgmt.Application.Services.Email
                     nEmail_Prioridad = emailEditDto.nEmail_Prioridad,
                     nId_PersEmailOpe = emailEditDto.nId_PersEmailOpe
                 };
-                var emailEdit = await _unitOfWork.av_PersEmails.UpdateAsync(persemail);
+                var emailEdit = await _unitOfWork.Crm_PersEmails.UpdateAsync(persemail);
                 await _unitOfWork.SaveChangesAsync();
 
                 EditEmailResponseDto responseDto = new EditEmailResponseDto
@@ -244,7 +244,7 @@ namespace GesMgmt.Application.Services.Email
         {
             try
             {
-                var q_Status = await _unitOfWork.av_PersEmailOpes.Query();
+                var q_Status = await _unitOfWork.Crm_PersEmailOpes.Query();
                 var data = await (
                                     from s in q_Status
                                     orderby s.cNombre_PersEmailOpe

@@ -29,7 +29,7 @@ namespace GesMgmt.Application.Services.Perfil
         {
             try
             {
-                var q_Resultados = await _unitOfWork.av_Perfils.Query();
+                var q_Resultados = await _unitOfWork.Crm_Perfils.Query();
                 var data = await (
                                     from s in q_Resultados
                                     orderby s.per_Nombre
@@ -55,7 +55,7 @@ namespace GesMgmt.Application.Services.Perfil
         {
             try
             {
-                var q_Resultados = await _unitOfWork.av_Perfils.Query();
+                var q_Resultados = await _unitOfWork.Crm_Perfils.Query();
                 var data = await (
                                     from s in q_Resultados
                                     orderby s.per_Nombre
@@ -111,19 +111,19 @@ namespace GesMgmt.Application.Services.Perfil
             {
                 var response = ResultDto<GetPerfilByIdResponseDto>.Success(new GetPerfilByIdResponseDto
                 {
-                    nid_perfil = validator.av_perfil.nid_perfil,
-                    per_Fecha = validator.av_perfil.per_Fecha.Value.ToString("yyyy-MM-dd") ?? "",
-                    per_Nombre = validator.av_perfil.per_Nombre ?? "",
-                    nper_EliminaRegJud = validator.av_perfil.nper_EliminaRegJud ?? 0,
-                    nper_AvisoVencidoJud = validator.av_perfil.nper_AvisoVencidoJud ?? 0,
-                    nper_RegistraRegJud = validator.av_perfil.nper_RegistraRegJud ?? 0,
-                    nper_MantUsuario = validator.av_perfil.nper_MantUsuario ?? 0,
-                    per_abreviatura = validator.av_perfil.per_abreviatura ?? "",
-                    nEquiv_rrhh = validator.av_perfil.nEquiv_rrhh ?? 0,
-                    nEstadoGest = validator.av_perfil.nEstadoGest ?? 0,
-                    bProduccionOnline = validator.av_perfil.bProduccionOnline ?? false,
-                    nId_TipoGestion = validator.av_perfil.nId_TipoGestion ?? 0,
-                    bvisualiza_deudorhistoria = validator.av_perfil.bvisualiza_deudorhistoria ?? false
+                    nid_perfil = validator.Crm_perfil.nid_perfil,
+                    per_Fecha = validator.Crm_perfil.per_Fecha.Value.ToString("yyyy-MM-dd") ?? "",
+                    per_Nombre = validator.Crm_perfil.per_Nombre ?? "",
+                    nper_EliminaRegJud = validator.Crm_perfil.nper_EliminaRegJud ?? 0,
+                    nper_AvisoVencidoJud = validator.Crm_perfil.nper_AvisoVencidoJud ?? 0,
+                    nper_RegistraRegJud = validator.Crm_perfil.nper_RegistraRegJud ?? 0,
+                    nper_MantUsuario = validator.Crm_perfil.nper_MantUsuario ?? 0,
+                    per_abreviatura = validator.Crm_perfil.per_abreviatura ?? "",
+                    nEquiv_rrhh = validator.Crm_perfil.nEquiv_rrhh ?? 0,
+                    nEstadoGest = validator.Crm_perfil.nEstadoGest ?? 0,
+                    bProduccionOnline = validator.Crm_perfil.bProduccionOnline ?? false,
+                    nId_TipoGestion = validator.Crm_perfil.nId_TipoGestion ?? 0,
+                    bvisualiza_deudorhistoria = validator.Crm_perfil.bvisualiza_deudorhistoria ?? false
                 }, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
 
                 return response;
@@ -151,11 +151,11 @@ namespace GesMgmt.Application.Services.Perfil
 
             await _unitOfWork.BeginTransactionAsync();
 
-            int idPerfil = await _unitOfWork.av_Perfils.GetMaxIdPerfilAsync();
+            int idPerfil = await _unitOfWork.Crm_Perfils.GetMaxIdPerfilAsync();
 
             try
             {
-                av_Perfil av_Perfil = new av_Perfil
+                Crm_Perfil Crm_Perfil = new Crm_Perfil
                 {
                     nid_perfil = idPerfil + 1,
                     per_Fecha = perfilCreateDto.per_Fecha,
@@ -171,7 +171,7 @@ namespace GesMgmt.Application.Services.Perfil
                     nId_TipoGestion = perfilCreateDto.nId_TipoGestion,
                     bvisualiza_deudorhistoria = perfilCreateDto.bvisualiza_deudorhistoria
                 };
-                var perfilCreado = await _unitOfWork.av_Perfils.AddAsync(av_Perfil);
+                var perfilCreado = await _unitOfWork.Crm_Perfils.AddAsync(Crm_Perfil);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreatePerfilResponseDto responseDto = new CreatePerfilResponseDto
@@ -215,7 +215,7 @@ namespace GesMgmt.Application.Services.Perfil
             try
             {
                 // Actualizar los campos del perfil existente
-                av_Perfil av_Perfil = new av_Perfil()
+                Crm_Perfil Crm_Perfil = new Crm_Perfil()
                 {
                     nid_perfil = perfilEditDto.nid_perfil,
                     per_Fecha = perfilEditDto.per_Fecha,
@@ -231,7 +231,7 @@ namespace GesMgmt.Application.Services.Perfil
                     nId_TipoGestion = perfilEditDto.nId_TipoGestion,
                     bvisualiza_deudorhistoria = perfilEditDto.bvisualiza_deudorhistoria
                 };
-                var perfilExistente = await _unitOfWork.av_Perfils.UpdateAsync(av_Perfil);
+                var perfilExistente = await _unitOfWork.Crm_Perfils.UpdateAsync(Crm_Perfil);
                 await _unitOfWork.SaveChangesAsync();
                 EditPerfilResponseDto responseDto = new EditPerfilResponseDto
                 {

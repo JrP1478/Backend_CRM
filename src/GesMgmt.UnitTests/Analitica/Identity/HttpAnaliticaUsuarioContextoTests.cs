@@ -10,7 +10,7 @@ namespace GesMgmt.UnitTests.Analitica.Identity;
 public sealed class HttpAnaliticaUsuarioContextoTests
 {
     [Theory]
-    [InlineData("sisges_user_id")]
+    [InlineData("crm_user_id")]
     [InlineData("user_id")]
     [InlineData(ClaimTypes.NameIdentifier)]
     public void TryGetUserId_ReadsSupportedClaimFromAuthenticatedIdentity(string claimType)
@@ -32,10 +32,10 @@ public sealed class HttpAnaliticaUsuarioContextoTests
     }
 
     [Fact]
-    public void TryGetUserId_ReadsSisgesHeader()
+    public void TryGetUserId_ReadsCrmHeader()
     {
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers["X-Sisges-User-Id"] = "16068";
+        httpContext.Request.Headers["X-Crm-User-Id"] = "16068";
         var accessor = new HttpContextAccessor { HttpContext = httpContext };
         var context = CreateContext(accessor, Environments.Development);
 
@@ -46,10 +46,10 @@ public sealed class HttpAnaliticaUsuarioContextoTests
     }
 
     [Fact]
-    public void TryGetUserId_ReadsSisgesHeaderOutsideDevelopment()
+    public void TryGetUserId_ReadsCrmHeaderOutsideDevelopment()
     {
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers["X-Sisges-User-Id"] = "16068";
+        httpContext.Request.Headers["X-Crm-User-Id"] = "16068";
         var accessor = new HttpContextAccessor { HttpContext = httpContext };
         var context = CreateContext(accessor, Environments.Production);
 
@@ -60,7 +60,7 @@ public sealed class HttpAnaliticaUsuarioContextoTests
     }
 
     [Theory]
-    [InlineData("sisges_group_id")]
+    [InlineData("crm_group_id")]
     [InlineData("group_id")]
     public void TryGetGroupId_ReadsSupportedClaimFromAuthenticatedIdentity(string claimType)
     {
@@ -81,10 +81,10 @@ public sealed class HttpAnaliticaUsuarioContextoTests
     }
 
     [Fact]
-    public void TryGetGroupId_ReadsSisgesHeader()
+    public void TryGetGroupId_ReadsCrmHeader()
     {
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers["X-Sisges-Group-Id"] = "156";
+        httpContext.Request.Headers["X-Crm-Group-Id"] = "156";
         var accessor = new HttpContextAccessor { HttpContext = httpContext };
         var context = CreateContext(accessor, Environments.Development);
 
@@ -95,10 +95,10 @@ public sealed class HttpAnaliticaUsuarioContextoTests
     }
 
     [Fact]
-    public void TryGetGroupId_ReadsSisgesHeaderOutsideDevelopment()
+    public void TryGetGroupId_ReadsCrmHeaderOutsideDevelopment()
     {
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers["X-Sisges-Group-Id"] = "156";
+        httpContext.Request.Headers["X-Crm-Group-Id"] = "156";
         var accessor = new HttpContextAccessor { HttpContext = httpContext };
         var context = CreateContext(accessor, Environments.Production);
 
@@ -112,7 +112,7 @@ public sealed class HttpAnaliticaUsuarioContextoTests
         var httpContext = new DefaultHttpContext
         {
             User = new ClaimsPrincipal(
-                new ClaimsIdentity([new Claim("sisges_user_id", "16068")]))
+                new ClaimsIdentity([new Claim("crm_user_id", "16068")]))
         };
         var accessor = new HttpContextAccessor { HttpContext = httpContext };
         var context = CreateContext(accessor, Environments.Production);

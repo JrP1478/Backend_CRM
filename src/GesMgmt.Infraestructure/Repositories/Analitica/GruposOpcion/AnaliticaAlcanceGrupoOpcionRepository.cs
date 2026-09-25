@@ -28,8 +28,8 @@ internal sealed class AnaliticaAlcanceGrupoOpcionRepository(
             .Where(scope =>
                 scope.IdOpcion == idOpcion &&
                 scope.EsActivo)
-            .OrderBy(scope => scope.IdGrupoSisges)
-            .Select(scope => scope.IdGrupoSisges)
+            .OrderBy(scope => scope.IdGrupoCrm)
+            .Select(scope => scope.IdGrupoCrm)
             .ToArrayAsync(cancellationToken);
 
     public async Task<IReadOnlyList<AlcanceOpcionGrupoAnalitica>> ObtenerAlcancesAsync(
@@ -51,11 +51,11 @@ internal sealed class AnaliticaAlcanceGrupoOpcionRepository(
             .AsNoTracking()
             .Where(scope => normalizedOptionIds.Contains(scope.IdOpcion))
             .OrderBy(scope => scope.IdOpcion)
-            .ThenBy(scope => scope.IdGrupoSisges)
+            .ThenBy(scope => scope.IdGrupoCrm)
             .Select(scope => new AlcanceOpcionGrupoAnalitica
             {
                 IdOpcion = scope.IdOpcion,
-                IdGrupoSisges = scope.IdGrupoSisges,
+                IdGrupoCrm = scope.IdGrupoCrm,
                 EsActivo = scope.EsActivo
             })
             .ToArrayAsync(cancellationToken);
@@ -83,12 +83,12 @@ internal sealed class AnaliticaAlcanceGrupoOpcionRepository(
 
         foreach (var scope in existingScopes)
         {
-            if (requestedGroupIds.Contains(scope.IdGrupoSisges))
+            if (requestedGroupIds.Contains(scope.IdGrupoCrm))
             {
                 scope.EsActivo = true;
                 scope.ActualizadoPor = idUsuario;
                 scope.FechaActualizacion = now;
-                requestedGroupIds.Remove(scope.IdGrupoSisges);
+                requestedGroupIds.Remove(scope.IdGrupoCrm);
                 continue;
             }
 
@@ -108,7 +108,7 @@ internal sealed class AnaliticaAlcanceGrupoOpcionRepository(
                 new AlcanceOpcionGrupoAnalitica
                 {
                     IdOpcion = idOpcion,
-                    IdGrupoSisges = idGrupo,
+                    IdGrupoCrm = idGrupo,
                     EsActivo = true,
                     CreadoPor = idUsuario,
                     FechaCreacion = now,

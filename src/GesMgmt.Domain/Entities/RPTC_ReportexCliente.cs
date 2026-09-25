@@ -5,7 +5,7 @@ namespace GesMgmt.Domain.Entities
     {
         public int nId_Reporte { get; set; }
         public int nId_Cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
         public string cRep_NombreRep { get; set; }
         public string? cRep_StoreProc { get; set; }
         public bool? bestado { get; set; }

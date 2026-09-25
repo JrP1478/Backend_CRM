@@ -14,7 +14,7 @@ namespace GesMgmt.Infraestructure.Configurations
             builder.ToTable("RPTC_ReportexCliente", "dbo");
             builder.HasKey(dc => dc.nId_Reporte);
 
-            builder.HasOne(car => car.av_Cliente)
+            builder.HasOne(car => car.Crm_Cliente)
                 .WithMany()
                 .HasForeignKey(car => car.nId_Cliente);
         }

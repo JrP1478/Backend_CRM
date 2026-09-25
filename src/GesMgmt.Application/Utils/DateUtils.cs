@@ -15,7 +15,7 @@ namespace GesMgmt.Application.Utils
                 return null;
             }
 
-            string[] formats = 
+            string[] formats =
             {
                 "yyyy-MM-dd HH:mm:ss.fff",
                 "yyyy-MM-dd HH:mm:ss",

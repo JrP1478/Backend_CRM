@@ -6,7 +6,7 @@ namespace GesMgmt.Infraestructure.Repositories.Analitica.CentroControlCartera;
 
 internal static class EvolucionCarteraEfConsulta
 {
-    private const int IdClienteCrmMaf = 59;
+    private const int IdClienteCrmClienteB = 59;
     public static async Task<EvolucionCarteraContexto?> ResolverContextoAsync(
         AnaliticaDbContext context,
         int idClienteCrm,
@@ -142,7 +142,7 @@ internal static class EvolucionCarteraEfConsulta
 
         var usarEvolucionCampana = idSubCartera is null
             && (unidadNegocio is null
-                || await EsClienteMafAsync(
+                || await EsClienteClienteBAsync(
                     context,
                     claveCliente,
                     cancellationToken));
@@ -338,7 +338,7 @@ internal static class EvolucionCarteraEfConsulta
                 cancellationToken);
     }
 
-    private static Task<bool> EsClienteMafAsync(
+    private static Task<bool> EsClienteClienteBAsync(
         AnaliticaDbContext context,
         int claveCliente,
         CancellationToken cancellationToken) =>
@@ -347,7 +347,7 @@ internal static class EvolucionCarteraEfConsulta
             .AnyAsync(
                 client =>
                     client.ClaveCliente == claveCliente
-                    && client.IdClienteCrm == IdClienteCrmMaf,
+                    && client.IdClienteCrm == IdClienteCrmClienteB,
                 cancellationToken);
 
     private static decimal RedondearMonto(decimal value) =>

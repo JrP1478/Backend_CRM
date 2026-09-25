@@ -15,7 +15,7 @@ public static class AnaliticaConfiguracionReporteClienteResolver
         IReadOnlyList<AnaliticaCatalogoReporteClienteItem> catalogItems,
         IReadOnlyList<AnaliticaAlcanceReporteClienteMapeo> scopeMappings,
         IReadOnlyList<AnaliticaIncrustacionReporteClienteAdministracionMapeo> publicaciones,
-        IReadOnlyList<SisgesGrupoCliente> clientGroups,
+        IReadOnlyList<CrmGrupoCliente> clientGroups,
         bool allowPublishToWeb = true)
     {
         var liveKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -68,7 +68,7 @@ public static class AnaliticaConfiguracionReporteClienteResolver
         var explicitGroupsByKey = scopeMappings
             .Where(mapping =>
                 mapping.IdClienteCrm > 0 &&
-                mapping.IdGrupoSisges > 0 &&
+                mapping.IdGrupoCrm > 0 &&
                 !string.IsNullOrWhiteSpace(mapping.ClienteReporte))
             .GroupBy(
                 mapping => ConstruirClave(mapping.IdClienteCrm, mapping.ClienteReporte),
@@ -76,7 +76,7 @@ public static class AnaliticaConfiguracionReporteClienteResolver
             .ToDictionary(
                 group => group.Key,
                 group => (IReadOnlyList<int>)group
-                    .Select(mapping => mapping.IdGrupoSisges)
+                    .Select(mapping => mapping.IdGrupoCrm)
                     .Distinct()
                     .OrderBy(idGrupo => idGrupo)
                     .ToArray(),

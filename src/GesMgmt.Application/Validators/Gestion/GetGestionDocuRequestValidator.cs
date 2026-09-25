@@ -15,7 +15,7 @@ namespace GesMgmt.Application.Validators.Gestion
             private GetGestionDocumentoRequestDto _requestDto;
 
             public GetGestionDocuRequestValidator(
-                IUnitOfWork unitOfWork, 
+                IUnitOfWork unitOfWork,
                 IValidationMessageService validationMessageService,
                 GetGestionDocumentoRequestDto requestDto)
             {

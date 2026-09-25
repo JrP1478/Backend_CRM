@@ -31,12 +31,12 @@ internal sealed class AnaliticaAlcanceReporteClienteRepository(
                 scope.EsActivo)
             .OrderBy(scope => scope.ClienteReporte)
             .ThenBy(scope => scope.IdClienteCrm)
-            .ThenBy(scope => scope.IdGrupoSisges)
+            .ThenBy(scope => scope.IdGrupoCrm)
             .Select(scope => new AnaliticaAlcanceReporteClienteMapeo
             {
                 IdClienteCrm = scope.IdClienteCrm,
                 ClienteReporte = scope.ClienteReporte,
-                IdGrupoSisges = scope.IdGrupoSisges
+                IdGrupoCrm = scope.IdGrupoCrm
             })
             .ToArrayAsync(cancellationToken);
 
@@ -104,7 +104,7 @@ internal sealed class AnaliticaAlcanceReporteClienteRepository(
         foreach (var idGrupo in normalizedGroupIds)
         {
             var scope = existingScopes.FirstOrDefault(
-                item => item.IdGrupoSisges == idGrupo);
+                item => item.IdGrupoCrm == idGrupo);
 
             if (scope is null)
             {
@@ -114,7 +114,7 @@ internal sealed class AnaliticaAlcanceReporteClienteRepository(
                         IdOpcion = idOpcion,
                         IdClienteCrm = idClienteCrm,
                         ClienteReporte = normalizedName,
-                        IdGrupoSisges = idGrupo,
+                        IdGrupoCrm = idGrupo,
                         EsActivo = true,
                         CreadoPor = actualizadoPor,
                         FechaCreacion = now,

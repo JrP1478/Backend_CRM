@@ -1,4 +1,6 @@
-# API.BS.GestionManagement
+# Backend.CRM
+
+> **Repositorio anonimizado para portafolio.** Los nombres de empresa, clientes, servidores, bases de datos y metadatos de despliegue del entorno original fueron sustituidos por valores genéricos. No se incluyen credenciales ni configuración de producción.
 
 Backend .NET 10 de Gestión. Analytics está integrado en el mismo host ASP.NET Core y
 respeta las capas existentes: `GesMgmt.Domain`, `GesMgmt.Application`,
@@ -16,8 +18,8 @@ respeta las capas existentes: `GesMgmt.Domain`, `GesMgmt.Application`,
 
 El backend usa un único patrón de acceso a datos: Entity Framework Core.
 
-- `AvalDbContext` usa `ConnectionStrings:AvalCobConnection` para `aval_cob`.
-- `AnalyticsDbContext` usa `ConnectionStrings:AvalAnalyticsConnection` para `aval_analytics`.
+- `CrmDbContext` usa `ConnectionStrings:CrmCobConnection` para `crm_cob`.
+- `AnalyticsDbContext` usa `ConnectionStrings:CrmAnalyticsConnection` para `crm_analytics`.
 - Los repositories de Analytics no usan Dapper ni ejecutores SQL paralelos.
 - Los repositories Analytics no forman parte del `IUnitOfWork` legacy porque trabajan con
   un `DbContext` y una base de datos distintos.
@@ -33,8 +35,8 @@ por lo que no se modelan con una clave ficticia.
 ```json
 {
   "ConnectionStrings": {
-    "AvalCobConnection": "...",
-    "AvalAnalyticsConnection": "..."
+    "CrmCobConnection": "...",
+    "CrmAnalyticsConnection": "..."
   }
 }
 ```
@@ -47,15 +49,15 @@ defecto es 15 segundos y el rango permitido es 1-120.
 
 ## Ejecución local en Windows
 
-Abra `API.BS.GestionManagement.slnx` con Visual Studio Community 2026, establezca
+Abra `Backend.CRM.slnx` con Visual Studio Community 2026, establezca
 `GesMgmt.WebAPI` como Startup Project, seleccione el perfil `https` y ejecute Rebuild Solution.
 El perfil HTTPS usa `https://localhost:7143`.
 
 También puede validar desde PowerShell:
 
 ```powershell
-dotnet restore .\API.BS.GestionManagement.slnx
-dotnet build .\API.BS.GestionManagement.slnx
+dotnet restore .\Backend.CRM.slnx
+dotnet build .\Backend.CRM.slnx
 dotnet test .\src\GesMgmt.UnitTests\GesMgmt.UnitTests.csproj
 ```
 

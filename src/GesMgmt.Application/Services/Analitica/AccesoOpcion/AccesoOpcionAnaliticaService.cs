@@ -9,7 +9,7 @@ using GesMgmt.Domain.Interfaces.Analitica;
 namespace GesMgmt.Application.Services.Analitica;
 
 public sealed class AccesoOpcionAnaliticaService(
-    ISisgesGrupoUsuarioRepository userGroups,
+    ICrmGrupoUsuarioRepository userGroups,
     IAnaliticaAlcanceGrupoOpcionRepository optionGroups,
     IAccesoAnaliticaService clientAccessService)
     : IAccesoOpcionAnaliticaService
@@ -70,7 +70,7 @@ public sealed class AccesoOpcionAnaliticaService(
             .GroupBy(scope => scope.IdOpcion)
             .ToDictionary(group => group.Key, group => group.ToArray());
 
-        // SISGES remains the source of truth. Read the user's active grupos
+        // CRM remains the source of truth. Read the user's active grupos
         // once for this resolution batch and share that request-scoped snapshot
         // across every requested option. Nothing is cached between requests.
         var activeUserGroupsTask = userGroups.ObtenerIdsGruposActivosAsync(
@@ -103,7 +103,7 @@ public sealed class AccesoOpcionAnaliticaService(
                 var matchedGroupIds = NormalizarIds(
                         optionScopes
                             .Where(scope => scope.EsActivo)
-                            .Select(scope => scope.IdGrupoSisges))
+                            .Select(scope => scope.IdGrupoCrm))
                     .Where(activeUserGroupSet.Contains)
                     .ToArray();
 

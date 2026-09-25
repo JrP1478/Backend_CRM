@@ -10,7 +10,7 @@ using GesMgmt.Domain.Interfaces.Analitica.SesionesPowerBi;
 namespace GesMgmt.Application.Services.Analitica.SesionesPowerBi;
 
 public sealed class ConsultaSesionesPowerBiService(
-    ISisgesOpcionPermisoRepository permisoRepository,
+    ICrmOpcionPermisoRepository permisoRepository,
     IConfiguracionReporteClienteAnaliticaService configuracionReporteClienteService,
     IConsultaSesionesPowerBiRepository repository)
     : IConsultaSesionesPowerBiService
@@ -48,14 +48,14 @@ public sealed class ConsultaSesionesPowerBiService(
     {
         if (idUsuario <= 0)
         {
-            return Invalida("No se pudo identificar al usuario SISGES.");
+            return Invalida("No se pudo identificar al usuario CRM.");
         }
 
         var permitido = await permisoRepository.TienePermisoAsync(
             idUsuario,
             idGrupo,
-            SisgesCodigosOpcion.SesionesBi,
-            SisgesOptionPermission.Consult,
+            CrmCodigosOpcion.SesionesBi,
+            CrmOptionPermission.Consult,
             cancellationToken);
 
         if (!permitido)
@@ -166,7 +166,7 @@ public sealed class ConsultaSesionesPowerBiService(
     {
         if (idUsuario <= 0)
         {
-            return DetalleInvalido("No se pudo identificar al usuario SISGES.");
+            return DetalleInvalido("No se pudo identificar al usuario CRM.");
         }
 
         if (idSesion == Guid.Empty)
@@ -177,8 +177,8 @@ public sealed class ConsultaSesionesPowerBiService(
         var permitido = await permisoRepository.TienePermisoAsync(
             idUsuario,
             idGrupo,
-            SisgesCodigosOpcion.SesionesBi,
-            SisgesOptionPermission.Consult,
+            CrmCodigosOpcion.SesionesBi,
+            CrmOptionPermission.Consult,
             cancellationToken);
 
         if (!permitido)

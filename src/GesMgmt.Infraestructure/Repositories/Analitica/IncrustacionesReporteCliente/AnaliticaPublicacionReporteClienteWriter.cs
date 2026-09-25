@@ -96,7 +96,7 @@ internal sealed class AnaliticaPublicacionReporteClienteWriter(
         foreach (var idGrupo in publication.IdsGrupos!)
         {
             var scope = existingScopes.FirstOrDefault(
-                item => item.IdGrupoSisges == idGrupo);
+                item => item.IdGrupoCrm == idGrupo);
 
             if (scope is null)
             {
@@ -106,7 +106,7 @@ internal sealed class AnaliticaPublicacionReporteClienteWriter(
                         IdOpcion = idOpcion,
                         IdClienteCrm = publication.IdCliente,
                         ClienteReporte = publication.Nombre,
-                        IdGrupoSisges = idGrupo,
+                        IdGrupoCrm = idGrupo,
                         EsActivo = true,
                         CreadoPor = actualizadoPor,
                         FechaCreacion = now,

@@ -62,17 +62,17 @@ namespace GesMgmt.Application.Validators.Usuario
             string strFechaActual = DateTime.Now.ToString("dd/MM/yyyy");
 
             int nDiasRetomarClave = 0;
-            nDiasRetomarClave = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_RETOMAR_CLAVE)).cValor);
+            nDiasRetomarClave = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.SEGURIDAD_ACCESO, Const.DIAS_RETOMAR_CLAVE)).cValor);
 
             strFechaDesde = AumentarFecha(strFechaActual, nDiasRetomarClave * 24 * 60 * 60 * -1); /*negativo*/
 
-            var q_PassHis = await _unitOfWork.av_PasswordHiss.ByClavePorFechaAsync(_requestDto.nId_Usuario, PassNueva_claveCifrada, Convert.ToDateTime(strFechaDesde));
+            var q_PassHis = await _unitOfWork.Crm_PasswordHiss.ByClavePorFechaAsync(_requestDto.nId_Usuario, PassNueva_claveCifrada, Convert.ToDateTime(strFechaDesde));
             if (q_PassHis != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.CLAVE_YA_UTILIZADA, "ESP");
                 return ResultDto<ResetearUsuarioResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
-            
+
             //obtener longitud minima y maxima de la clave desde la tabla de parametros
             int maximaLargo = 0;
             int minimaEspecial = 0;
@@ -80,11 +80,11 @@ namespace GesMgmt.Application.Validators.Usuario
             int minimaLetra = 0;
             int minimaNumerico = 0;
 
-            minimaLargo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MINIMA)).cValor);
-            maximaLargo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MAXIMA)).cValor);
-            minimaEspecial = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_ESPECIAL)).cValor);
-            minimaLetra = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_LETRA)).cValor);
-            minimaNumerico = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_NUMERO)).cValor);
+            minimaLargo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MINIMA)).cValor);
+            maximaLargo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MAXIMA)).cValor);
+            minimaEspecial = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_ESPECIAL)).cValor);
+            minimaLetra = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_LETRA)).cValor);
+            minimaNumerico = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_NUMERO)).cValor);
 
             if (!ValidarFormatoPassword(_requestDto.cUsr_PassNueva, minimaNumerico, minimaLetra, minimaEspecial, minimaLargo, maximaLargo))
             {

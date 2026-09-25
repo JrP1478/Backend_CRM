@@ -89,7 +89,7 @@ public sealed class SesionPowerBiAnaliticaService(
 
         if (snapshot is null)
         {
-            return NoEncontrado("No se pudo resolver el usuario o el reporte en SISGES.");
+            return NoEncontrado("No se pudo resolver el usuario o el reporte en CRM.");
         }
 
         var ahoraUtc = DateTime.UtcNow;

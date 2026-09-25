@@ -14,7 +14,7 @@ namespace GesMgmt.Application.Validators.Opcion
         private readonly IValidationMessageService _validationMessageService;
         private ValidationMessageDto _oValMsgDto;
         private EditOpcionRequestDto _requestDto;
-        public av_Opcion option;
+        public Crm_Opcion option;
 
         public EditOpcionRequestValidator(
             IUnitOfWork unitOfWork,
@@ -31,7 +31,7 @@ namespace GesMgmt.Application.Validators.Opcion
         {
             #region Default
             var validationIdOpcion = await ValidateIdOpcion();
-            if (validationIdOpcion.Code != Const.SUCCESS_CODE) 
+            if (validationIdOpcion.Code != Const.SUCCESS_CODE)
             {
                 return validationIdOpcion;
             }
@@ -71,7 +71,7 @@ namespace GesMgmt.Application.Validators.Opcion
 
         private async Task<ResultDto<EditOpcionResponseDto>> ValidateIdOpcion()
         {
-            option = await _unitOfWork.av_Opcions.ByIdAsync(_requestDto.nId_Opcion);
+            option = await _unitOfWork.Crm_Opcions.ByIdAsync(_requestDto.nId_Opcion);
             if (option == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");

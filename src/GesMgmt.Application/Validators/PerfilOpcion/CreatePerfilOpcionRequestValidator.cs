@@ -57,14 +57,14 @@ namespace GesMgmt.Application.Validators.PerfilOpcion
 
         private async Task<ResultDto<CreatePerfilOpcionResponseDto>> ValidatePerfil()
         {
-            if (_requestDto.nId_Perfil == null) 
+            if (_requestDto.nId_Perfil == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.PERFIL_CODIGO_NO_EXISTE, "ESP");
                 return ResultDto<CreatePerfilOpcionResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var perfil = await _unitOfWork.av_Perfils.ByIdAsync(_requestDto.nId_Perfil);
-            if (perfil == null) 
+            var perfil = await _unitOfWork.Crm_Perfils.ByIdAsync(_requestDto.nId_Perfil);
+            if (perfil == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.PERFIL_CODIGO_NO_EXISTE, "ESP");
                 return ResultDto<CreatePerfilOpcionResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
@@ -80,7 +80,7 @@ namespace GesMgmt.Application.Validators.PerfilOpcion
                 return ResultDto<CreatePerfilOpcionResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var opcion = await _unitOfWork.av_Opcions.ByIdAsync(_requestDto.nId_Opcion);
+            var opcion = await _unitOfWork.Crm_Opcions.ByIdAsync(_requestDto.nId_Opcion);
             if (opcion == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");
@@ -97,7 +97,7 @@ namespace GesMgmt.Application.Validators.PerfilOpcion
                 return ResultDto<CreatePerfilOpcionResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var usuario = await _unitOfWork.av_Usuarios.GetByIdAsync(_requestDto.nCrea);
+            var usuario = await _unitOfWork.Crm_Usuarios.GetByIdAsync(_requestDto.nCrea);
             if (usuario == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.USUARIO_LOGIN_NO_EXIST, "ESP");
@@ -110,7 +110,7 @@ namespace GesMgmt.Application.Validators.PerfilOpcion
         {
             if (_requestDto.nId_Perfil > 0 && _requestDto.nId_Opcion > 0)
             {
-                var perfilOpcion = await _unitOfWork.av_PerfilOpcions.GetPerfilOpcionIdAsync(_requestDto.nId_Perfil, _requestDto.nId_Opcion);
+                var perfilOpcion = await _unitOfWork.Crm_PerfilOpcions.GetPerfilOpcionIdAsync(_requestDto.nId_Perfil, _requestDto.nId_Opcion);
                 if (perfilOpcion != null)
                 {
                     _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.PERFIL_OPCION_ID_NO_EXISTE, "ESP");

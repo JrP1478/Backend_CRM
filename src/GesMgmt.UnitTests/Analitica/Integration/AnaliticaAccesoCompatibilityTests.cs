@@ -27,11 +27,11 @@ public sealed class AnaliticaAccesoCompatibilityTests
     }
 
     [Fact]
-    public async Task SisgesHeader_AuthenticatesConsolidatedHost()
+    public async Task CrmHeader_AuthenticatesConsolidatedHost()
     {
         await using var factory = CreateHeaderAuthenticatedFactory();
         using var client = factory.CreateClient();
-        client.DefaultRequestHeaders.Add("X-Sisges-User-Id", "16068");
+        client.DefaultRequestHeaders.Add("X-Crm-User-Id", "16068");
 
         var response = await client.GetAsync("/v1/Analitica/Acceso/Usuario/Opciones");
 

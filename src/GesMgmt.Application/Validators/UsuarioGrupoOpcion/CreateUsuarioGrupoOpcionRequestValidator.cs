@@ -68,7 +68,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
                 return ResultDto<PostUsuarioGrupoOpcionCrearResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var usuario = await _unitOfWork.av_Usuarios.GetByIdAsync(_requestDto.nId_Usuario);
+            var usuario = await _unitOfWork.Crm_Usuarios.GetByIdAsync(_requestDto.nId_Usuario);
             if (usuario == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.USUARIO_LOGIN_NO_EXIST, "ESP");
@@ -94,7 +94,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GRUPO_ID_NO_EXISTENTE, "ESP");
                 return ResultDto<PostUsuarioGrupoOpcionCrearResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
-            var q_grupo = await _unitOfWork.av_Grupos.ByIdAsync(_requestDto.nId_Grupo);
+            var q_grupo = await _unitOfWork.Crm_Grupos.ByIdAsync(_requestDto.nId_Grupo);
             if (q_grupo == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GRUPO_ID_NO_EXISTENTE, "ESP");
@@ -121,7 +121,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");
                 return ResultDto<PostUsuarioGrupoOpcionCrearResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
-            var q_opcion = await _unitOfWork.av_Opcions.ByIdAsync(_requestDto.nId_Opcion);
+            var q_opcion = await _unitOfWork.Crm_Opcions.ByIdAsync(_requestDto.nId_Opcion);
             if (q_opcion == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");

@@ -34,7 +34,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public int nId_Cartera { get; set; }
         }
 
-        public class GetGestionEstadoGestionClaroRequestDto
+        public class GetGestionEstadoGestionClienteARequestDto
         {
             public int nId_Cliente { get; set; }
             public int nId_Cartera { get; set; }
@@ -84,7 +84,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public string? cMINUTOGESTION { get; set; }
             public string? cOBSERVACION { get; set; }
             public string? cSISTEMA { get; set; }
-            public int? nESTADOGESTIONCLARO { get; set; }
+            public int? nESTADOGESTIONCLIENTE_A { get; set; }
             public int? nMOTIVONOPAGO { get; set; }
             public DateTime? dFechaInicioGestion { get; set; }
             public DateTime? dFechaFinGestion { get; set; }
@@ -106,7 +106,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public int? nNP0 { get; set; }
             public int? nNP1 { get; set; }
             public int? nNP2 { get; set; }
-            public int? nESTADOGESTION {  get; set; } 
+            public int? nESTADOGESTION {  get; set; }
             public string cTELEFONO { get; set; }
             public int? nTIPOGESTION { get; set; }
             public int? nASIGNARGESTOR { get; set; }
@@ -121,7 +121,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public string? cMINUTOGESTION { get; set; }
             public string? cOBSERVACION { get; set; }
             public string? cSISTEMA { get; set; }
-            public int? nESTADOGESTIONCLARO { get; set; }
+            public int? nESTADOGESTIONCLIENTE_A { get; set; }
             public int? nMOTIVONOPAGO { get; set; }
             public DateTime? dFechaInicioGestion { get; set; }
             public DateTime? dFechaFinGestion { get; set; }
@@ -175,7 +175,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public int nId_Cartera { get; set; }
         }
 
-        
+
 
         public class GetGestionGestionesCarteraDeudorRequestDto
         {
@@ -236,7 +236,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public int nId_Persdeudor { get; set; } //ID_DEUDOR
         }
 
-        
+
 
         public class GetGestionCabeceraRequestDto
         {

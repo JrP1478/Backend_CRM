@@ -27,7 +27,7 @@ namespace GesMgmt.Application.Services.Cartera
         {
             try
             {
-                var q_carteraAnio = await _unitOfWork.av_Carteras.GetCarterasByIdClienteAsync(nId_Cliente);
+                var q_carteraAnio = await _unitOfWork.Crm_Carteras.GetCarterasByIdClienteAsync(nId_Cliente);
 
                 var data = await (
                                 from ca in q_carteraAnio
@@ -54,7 +54,7 @@ namespace GesMgmt.Application.Services.Cartera
         {
             try
             {
-                var query = await _unitOfWork.av_Carteras.Query();
+                var query = await _unitOfWork.Crm_Carteras.Query();
 
                 // Primero obtenemos las campañas del cliente y año
                 var carteras = await query

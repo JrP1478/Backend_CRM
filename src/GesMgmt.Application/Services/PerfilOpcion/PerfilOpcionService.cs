@@ -28,8 +28,8 @@ namespace GesMgmt.Application.Services.PerfilOpcion
         {
             try
             {
-                var q_perOpc = await _unitOfWork.av_PerfilOpcions.Query();
-                var q_per = await _unitOfWork.av_Perfils.Query();
+                var q_perOpc = await _unitOfWork.Crm_PerfilOpcions.Query();
+                var q_per = await _unitOfWork.Crm_Perfils.Query();
 
                 var data = (
                 from po in q_perOpc
@@ -65,7 +65,7 @@ namespace GesMgmt.Application.Services.PerfilOpcion
         {
             try
             {
-                var q_perOpc = await _unitOfWork.av_PerfilOpcions.GetOpcionesByIdPerfilAsync(nId_Perfil);
+                var q_perOpc = await _unitOfWork.Crm_PerfilOpcions.GetOpcionesByIdPerfilAsync(nId_Perfil);
                 var data = (
                     from po in q_perOpc
                     orderby po.nId_Perfil
@@ -114,7 +114,7 @@ namespace GesMgmt.Application.Services.PerfilOpcion
 
             try
             {
-                av_PerfilOpcion av_PerfilOpcion = new av_PerfilOpcion
+                Crm_PerfilOpcion Crm_PerfilOpcion = new Crm_PerfilOpcion
                 {
                     nId_Perfil = perfilOpcionCreateDto.nId_Perfil,
                     nId_Opcion = perfilOpcionCreateDto.nId_Opcion,
@@ -127,7 +127,7 @@ namespace GesMgmt.Application.Services.PerfilOpcion
                     nCrea = perfilOpcionCreateDto.nCrea,
                     dFechaCrea = perfilOpcionCreateDto.dFechaCrea
                 };
-                var perfilOpcionCreada = await _unitOfWork.av_PerfilOpcions.AddAsync(av_PerfilOpcion);
+                var perfilOpcionCreada = await _unitOfWork.Crm_PerfilOpcions.AddAsync(Crm_PerfilOpcion);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreatePerfilOpcionResponseDto responseDto = new CreatePerfilOpcionResponseDto
@@ -171,7 +171,7 @@ namespace GesMgmt.Application.Services.PerfilOpcion
             try
             {
                 // Actualizar los campos de perfil opcion existente
-                av_PerfilOpcion av_PerfilOpcion = new av_PerfilOpcion
+                Crm_PerfilOpcion Crm_PerfilOpcion = new Crm_PerfilOpcion
                 {
                     nId_PerfilOpcion = perfilOpcionEditDto.nId_PerfilOpcion,
                     nId_Perfil = perfilOpcionEditDto.nId_Perfil,
@@ -187,7 +187,7 @@ namespace GesMgmt.Application.Services.PerfilOpcion
                     nModifica = perfilOpcionEditDto.nModifica,
                     dFechaModifica = perfilOpcionEditDto.dFechaModifica
                 };
-                var perfilOpcionEdit = await _unitOfWork.av_PerfilOpcions.UpdateAsync(av_PerfilOpcion);
+                var perfilOpcionEdit = await _unitOfWork.Crm_PerfilOpcions.UpdateAsync(Crm_PerfilOpcion);
                 await _unitOfWork.SaveChangesAsync();
 
                 EditPerfilOpcionResponseDto responseDto = new EditPerfilOpcionResponseDto

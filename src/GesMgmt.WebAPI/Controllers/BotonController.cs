@@ -26,7 +26,7 @@ namespace GesMgmt.WebAPI.Controllers
             _validationMessageService = validationMessageService;
             _oValMsgDto = new ValidationMessageDto();
             _Logger = logger;
-            _Logger.LogInfo("| ** API.BS.GestionManagement ** |");
+            _Logger.LogInfo("| ** Backend.CRM ** |");
         }
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace GesMgmt.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Lista de Reportar Casos: + REPORTAR CASO - CLIENTE MAF.
+        /// Lista de Reportar Casos: + REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </summary>
         /// <remarks>
-        /// Lista de Reportar Casos: + REPORTAR CASO - CLIENTE MAF.
+        /// Lista de Reportar Casos: + REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </remarks>
-        /// <response code="200">Lista de Reportar Casos: + REPORTAR CASO - CLIENTE MAF</response>
-        [SwaggerOperation(Summary = "[API]: Endpoint Lista de Reportar Casos: + REPORTAR CASO - CLIENTE MAF")]
+        /// <response code="200">Lista de Reportar Casos: + REPORTAR CASO - CLIENTE CLIENTE_B</response>
+        [SwaggerOperation(Summary = "[API]: Endpoint Lista de Reportar Casos: + REPORTAR CASO - CLIENTE CLIENTE_B")]
         [HttpGet("GetReportarCasos")]
         [ProducesResponseType(typeof(ResultListDto<IEnumerable<GetReportarCasosResponseDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultListDto<IEnumerable<GetReportarCasosResponseDto>>), StatusCodes.Status400BadRequest)]
@@ -70,13 +70,13 @@ namespace GesMgmt.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Obtiene el REPORTAR CASO - CLIENTE MAF.
+        /// Obtiene el REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </summary>
         /// <remarks>
-        /// Obtiene el REPORTAR CASO - CLIENTE MAF.
+        /// Obtiene el REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </remarks>
-        /// <response code="200">Obtiene el REPORTAR CASO - CLIENTE MAF.</response>
-        [SwaggerOperation(Summary = "[API]: Endpoint Obtiene el REPORTAR CASO - CLIENTE MAF")]
+        /// <response code="200">Obtiene el REPORTAR CASO - CLIENTE CLIENTE_B.</response>
+        [SwaggerOperation(Summary = "[API]: Endpoint Obtiene el REPORTAR CASO - CLIENTE CLIENTE_B")]
         [HttpGet("{nId_DocxCobrarOpeResult}")]
         [ProducesResponseType(typeof(ResultDto<GetReportarCasosByIdResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultDto<>), StatusCodes.Status400BadRequest)]
@@ -90,12 +90,12 @@ namespace GesMgmt.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Crear registro de REPORTAR CASO - CLIENTE MAF.
+        /// Crear registro de REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </summary>
         /// <remarks>
-        /// Crear registro de REPORTAR CASO - CLIENTE MAF.
+        /// Crear registro de REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </remarks>
-        /// <response code="200">Crear registro de REPORTAR CASO - CLIENTE MAF.</response>
+        /// <response code="200">Crear registro de REPORTAR CASO - CLIENTE CLIENTE_B.</response>
         [HttpPost]
         [ProducesResponseType(typeof(ResultDto<CreateReportarCasosResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultDto<>), StatusCodes.Status400BadRequest)]
@@ -109,12 +109,12 @@ namespace GesMgmt.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Editar registro de REPORTAR CASO - CLIENTE MAF.
+        /// Editar registro de REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </summary>
         /// <remarks>
-        /// Editar registro de REPORTAR CASO - CLIENTE MAF.
+        /// Editar registro de REPORTAR CASO - CLIENTE CLIENTE_B.
         /// </remarks>
-        /// <response code="200">Editar registro de REPORTAR CASO - CLIENTE MAF.</response>
+        /// <response code="200">Editar registro de REPORTAR CASO - CLIENTE CLIENTE_B.</response>
         [HttpPut]
         [ProducesResponseType(typeof(ResultDto<EditReportarCasosResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultDto<>), StatusCodes.Status400BadRequest)]

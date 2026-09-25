@@ -6,8 +6,8 @@ namespace GesMgmt.Infraestructure.Repositories.Analitica.CentroControlCartera;
 
 internal static class ResumenCarteraEfConsulta
 {
-    private const int IdClienteCrmMaf = 59;
-    private const string CodigoOrigenMaf = "MAF_DAILY";
+    private const int IdClienteCrmClienteB = 59;
+    private const string CodigoOrigenClienteB = "CLIENTE_B_DAILY";
 
     private static readonly string[] EstadosCumplidos =
     [
@@ -26,10 +26,10 @@ internal static class ResumenCarteraEfConsulta
 
     private static readonly string[] CodigosOrigenVigencia =
     [
-        "CLARO_INTRADAY_UPSTREAM",
+        "CLIENTE_A_INTRADAY_UPSTREAM",
         "GESTION_COB2_LIVE",
-        "CLARO_ADVISOR_DAILY",
-        "CLARO_PORTFOLIO_SNAPSHOT"
+        "CLIENTE_A_ADVISOR_DAILY",
+        "CLIENTE_A_PORTFOLIO_SNAPSHOT"
     ];
 
     public static async Task<ResumenCarteraDbFila> EjecutarAsync(
@@ -46,12 +46,12 @@ internal static class ResumenCarteraEfConsulta
             .AddDays(1)
             .ToDateTime(TimeOnly.MinValue);
 
-        var esMaf = await EsClienteMafAsync(
+        var esClienteB = await EsClienteClienteBAsync(
             context,
             claveCliente,
             cancellationToken);
 
-        var usarDeduplicacionCampana = esMaf && !idSubCartera.HasValue;
+        var usarDeduplicacionCampana = esClienteB && !idSubCartera.HasValue;
 
         var snapshot = await ObtenerCorteAsync(
             context,
@@ -109,7 +109,7 @@ internal static class ResumenCarteraEfConsulta
 
         var vigencia = await ObtenerVigenciaAsync(
             context,
-            esMaf,
+            esClienteB,
             cancellationToken);
 
         var fechaActualizacionUtc = new DateTime?[]
@@ -303,8 +303,8 @@ internal static class ResumenCarteraEfConsulta
                         && portfolio.UnidadNegocioOrigen == unidadNegocio))
             select fact;
 
-        // Los hechos detallados aún no persisten clave_cliente_maf.
-        // Deduplicar solo por IdDeudorOrigen fusiona clientes MAF distintos.
+        // Los hechos detallados aún no persisten clave_cliente_cliente_b.
+        // Deduplicar solo por IdDeudorOrigen fusiona clientes CLIENTE_B distintos.
         // Conservamos el grano físico hasta persistir la clave de negocio.
         var directContactClients = await contacts
             .Where(row => row.TuvoContactoDirecto)
@@ -428,23 +428,23 @@ internal static class ResumenCarteraEfConsulta
 
     private static async Task<MetricasVigencia> ObtenerVigenciaAsync(
         AnaliticaDbContext context,
-        bool esMaf,
+        bool esClienteB,
         CancellationToken cancellationToken)
     {
-        if (esMaf)
+        if (esClienteB)
         {
-            var watermarkMaf = await context.ControlesCargaAnalitica
+            var watermarkClienteB = await context.ControlesCargaAnalitica
                 .AsNoTracking()
-                .Where(row => row.CodigoOrigen == CodigoOrigenMaf)
+                .Where(row => row.CodigoOrigen == CodigoOrigenClienteB)
                 .OrderByDescending(row => row.FechaUltimoExito)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return watermarkMaf is null
+            return watermarkClienteB is null
                 ? new MetricasVigencia(null, null, null)
                 : new MetricasVigencia(
-                    watermarkMaf.FechaHoraUltimoOrigen,
-                    watermarkMaf.FechaUltimoExito,
-                    watermarkMaf.FechaUltimoExito);
+                    watermarkClienteB.FechaHoraUltimoOrigen,
+                    watermarkClienteB.FechaUltimoExito,
+                    watermarkClienteB.FechaUltimoExito);
         }
 
         var watermarks = await context.ControlesCargaAnalitica
@@ -453,13 +453,13 @@ internal static class ResumenCarteraEfConsulta
             .ToListAsync(cancellationToken);
 
         var intraday = watermarks
-            .Where(row => row.CodigoOrigen == "CLARO_INTRADAY_UPSTREAM")
+            .Where(row => row.CodigoOrigen == "CLIENTE_A_INTRADAY_UPSTREAM")
             .ToArray();
 
         var liveAndAdvisor = watermarks
             .Where(row =>
                 row.CodigoOrigen == "GESTION_COB2_LIVE"
-                || row.CodigoOrigen == "CLARO_ADVISOR_DAILY")
+                || row.CodigoOrigen == "CLIENTE_A_ADVISOR_DAILY")
             .ToArray();
 
         var fechaCorteOperacionLocal = intraday
@@ -470,7 +470,7 @@ internal static class ResumenCarteraEfConsulta
                 .Min();
 
         var fechaActualizacionBaseCarteraUtc = watermarks
-            .Where(row => row.CodigoOrigen == "CLARO_PORTFOLIO_SNAPSHOT")
+            .Where(row => row.CodigoOrigen == "CLIENTE_A_PORTFOLIO_SNAPSHOT")
             .Select(row => row.FechaUltimoExito)
             .Max();
 
@@ -487,7 +487,7 @@ internal static class ResumenCarteraEfConsulta
             fechaActualizacionDatosUtc);
     }
 
-    private static Task<bool> EsClienteMafAsync(
+    private static Task<bool> EsClienteClienteBAsync(
         AnaliticaDbContext context,
         int claveCliente,
         CancellationToken cancellationToken) =>
@@ -496,7 +496,7 @@ internal static class ResumenCarteraEfConsulta
             .AnyAsync(
                 client =>
                     client.ClaveCliente == claveCliente
-                    && client.IdClienteCrm == IdClienteCrmMaf,
+                    && client.IdClienteCrm == IdClienteCrmClienteB,
                 cancellationToken);
 
     private static decimal? Dividir(long numerator, long denominator)

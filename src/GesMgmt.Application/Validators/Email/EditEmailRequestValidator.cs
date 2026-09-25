@@ -60,7 +60,7 @@ namespace GesMgmt.Application.Validators.Email
 
         private async Task<ResultDto<EditEmailResponseDto>> ValidateEmail()
         {
-            //cPers_Email - SISGES: Correo
+            //cPers_Email - CRM: Correo
             if (string.IsNullOrEmpty(_requestDto.cPers_Email))
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.EMAIL_LENGTH_ZERO, "ESP");
@@ -84,7 +84,7 @@ namespace GesMgmt.Application.Validators.Email
 
         private async Task<ResultDto<EditEmailResponseDto>> ValidateEstado()
         {
-            //nId_Departamento - SISGES: Estado
+            //nId_Departamento - CRM: Estado
             if (_requestDto.bEstado == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.EMAIL_LENGTH_ZERO_STATE, "ESP");
@@ -96,7 +96,7 @@ namespace GesMgmt.Application.Validators.Email
 
         private async Task<ResultDto<EditEmailResponseDto>> ValidateStatus()
         {
-            //nId_Departamento - SISGES: Status
+            //nId_Departamento - CRM: Status
             if (_requestDto.nId_PersEmailOpe == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.EMAIL_LENGTH_ZERO_STATUS, "ESP");
@@ -114,7 +114,7 @@ namespace GesMgmt.Application.Validators.Email
 
         private async Task<ResultDto<EditEmailResponseDto>> ValidateEstadoAndStatus()
         {
-            //nId_Departamento - SISGES: Status
+            //nId_Departamento - CRM: Status
             if (_requestDto.bEstado == true && _requestDto.nId_PersEmailOpe != 1)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.EMAIL_STATE_STATUS_01, "ESP");

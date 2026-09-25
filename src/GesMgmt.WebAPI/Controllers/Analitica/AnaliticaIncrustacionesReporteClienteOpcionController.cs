@@ -27,7 +27,7 @@ public sealed class AnaliticaIncrustacionesReporteClienteOpcionController(
         var administrator = await RequerirAdministradorAsync(
             userContext,
             authorizationService,
-            SisgesOptionPermission.Consult,
+            CrmOptionPermission.Consult,
             cancellationToken);
 
         if (administrator.Error is not null)
@@ -59,7 +59,7 @@ public sealed class AnaliticaIncrustacionesReporteClienteOpcionController(
         var administrator = await RequerirAdministradorAsync(
             userContext,
             authorizationService,
-            SisgesOptionPermission.Edit,
+            CrmOptionPermission.Edit,
             cancellationToken);
 
         if (administrator.Error is not null)

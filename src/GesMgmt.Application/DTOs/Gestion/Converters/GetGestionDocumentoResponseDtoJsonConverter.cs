@@ -124,7 +124,7 @@ namespace GesMgmt.Application.DTOs.Gestion.Converters
 
 
         // =========================================================
-        // CLIENTE 95 - CLARO
+        // CLIENTE 95 - CLIENTE_A
         // =========================================================
 
         private static void EscribirCliente95(
@@ -133,7 +133,7 @@ namespace GesMgmt.Application.DTOs.Gestion.Converters
         {
             /*
              * AQUÍ DEFINES EXACTAMENTE
-             * EL ORDEN PARA CLARO.
+             * EL ORDEN PARA CLIENTE_A.
              */
 
             EscribirString(
@@ -197,7 +197,7 @@ namespace GesMgmt.Application.DTOs.Gestion.Converters
             );
 
             // =====================================================
-            // CAMPOS ESPECÍFICOS CLARO
+            // CAMPOS ESPECÍFICOS CLIENTE_A
             // =====================================================
 
             EscribirString(
@@ -272,7 +272,7 @@ namespace GesMgmt.Application.DTOs.Gestion.Converters
 
 
         // =========================================================
-        // CLIENTE 59 - MAF
+        // CLIENTE 59 - CLIENTE_B
         // =========================================================
 
         private static void EscribirCliente59(
@@ -281,14 +281,14 @@ namespace GesMgmt.Application.DTOs.Gestion.Converters
         {
             /*
              * AQUÍ DEFINES EXACTAMENTE
-             * EL ORDEN PARA MAF.
+             * EL ORDEN PARA CLIENTE_B.
              *
              * ESTE ORDEN PUEDE SER COMPLETAMENTE
              * DIFERENTE AL CLIENTE 59.
              */
 
             // =====================================================
-            // CAMPOS MAF
+            // CAMPOS CLIENTE_B
             // =====================================================
 
             EscribirString(

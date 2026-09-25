@@ -8,15 +8,15 @@ public sealed class UnidadNegocioCarteraContratoTests
     public void TryResolve_UsesCanonicalExplicitBusinessUnit()
     {
         var success = UnidadNegocioCarteraContrato.IntentarResolver(
-            " claro gobierno ",
-            "CLARO ADMINISTRATIVO",
-            ["CLARO ADMINISTRATIVO", "CLARO GOBIERNO"],
+            " cliente_a gobierno ",
+            "CLIENTE_A ADMINISTRATIVO",
+            ["CLIENTE_A ADMINISTRATIVO", "CLIENTE_A GOBIERNO"],
             out var selection,
             out var errors);
 
         Assert.True(success);
         Assert.Empty(errors);
-        Assert.Equal("CLARO GOBIERNO", selection.SelectedBusinessUnit);
+        Assert.Equal("CLIENTE_A GOBIERNO", selection.SelectedBusinessUnit);
         Assert.False(selection.WasDefaulted);
         Assert.True(selection.TieneMultiplesUnidadesNegocio);
     }
@@ -26,17 +26,17 @@ public sealed class UnidadNegocioCarteraContratoTests
     {
         var success = UnidadNegocioCarteraContrato.IntentarResolver(
             null,
-            " claro administrativo ",
-            ["CLARO GOBIERNO", "CLARO ADMINISTRATIVO"],
+            " cliente_a administrativo ",
+            ["CLIENTE_A GOBIERNO", "CLIENTE_A ADMINISTRATIVO"],
             out var selection,
             out var errors);
 
         Assert.True(success);
         Assert.Empty(errors);
-        Assert.Equal("CLARO ADMINISTRATIVO", selection.SelectedBusinessUnit);
+        Assert.Equal("CLIENTE_A ADMINISTRATIVO", selection.SelectedBusinessUnit);
         Assert.True(selection.WasDefaulted);
         Assert.Equal(
-            new[] { "CLARO ADMINISTRATIVO", "CLARO GOBIERNO" },
+            new[] { "CLIENTE_A ADMINISTRATIVO", "CLIENTE_A GOBIERNO" },
             selection.UnidadesNegocioDisponibles.ToArray());
     }
 
@@ -45,8 +45,8 @@ public sealed class UnidadNegocioCarteraContratoTests
     {
         var success = UnidadNegocioCarteraContrato.IntentarResolver(
             "OTRA UNIDAD",
-            "CLARO ADMINISTRATIVO",
-            ["CLARO ADMINISTRATIVO", "CLARO GOBIERNO"],
+            "CLIENTE_A ADMINISTRATIVO",
+            ["CLIENTE_A ADMINISTRATIVO", "CLIENTE_A GOBIERNO"],
             out var selection,
             out var errors);
 

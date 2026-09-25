@@ -185,13 +185,13 @@ public sealed record UnidadNegocioCarteraSeleccion(
 /// </resumen>
 public static class UnidadNegocioCarteraPolicy
 {
-    public const int ClaroCrmClientId = 95;
-    public const string ClaroAdministrative = "CLARO ADMINISTRATIVO";
-    public const string ClaroGovernment = "CLARO GOBIERNO";
+    public const int ClienteACrmClientId = 95;
+    public const string ClienteAAdministrative = "CLIENTE_A ADMINISTRATIVO";
+    public const string ClienteAGovernment = "CLIENTE_A GOBIERNO";
 
     public static string? ObtenerPredeterminadoCompatible(int idClienteCrm) =>
-        idClienteCrm == ClaroCrmClientId
-            ? ClaroAdministrative
+        idClienteCrm == ClienteACrmClientId
+            ? ClienteAAdministrative
             : null;
 
     public static string? ResolverSolicitadoOPredeterminado(
@@ -206,7 +206,7 @@ public static class UnidadNegocioCarteraPolicy
         _ = idClienteCrm;
         _ = unidadNegocio;
 
-        // The monthly meta remains client/campana scoped. For CLARO, both
+        // The monthly meta remains client/campana scoped. For CLIENTE_A, both
         // business units intentionally share that same meta amount/curve;
         // actual recovery is still restricted by UnidadNegocio downstream.
         return true;

@@ -26,15 +26,15 @@ if grep -R -n -E 'DevelopmentHeaderAuthentication|AddAuthentication\(|FallbackPo
   fail "Se detectó autenticación propia de Analytics en el código consolidado."
 fi
 
-if grep -R -n 'X-Sisges-User-Id' \
+if grep -R -n 'X-Crm-User-Id' \
     src/GesMgmt.WebAPI src/GesMgmt.Application src/GesMgmt.Domain src/GesMgmt.Infraestructure \
     --include='*.cs' >/dev/null; then
   fail "El header de autenticación Development no debe formar parte del runtime consolidado."
 fi
 
 printf '== Release build and tests ==\n'
-dotnet restore API.BS.GestionManagement.slnx
-dotnet build API.BS.GestionManagement.slnx -c Release --no-restore
+dotnet restore Backend.CRM.slnx
+dotnet build Backend.CRM.slnx -c Release --no-restore
 dotnet test src/GesMgmt.UnitTests/GesMgmt.UnitTests.csproj -c Release --no-build
 
 PUBLISH_DIR="$ROOT_DIR/artifacts/publish/GesMgmt.WebAPI"

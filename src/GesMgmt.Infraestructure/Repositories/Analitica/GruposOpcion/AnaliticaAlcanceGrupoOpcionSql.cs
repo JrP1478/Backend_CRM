@@ -15,11 +15,11 @@ public static class AnaliticaAlcanceGrupoOpcionSql
         """;
 
     public const string GetGroups = """
-        SELECT id_grupo_sisges
+        SELECT id_grupo_crm
         FROM acceso_analitica.alcance_opcion_grupo
         WHERE id_opcion = @IdOpcion
           AND es_activo = 1
-        ORDER BY id_grupo_sisges;
+        ORDER BY id_grupo_crm;
         """;
 
     public const string GetScopes = """
@@ -31,23 +31,23 @@ public static class AnaliticaAlcanceGrupoOpcionSql
         )
         SELECT
             scope.id_opcion AS IdOpcion,
-            scope.id_grupo_sisges AS IdGrupoSisges,
+            scope.id_grupo_crm AS IdGrupoCrm,
             scope.es_activo AS EsActivo
         FROM acceso_analitica.alcance_opcion_grupo AS scope
         INNER JOIN requested_options AS requested
             ON requested.id_opcion = scope.id_opcion
         ORDER BY
             scope.id_opcion,
-            scope.id_grupo_sisges;
+            scope.id_grupo_crm;
         """;
 
     public const string Replace = """
         DECLARE @RequestedGroups TABLE
         (
-            id_grupo_sisges INT NOT NULL PRIMARY KEY
+            id_grupo_crm INT NOT NULL PRIMARY KEY
         );
 
-        INSERT INTO @RequestedGroups (id_grupo_sisges)
+        INSERT INTO @RequestedGroups (id_grupo_crm)
         SELECT DISTINCT TRY_CONVERT(INT, [value])
         FROM OPENJSON(@GroupIdsJson)
         WHERE TRY_CONVERT(INT, [value]) > 0;
@@ -67,13 +67,13 @@ public static class AnaliticaAlcanceGrupoOpcionSql
             meta.fecha_actualizacion = SYSUTCDATETIME()
         FROM acceso_analitica.alcance_opcion_grupo AS meta
         INNER JOIN @RequestedGroups AS requested
-            ON requested.id_grupo_sisges = meta.id_grupo_sisges
+            ON requested.id_grupo_crm = meta.id_grupo_crm
         WHERE meta.id_opcion = @IdOpcion;
 
         INSERT INTO acceso_analitica.alcance_opcion_grupo
         (
             id_opcion,
-            id_grupo_sisges,
+            id_grupo_crm,
             es_activo,
             creado_por,
             fecha_creacion,
@@ -82,7 +82,7 @@ public static class AnaliticaAlcanceGrupoOpcionSql
         )
         SELECT
             @IdOpcion,
-            requested.id_grupo_sisges,
+            requested.id_grupo_crm,
             1,
             @IdUsuario,
             SYSUTCDATETIME(),
@@ -95,7 +95,7 @@ public static class AnaliticaAlcanceGrupoOpcionSql
             FROM acceso_analitica.alcance_opcion_grupo AS meta
                 WITH (UPDLOCK, HOLDLOCK)
             WHERE meta.id_opcion = @IdOpcion
-              AND meta.id_grupo_sisges = requested.id_grupo_sisges
+              AND meta.id_grupo_crm = requested.id_grupo_crm
         );
         """;
 }

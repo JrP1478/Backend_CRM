@@ -69,30 +69,30 @@ namespace GesMgmt.Application.DTOs.Telefono
         {
             public int nId_PersTelef { get; set; }
             public int? nId_PersDeudor { get; set; }
-            public av_PersDeudor? av_PersDeudor { get; set; }
+            public Crm_PersDeudor? Crm_PersDeudor { get; set; }
             public string? nTelef_Pre { get; set; }
             public string? nTelef_Nro { get; set; }
             public string? nTelef_Anexo { get; set; }
-            public int? nId_PersRefUbi { get; set; } //en sisges Ubicación* 
-            //public av_PersRefUbi? av_PersRefUbi { get; set; }
+            public int? nId_PersRefUbi { get; set; } //en crm Ubicación*
+            //public Crm_PersRefUbi? Crm_PersRefUbi { get; set; }
             public string? cTelef_Coment { get; set; }
             public bool? bEstado { get; set; }
             public int? nId_PersDirecc { get; set; }
             public int? nTelef_Prioridad { get; set; }
-            public int? nId_PersTelefOpe { get; set; } //en sisges Resultado* 
-            //public av_PersTelefOpe av_PersTelefOpe { get; set; }
-            public int? nId_PersDeudorGestionHrs { get; set; } // en sisges Horario de Gestión 
-            //public av_PersDeudorGestionHrs? av_PersDeudorGestionHrs { get; set; }
+            public int? nId_PersTelefOpe { get; set; } //en crm Resultado*
+            //public Crm_PersTelefOpe Crm_PersTelefOpe { get; set; }
+            public int? nId_PersDeudorGestionHrs { get; set; } // en crm Horario de Gestión
+            //public Crm_PersDeudorGestionHrs? Crm_PersDeudorGestionHrs { get; set; }
             public string? dFecUlt_PerstelefOpe { get; set; }
             public string? dFecCarga_PersTelef { get; set; }
             public string? cDireccionTEMPORAL { get; set; }
             public int? ncontactados { get; set; }
             public string? baseTelef { get; set; }
             public string? cbus { get; set; }
-            public int? nId_Fuente { get; set; } //en sisges Fuente Búsqueda
+            public int? nId_Fuente { get; set; } //en crm Fuente Búsqueda
             public int? nreferencia { get; set; }
             public int? nid_usuarioupd { get; set; }
-            public int? nId_OperadorTelefonico { get; set; } //en sisges Operador Telefónico*
+            public int? nId_OperadorTelefonico { get; set; } //en crm Operador Telefónico*
             public int? nId_EstadoAstkProv { get; set; }
             public string? dFec_EstadoAstkProv { get; set; }
             public int? nId_TipoTelefono { get; set; }

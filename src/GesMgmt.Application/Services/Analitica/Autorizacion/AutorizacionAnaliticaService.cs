@@ -6,19 +6,19 @@ using GesMgmt.Domain.Interfaces.Analitica;
 namespace GesMgmt.Application.Services.Analitica;
 
 public sealed class AutorizacionAnaliticaService(
-    ISisgesOpcionPermisoRepository permissionRepository)
+    ICrmOpcionPermisoRepository permissionRepository)
     : IAutorizacionAnaliticaService
 {
     public async Task<AnaliticaAutorizacionResult> PuedeAccederAdministracionAsync(
         int idUsuario,
         int? idGrupo,
-        SisgesOptionPermission permiso,
+        CrmOptionPermission permiso,
         CancellationToken cancellationToken)
     {
         var allowed = await permissionRepository.TienePermisoAsync(
             idUsuario,
             idGrupo,
-            SisgesCodigosOpcion.MantenerModulo,
+            CrmCodigosOpcion.MantenerModulo,
             permiso,
             cancellationToken);
 
@@ -31,14 +31,14 @@ public sealed class AutorizacionAnaliticaService(
             $"El usuario no tiene permiso {ObtenerNombrePermiso(permiso)} sobre Mantener módulo.");
     }
 
-    private static string ObtenerNombrePermiso(SisgesOptionPermission permiso) =>
+    private static string ObtenerNombrePermiso(CrmOptionPermission permiso) =>
         permiso switch
         {
-            SisgesOptionPermission.Consult => "Consultar",
-            SisgesOptionPermission.Insert => "Insertar",
-            SisgesOptionPermission.Edit => "Editar",
-            SisgesOptionPermission.Delete => "Eliminar",
-            SisgesOptionPermission.Export => "Exportar",
+            CrmOptionPermission.Consult => "Consultar",
+            CrmOptionPermission.Insert => "Insertar",
+            CrmOptionPermission.Edit => "Editar",
+            CrmOptionPermission.Delete => "Eliminar",
+            CrmOptionPermission.Export => "Exportar",
             _ => "requerido"
         };
 }

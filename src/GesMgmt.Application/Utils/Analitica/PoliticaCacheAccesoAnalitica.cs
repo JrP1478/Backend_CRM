@@ -6,7 +6,7 @@ namespace GesMgmt.Application.Utils.Analitica;
 public static class PoliticaCacheAccesoAnalitica
 {
     // Solo configuración compartida y de baja volatilidad. Los permisos de usuario,
-    // scopes de cliente/grupo y datos SISGES se mantienen fuera de cache.
+    // scopes de cliente/grupo y datos CRM se mantienen fuera de cache.
     public static readonly TimeSpan ConfigurationDuration =
         TimeSpan.FromSeconds(30);
 

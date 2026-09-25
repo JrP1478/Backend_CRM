@@ -39,15 +39,15 @@ namespace GesMgmt.Application.Services.Direccion
 
             try
             {
-                var filter = new av_PersDirecc
+                var filter = new Crm_PersDirecc
                 {
                     nId_Cliente = DireccionesDto.nId_Cliente,
                     nId_PersDeudor = DireccionesDto.nId_Persdeudor
                 };
 
-                var q_PerDir = _unitOfWork.av_PersDireccs.GetGestionesDireccionesAsync(filter);
-                var q_PerRefUbi = await _unitOfWork.av_PersRefUbis.Query();
-                var q_PersDeudor = await _unitOfWork.av_PersDeudors.Query();
+                var q_PerDir = _unitOfWork.Crm_PersDireccs.GetGestionesDireccionesAsync(filter);
+                var q_PerRefUbi = await _unitOfWork.Crm_PersRefUbis.Query();
+                var q_PersDeudor = await _unitOfWork.Crm_PersDeudors.Query();
 
                 var data = await (
                                     from pe in q_PerDir
@@ -59,8 +59,8 @@ namespace GesMgmt.Application.Services.Direccion
 
                                     join deu in q_PersDeudor
                                     on pe.nId_PersDeudor equals deu.nId_PersDeudor
-                                    into avalJoin
-                                    from aval in avalJoin.DefaultIfEmpty()
+                                    into crmJoin
+                                    from crm in crmJoin.DefaultIfEmpty()
 
                                     select new GetDireccionesResponseDto
                                     {
@@ -70,8 +70,8 @@ namespace GesMgmt.Application.Services.Direccion
                                         tipoDeudor = pe.cTipoCoDeudor ?? "",
                                         nombre = pe.nId_PersTitDeudor == null
                                                 ? ""
-                                                : (pe.cTipoCoDeudor ?? "") == "AVAL"
-                                                    ? (aval != null ? aval.cNomCompleto : "")
+                                                : (pe.cTipoCoDeudor ?? "") == "CRM"
+                                                    ? (crm != null ? crm.cNomCompleto : "")
                                                     : "",
                                         estado = pe.bEstado_Activo == true ? "OK" : ""
                                     }
@@ -103,10 +103,10 @@ namespace GesMgmt.Application.Services.Direccion
         {
             try
             {
-                var q_PerDir = _unitOfWork.av_PersDireccs.GetDireccionByIdDireccion(nId_PersDirecc);
-                var q_PerRefUbi = await _unitOfWork.av_PersRefUbis.Query();
-                var q_PersDeudor = await _unitOfWork.av_PersDeudors.Query();
-                var q_Ubigeo = await _unitOfWork.av_Ubigeos.Query();
+                var q_PerDir = _unitOfWork.Crm_PersDireccs.GetDireccionByIdDireccion(nId_PersDirecc);
+                var q_PerRefUbi = await _unitOfWork.Crm_PersRefUbis.Query();
+                var q_PersDeudor = await _unitOfWork.Crm_PersDeudors.Query();
+                var q_Ubigeo = await _unitOfWork.Crm_Ubigeos.Query();
 
                 var data = await (
                     from pe in q_PerDir
@@ -118,8 +118,8 @@ namespace GesMgmt.Application.Services.Direccion
 
                     join deu in q_PersDeudor
                         on pe.nId_PersDeudor equals deu.nId_PersDeudor
-                        into avalJoin
-                    from aval in avalJoin.DefaultIfEmpty()
+                        into crmJoin
+                    from crm in crmJoin.DefaultIfEmpty()
 
                     join ubi in q_Ubigeo
                         on pe.nId_ubigeo equals ubi.nId_Ubigeo
@@ -137,10 +137,10 @@ namespace GesMgmt.Application.Services.Direccion
                         bEstado = pe.bEstado ?? false,
                         bOrigen_Base = pe.bOrigen_Base ?? false,
                         nId_PersTitDeudor = pe.nId_PersTitDeudor ?? 0,
-                        nombreAval = pe.nId_PersTitDeudor == null
+                        nombreCrm = pe.nId_PersTitDeudor == null
                             ? ""
-                            : (pe.cTipoCoDeudor ?? "") == "AVAL"
-                                ? (aval != null ? aval.cNomCompleto : "")
+                            : (pe.cTipoCoDeudor ?? "") == "CRM"
+                                ? (crm != null ? crm.cNomCompleto : "")
                                 : "",
                         cTipoCoDeudor = pe.cTipoCoDeudor ?? "",
                         nid_CalifDirecc = pe.nid_CalifDirecc ?? 0,
@@ -177,7 +177,7 @@ namespace GesMgmt.Application.Services.Direccion
 
             try
             {
-                av_PersDirecc persDirecc = new av_PersDirecc
+                Crm_PersDirecc persDirecc = new Crm_PersDirecc
                 {
                     nId_PersDeudor = direccionCreateDto.nId_PersDeudor ?? 0,
                     cDirecc_Nomb = direccionCreateDto.cDirecc_Nomb,
@@ -198,7 +198,7 @@ namespace GesMgmt.Application.Services.Direccion
                     nid_CalifDirecc = direccionCreateDto.nid_CalifDirecc,
                     nid_usuarioUpd = direccionCreateDto.nid_usuarioUpd,
                 };
-                var direccionCreate = await _unitOfWork.av_PersDireccs.AddAsync(persDirecc);
+                var direccionCreate = await _unitOfWork.Crm_PersDireccs.AddAsync(persDirecc);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreateDireccionResponseDto responseDto = new CreateDireccionResponseDto
@@ -240,7 +240,7 @@ namespace GesMgmt.Application.Services.Direccion
 
             try
             {
-                av_PersDirecc persDirecc = new av_PersDirecc
+                Crm_PersDirecc persDirecc = new Crm_PersDirecc
                 {
                     nId_PersDirecc = direccionEditDto.nId_PersDirecc,
                     nId_PersDeudor = direccionEditDto.nId_PersDeudor ?? 0,
@@ -262,7 +262,7 @@ namespace GesMgmt.Application.Services.Direccion
                     nid_CalifDirecc = direccionEditDto.nid_CalifDirecc,
                     nid_usuarioUpd = direccionEditDto.nid_usuarioUpd,
                 };
-                var direccionCreate = await _unitOfWork.av_PersDireccs.UpdateAsync(persDirecc);
+                var direccionCreate = await _unitOfWork.Crm_PersDireccs.UpdateAsync(persDirecc);
                 await _unitOfWork.SaveChangesAsync();
 
                 EditDireccionResponseDto responseDto = new EditDireccionResponseDto
@@ -286,11 +286,11 @@ namespace GesMgmt.Application.Services.Direccion
             }
         }
 
-        public async Task<ResultListaDto<IEnumerable<GetDireccionDepartamentos>>> GetDireccionDepartamentosAsync() 
+        public async Task<ResultListaDto<IEnumerable<GetDireccionDepartamentos>>> GetDireccionDepartamentosAsync()
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_Ubigeos.GetDepartamentosAsync();
+                var q_Resultados = _unitOfWork.Crm_Ubigeos.GetDepartamentosAsync();
                 var data = await (
                                     from s in q_Resultados
                                     orderby s.cNombre_Ubigeo, s.nId_Departamento
@@ -314,7 +314,7 @@ namespace GesMgmt.Application.Services.Direccion
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_Ubigeos.GetProvinciasAsync(nId_Departamento);
+                var q_Resultados = _unitOfWork.Crm_Ubigeos.GetProvinciasAsync(nId_Departamento);
                 var data = await (
                                     from s in q_Resultados
                                     orderby s.cNombre_Ubigeo, s.nId_Departamento
@@ -338,7 +338,7 @@ namespace GesMgmt.Application.Services.Direccion
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_Ubigeos.GetDistritosAsync(nId_Departamento, nId_Provincia);
+                var q_Resultados = _unitOfWork.Crm_Ubigeos.GetDistritosAsync(nId_Departamento, nId_Provincia);
                 var data = await (
                                     from s in q_Resultados
                                     orderby s.cNombre_Ubigeo, s.nId_Departamento
@@ -362,7 +362,7 @@ namespace GesMgmt.Application.Services.Direccion
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_PersRefUbis.GetUbicacionesTelefono();
+                var q_Resultados = _unitOfWork.Crm_PersRefUbis.GetUbicacionesTelefono();
                 var data = await (
                                     from s in q_Resultados
                                     select new GetDireccionUbicaciones

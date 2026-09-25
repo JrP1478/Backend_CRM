@@ -47,7 +47,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public string cNombreMotivoNoPago { get; set; }
         }
 
-        public class GetGestionEstadoGestionClaroResponseDto
+        public class GetGestionEstadoGestionClienteAResponseDto
         {
             public int nId_OpeCodCliOut { get; set; }
             public string cNombre_OpeCodCliOut { get; set; }
@@ -364,7 +364,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public string? gestorCall { get; set; }
 
             // =========================================================
-            // CLIENTE 95 - CLARO
+            // CLIENTE 95 - CLIENTE_A
             // =========================================================
 
             public string? servicio { get; set; }
@@ -384,7 +384,7 @@ namespace GesMgmt.Application.DTOs.Gestion
 
 
             // =========================================================
-            // CLIENTE 59 - MAF
+            // CLIENTE 59 - CLIENTE_B
             // =========================================================
 
             public string? numeroCuota { get; set; }
@@ -493,7 +493,7 @@ namespace GesMgmt.Application.DTOs.Gestion
             public int? nId_Cartera { get; set; } //3 Cabecera principal
             public int? nId_Cliente { get; set; } //5 Cabecera principal
                                                   //-- Campos adicionales para la gestión
-                                                  //-- 95 CLARO
+                                                  //-- 95 CLIENTE_A
             public string? recibo { get; set; }
             public string? telefono { get; set; }
             public string? servicio { get; set; }

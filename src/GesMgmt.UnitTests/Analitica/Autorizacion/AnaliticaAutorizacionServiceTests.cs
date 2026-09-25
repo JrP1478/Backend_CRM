@@ -15,18 +15,18 @@ public sealed class AnaliticaAutorizacionServiceTests
         var result = await service.PuedeAccederAdministracionAsync(
             16068,
             156,
-            SisgesOptionPermission.Edit,
+            CrmOptionPermission.Edit,
             CancellationToken.None);
 
         Assert.True(result.Permitido);
         Assert.Equal(16068, repository.IdUsuario);
         Assert.Equal(156, repository.IdGrupo);
-        Assert.Equal(SisgesCodigosOpcion.MantenerModulo, repository.CodigoOpcion);
-        Assert.Equal(SisgesOptionPermission.Edit, repository.Permiso);
+        Assert.Equal(CrmCodigosOpcion.MantenerModulo, repository.CodigoOpcion);
+        Assert.Equal(CrmOptionPermission.Edit, repository.Permiso);
     }
 
     [Fact]
-    public async Task CanAccessAdministrationAsync_DeniesWhenSisgesPermissionIsMissing()
+    public async Task CanAccessAdministrationAsync_DeniesWhenCrmPermissionIsMissing()
     {
         var repository = new RecordingPermissionRepository(result: false);
         var service = new AutorizacionAnaliticaService(repository);
@@ -34,7 +34,7 @@ public sealed class AnaliticaAutorizacionServiceTests
         var result = await service.PuedeAccederAdministracionAsync(
             16068,
             null,
-            SisgesOptionPermission.Consult,
+            CrmOptionPermission.Consult,
             CancellationToken.None);
 
         Assert.False(result.Permitido);
@@ -42,18 +42,18 @@ public sealed class AnaliticaAutorizacionServiceTests
     }
 
     private sealed class RecordingPermissionRepository(bool result)
-        : ISisgesOpcionPermisoRepository
+        : ICrmOpcionPermisoRepository
     {
         public int IdUsuario { get; private set; }
         public int? IdGrupo { get; private set; }
         public string? CodigoOpcion { get; private set; }
-        public SisgesOptionPermission Permiso { get; private set; }
+        public CrmOptionPermission Permiso { get; private set; }
 
         public Task<bool> TienePermisoAsync(
             int idUsuario,
             int? idGrupo,
             string codigoOpcion,
-            SisgesOptionPermission permiso,
+            CrmOptionPermission permiso,
             CancellationToken cancellationToken)
         {
             IdUsuario = idUsuario;
@@ -67,7 +67,7 @@ public sealed class AnaliticaAutorizacionServiceTests
             int idUsuario,
             int? idGrupo,
             int idOpcion,
-            SisgesOptionPermission permiso,
+            CrmOptionPermission permiso,
             CancellationToken cancellationToken) =>
             Task.FromResult(result);
     }

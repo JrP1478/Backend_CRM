@@ -26,7 +26,7 @@ namespace GesMgmt.WebAPI.Controllers
             _validationMessageService = validationMessageService;
             _oValMsgDto = new ValidationMessageDto();
             _Logger = logger;
-            _Logger.LogInfo("| ** API.BS.GestionManagement ** |");
+            _Logger.LogInfo("| ** Backend.CRM ** |");
         }
 
         /// <summary>
@@ -70,12 +70,12 @@ namespace GesMgmt.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Obtiene el listado de documentos por cobrar av_docxobrar.
+        /// Obtiene el listado de documentos por cobrar Crm_docxobrar.
         /// </summary>
         /// <remarks>
-        /// Obtiene el listado de documentos por cobrar av_docxobrar.
+        /// Obtiene el listado de documentos por cobrar Crm_docxobrar.
         /// </remarks>
-        /// <response code="200">Obtiene el listado de documentos por cobrar av_docxobrar.</response>
+        /// <response code="200">Obtiene el listado de documentos por cobrar Crm_docxobrar.</response>
         [SwaggerOperation(Summary = "[API]: Endpoint Listado Gestiones Documentos")]
         [HttpGet("GetGestionDocumentos")]
         [ProducesResponseType(typeof(ResultDto<GetGestionDocumentoResponseDto>), StatusCodes.Status200OK)]
@@ -148,7 +148,7 @@ namespace GesMgmt.WebAPI.Controllers
             _Logger.LogInfo($"GetGestionDocumentosAdicionales|End|GetGestionDocumentosAdicionalesAsync|response: {JsonSerializer.Serialize(result)}");
             return StatusCode(result.StatusCode, result);
         }
-        
+
         /// <summary>
         /// Obtiene el listado de GESTIONES del deudor.
         /// </summary>
@@ -370,22 +370,22 @@ namespace GesMgmt.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Obtiene el Listado Estado Gestion Claro.
+        /// Obtiene el Listado Estado Gestion ClienteA.
         /// </summary>
         /// <remarks>
-        /// Obtiene el listado de Estado Gestion Claro.
+        /// Obtiene el listado de Estado Gestion ClienteA.
         /// </remarks>
-        /// <response code="200">Obtiene el listado de Estado Gestion Claro.</response>
-        [SwaggerOperation(Summary = "[API]: Endpoint Listado Paleta de Estado Gestion Claro")]
-        [HttpGet("GetGestionEstadoGestionClaro")]
-        [ProducesResponseType(typeof(ResultDto<GetGestionEstadoGestionClaroResponseDto>), StatusCodes.Status200OK)]
+        /// <response code="200">Obtiene el listado de Estado Gestion ClienteA.</response>
+        [SwaggerOperation(Summary = "[API]: Endpoint Listado Paleta de Estado Gestion ClienteA")]
+        [HttpGet("GetGestionEstadoGestionClienteA")]
+        [ProducesResponseType(typeof(ResultDto<GetGestionEstadoGestionClienteAResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultDto<>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultDto<>), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetGestionEstadoGestionClaroAsync([FromQuery] GetGestionEstadoGestionClaroRequestDto estadoGestionClaroDto)
+        public async Task<IActionResult> GetGestionEstadoGestionClienteAAsync([FromQuery] GetGestionEstadoGestionClienteARequestDto estadoGestionClienteADto)
         {
-            _Logger.LogInfo($"GetGestionEstadoGestionClaro|Begin|GetGestionEstadoGestionClaroAsync|request: {JsonSerializer.Serialize(estadoGestionClaroDto)}");
-            var result = await _gestionService.GetGestionEstadoGestionClaroAsync(estadoGestionClaroDto);
-            _Logger.LogInfo($"GetGestionEstadoGestionClaro|End|GetGestionEstadoGestionClaroAsync|response: {JsonSerializer.Serialize(result)}");
+            _Logger.LogInfo($"GetGestionEstadoGestionClienteA|Begin|GetGestionEstadoGestionClienteAAsync|request: {JsonSerializer.Serialize(estadoGestionClienteADto)}");
+            var result = await _gestionService.GetGestionEstadoGestionClienteAAsync(estadoGestionClienteADto);
+            _Logger.LogInfo($"GetGestionEstadoGestionClienteA|End|GetGestionEstadoGestionClienteAAsync|response: {JsonSerializer.Serialize(result)}");
             return StatusCode(result.StatusCode, result);
         }
 

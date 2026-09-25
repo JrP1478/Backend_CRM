@@ -106,7 +106,7 @@ namespace GesMgmt.Application.Validators.Usuario
                 return ResultDto<CreateUsuarioResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var v_NroDoc = await _unitOfWork.av_Usuarios.GetByUsuarioByNroDocumentoAsync(_requestDto.cUsr_NroDoc);
+            var v_NroDoc = await _unitOfWork.Crm_Usuarios.GetByUsuarioByNroDocumentoAsync(_requestDto.cUsr_NroDoc);
             if (v_NroDoc != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.NRODOC_EXISTE, "ESP");
@@ -264,7 +264,7 @@ namespace GesMgmt.Application.Validators.Usuario
                 return ResultDto<CreateUsuarioResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var result = await _unitOfWork.av_Usuarios.GetByUsuarioByAnexoAsync(_requestDto.cUsr_Anexo.Trim());
+            var result = await _unitOfWork.Crm_Usuarios.GetByUsuarioByAnexoAsync(_requestDto.cUsr_Anexo.Trim());
             if (result != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.ANEXO_EXISTENTE, "ESP");
@@ -287,7 +287,7 @@ namespace GesMgmt.Application.Validators.Usuario
                 return ResultDto<CreateUsuarioResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var result = await _unitOfWork.av_Usuarios.GetByUsuarioByLoginAsync(_requestDto.cUsr_Login.Trim());
+            var result = await _unitOfWork.Crm_Usuarios.GetByUsuarioByLoginAsync(_requestDto.cUsr_Login.Trim());
             if (result != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.LOGIN_EXISTENTE, "ESP");
@@ -311,11 +311,11 @@ namespace GesMgmt.Application.Validators.Usuario
             int minimaLetra = 0;
             int minimaNumerico = 0;
 
-            minimaLargo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MINIMA)).cValor);
-            maximaLargo = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MAXIMA)).cValor);
-            minimaEspecial = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_ESPECIAL)).cValor);
-            minimaLetra = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_LETRA)).cValor);
-            minimaNumerico = int.Parse((await _unitOfWork.av_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_NUMERO)).cValor);
+            minimaLargo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MINIMA)).cValor);
+            maximaLargo = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_LONGITUD_MAXIMA)).cValor);
+            minimaEspecial = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_ESPECIAL)).cValor);
+            minimaLetra = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_LETRA)).cValor);
+            minimaNumerico = int.Parse((await _unitOfWork.Crm_ConfigSistemas.GetConfiguracionSistemaByCodigoTablaAsync(Const.CODIGO_TABLA_CONFIGURACION_SISTEMA, Const.CLAVE_MIN_NUMERO)).cValor);
 
             if (!ValidarFormatoPassword(_requestDto.cUsr_Pass, minimaNumerico, minimaLetra, minimaEspecial, minimaLargo, maximaLargo))
             {
@@ -353,6 +353,6 @@ namespace GesMgmt.Application.Validators.Usuario
             }
             return countNum >= nMinNumero && countLet >= nMinLetra && countCar >= nMinEspecial && strPassword.Length >= nMinLargo && strPassword.Length <= nMaxLargo;
         }
-    
+
     }
 }

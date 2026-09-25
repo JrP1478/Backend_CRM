@@ -41,8 +41,8 @@ try {
     }
 
     Write-Host '== Release build and tests =='
-    dotnet restore .\API.BS.GestionManagement.slnx
-    dotnet build .\API.BS.GestionManagement.slnx -c Release --no-restore
+    dotnet restore .\Backend.CRM.slnx
+    dotnet build .\Backend.CRM.slnx -c Release --no-restore
     dotnet test .\src\GesMgmt.UnitTests\GesMgmt.UnitTests.csproj -c Release --no-build
 
     Write-Host 'Analytics EF Core integration verification OK.'

@@ -8,10 +8,10 @@ namespace GesMgmt.Infraestructure.Repositories
 {
     public class ValidationMessageRespository : IValidationMessageRepository
     {
-        protected readonly AvalDbContext _context;
+        protected readonly CrmDbContext _context;
         private readonly DbSet<ValidationMessage> _dbSet;
 
-        public ValidationMessageRespository(AvalDbContext context)
+        public ValidationMessageRespository(CrmDbContext context)
         {
             _context = context;
             _dbSet = context.Set<ValidationMessage>();

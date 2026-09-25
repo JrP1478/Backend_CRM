@@ -25,7 +25,7 @@ namespace GesMgmt.Application.DTOs.Usuario
             public string login { get; set; }
         }
 
-        public class GetUsuarioObtenerResponseDto 
+        public class GetUsuarioObtenerResponseDto
         {
             public int nId_Usuario { get; set; }
             public string cUsr_NroDoc { get; set; }

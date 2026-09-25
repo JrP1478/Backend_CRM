@@ -42,7 +42,7 @@ namespace GesMgmt.Domain.Constants
         public const string GESTION_OBSERVATION_REQUIRED = "030";
         public const string GESTION_OBSERVATION_LENGTH = "031";
         public const string GESTION_STATUS_MANAGEMENT_REQUIRED = "032";
-        public const string GESTION_STATUS_MANAGEMENT_CLARO_REQUIRED = "033";
+        public const string GESTION_STATUS_MANAGEMENT_CLIENTE_A_REQUIRED = "033";
         public const string GESTION_REASON_FOR_NO_PAYMENT = "034";
 
         public const string USUARIO_LOGIN_LENGTH = "035";
@@ -90,7 +90,7 @@ namespace GesMgmt.Domain.Constants
         public const string CLAVE_LONGITUD_MAXIMA = "070";
         public const string CLAVE_MENSAJE_VALIDACION = "071";
         public const string CLAVE_NUEVA_REQUERIDA = "072";
-        
+
         public const string PERFIL_CODIGO_NO_EXISTE = "073";
         public const string PERFIL_NOMBRE_REQUERIDO = "074";
         public const string PERFIL_ESTADO_REQUERIDO = "075";

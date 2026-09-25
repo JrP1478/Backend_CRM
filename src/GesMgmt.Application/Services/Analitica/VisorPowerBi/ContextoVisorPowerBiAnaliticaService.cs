@@ -12,7 +12,7 @@ namespace GesMgmt.Application.Services.Analitica;
 public sealed class ContextoVisorPowerBiAnaliticaService(
     IAccesoOpcionAnaliticaService accesoOpcionService,
     IConfiguracionReporteClienteAnaliticaService configuracionService,
-    ISisgesOpcionPermisoRepository permisoRepository)
+    ICrmOpcionPermisoRepository permisoRepository)
     : IContextoVisorPowerBiAnaliticaService
 {
     public async Task<AnaliticaContextoVisorPowerBi> ResolverAsync(
@@ -32,14 +32,14 @@ public sealed class ContextoVisorPowerBiAnaliticaService(
             throw new ArgumentOutOfRangeException(nameof(idOpcion));
         }
 
-        var tienePermisoSisges = await permisoRepository.TienePermisoAsync(
+        var tienePermisoCrm = await permisoRepository.TienePermisoAsync(
             idUsuario,
             idGrupo,
             idOpcion,
-            SisgesOptionPermission.Consult,
+            CrmOptionPermission.Consult,
             cancellationToken);
 
-        if (!tienePermisoSisges)
+        if (!tienePermisoCrm)
         {
             return Denegado();
         }
@@ -50,7 +50,7 @@ public sealed class ContextoVisorPowerBiAnaliticaService(
                 cancellationToken);
 
         /*
-         * Un reporte con URL directa se autoriza por la opción SISGES.
+         * Un reporte con URL directa se autoriza por la opción CRM.
          * Los alcances específicos de Analítica solamente son necesarios
          * cuando el BI se segmenta por cliente/cartera.
          */

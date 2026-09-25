@@ -12,7 +12,7 @@ namespace GesMgmt.Application.Validators.UsuarioGrupoOpcion
         private readonly IValidationMessageService _validationMessageService;
         private ValidationMessageDto _oValMsgDto;
         private GetUsuarioLoginRequestDto _requestDto;
-        public av_Usuario usuario;
+        public Crm_Usuario usuario;
 
     }
 }

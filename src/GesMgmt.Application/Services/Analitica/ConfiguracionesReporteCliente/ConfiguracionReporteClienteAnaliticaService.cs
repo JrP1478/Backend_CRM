@@ -12,7 +12,7 @@ public sealed class ConfiguracionReporteClienteAnaliticaService(
     IAnaliticaCatalogoReporteClienteRepository catalogRepository,
     IAnaliticaAlcanceReporteClienteRepository scopeRepository,
     IAnaliticaIncrustacionReporteClienteRepository embedRepository,
-    ISisgesGrupoClienteRepository clientGroupRepository,
+    ICrmGrupoClienteRepository clientGroupRepository,
     ISeguridadPowerBiAnaliticaPolicy powerBiSecurityPolicy)
     : IConfiguracionReporteClienteAnaliticaService
 {

@@ -30,8 +30,8 @@ namespace GesMgmt.Application.Services.Usuario
         #region "Listado de Usuarios"
         public async Task<ResultListDto<IEnumerable<GetUsuariosListResponseDto>>> GetUsuariosListAsync()
         {
-            var q_Usuarios = await _unitOfWork.av_Usuarios.Query();
-            var q_Perfil = await _unitOfWork.av_Perfils.Query();
+            var q_Usuarios = await _unitOfWork.Crm_Usuarios.Query();
+            var q_Perfil = await _unitOfWork.Crm_Perfils.Query();
             List<GetUsuariosListResponseDto> data = new();
             try
             {
@@ -68,7 +68,7 @@ namespace GesMgmt.Application.Services.Usuario
             try
             {
                 GetUsuarioObtenerResponseDto data = new GetUsuarioObtenerResponseDto();
-                var q_Usuario = await _unitOfWork.av_Usuarios.GetByIdAsync(nId_Usuario);
+                var q_Usuario = await _unitOfWork.Crm_Usuarios.GetByIdAsync(nId_Usuario);
                 if (q_Usuario != null)
                 {
                     data = new GetUsuarioObtenerResponseDto()
@@ -139,14 +139,14 @@ namespace GesMgmt.Application.Services.Usuario
         }
         #endregion
 
-        #region "Login al New SISGES"
+        #region "Login al New CRM"
         public async Task<ResultDto<GetUsuarioLoginResponseDto>> GetLoginUsuarioAsync(GetUsuarioLoginRequestDto usuarioLoginDto)
         {
             GetUsuarioRequestValidator validator = new GetUsuarioRequestValidator(_unitOfWork, _validationMessageService, usuarioLoginDto);
 
             // Validaciones
             var validationResult = await validator.Validate();
-            
+
             if (validationResult.Code != Const.SUCCESS_CODE)
             {
                 if (validationResult.Code == "038") //USUARIO_LOGIN_INCORRECT
@@ -159,7 +159,7 @@ namespace GesMgmt.Application.Services.Usuario
                     if (validator.nUsr_NroIntentoAcc > validator.nIntentosMaximo)
                     {
                         await _unitOfWork.BeginTransactionAsync();
-                        var usuarioIntento = await _unitOfWork.av_Usuarios.UpdateIntentoLoginAsync(usuarioLoginDto.cUsr_Login);
+                        var usuarioIntento = await _unitOfWork.Crm_Usuarios.UpdateIntentoLoginAsync(usuarioLoginDto.cUsr_Login);
                         await _unitOfWork.SaveChangesAsync();
                         await _unitOfWork.CommitTransactionAsync();
                     }
@@ -170,7 +170,7 @@ namespace GesMgmt.Application.Services.Usuario
             try
             {
                 GetUsuarioLoginResponseDto data = new GetUsuarioLoginResponseDto();
-                var q_perfil = await _unitOfWork.av_Perfils.ByIdAsync(validator.usuario.nid_perfil ?? 0);
+                var q_perfil = await _unitOfWork.Crm_Perfils.ByIdAsync(validator.usuario.nid_perfil ?? 0);
                 if (validator.usuario != null)
                 {
                     data = new GetUsuarioLoginResponseDto()
@@ -210,7 +210,7 @@ namespace GesMgmt.Application.Services.Usuario
                         per_Nombre = q_perfil?.per_Nombre ?? "",
                     };
                     await _unitOfWork.BeginTransactionAsync();
-                    var usuarioIntento = await _unitOfWork.av_Usuarios.UpdateIntentoZeroLoginAsync(usuarioLoginDto.cUsr_Login);
+                    var usuarioIntento = await _unitOfWork.Crm_Usuarios.UpdateIntentoZeroLoginAsync(usuarioLoginDto.cUsr_Login);
                     await _unitOfWork.SaveChangesAsync();
                     await _unitOfWork.CommitTransactionAsync();
                 }
@@ -233,9 +233,9 @@ namespace GesMgmt.Application.Services.Usuario
         {
             try
             {
-                var q_campannaDiscador = await _unitOfWork.av_CampanaDiscadors.Query();
-                var q_Ugrupos = await _unitOfWork.av_UGrupos.GetUGruposByIdUsuarioAsync(camannaDiscadorDto.nId_Usuario);
-                var q_Grupos = await _unitOfWork.av_Grupos.Query();
+                var q_campannaDiscador = await _unitOfWork.Crm_CampanaDiscadors.Query();
+                var q_Ugrupos = await _unitOfWork.Crm_UGrupos.GetUGruposByIdUsuarioAsync(camannaDiscadorDto.nId_Usuario);
+                var q_Grupos = await _unitOfWork.Crm_Grupos.Query();
 
                 var query =
                     from camp in q_campannaDiscador
@@ -275,7 +275,7 @@ namespace GesMgmt.Application.Services.Usuario
         public async Task<ResultDto<CreateUsuarioResponseDto>> CreateUsuarioAsync(CreateUsuarioRequestDto usuarioCreateDto)
         {
             CreateUsuarioRequestValidator validator = new CreateUsuarioRequestValidator(_unitOfWork, _validationMessageService, usuarioCreateDto);
-            
+
             // Validaciones
             var validationResult = await validator.Validate();
 
@@ -288,7 +288,7 @@ namespace GesMgmt.Application.Services.Usuario
 
             try
             {
-                av_Usuario av_Usuario = new av_Usuario
+                Crm_Usuario Crm_Usuario = new Crm_Usuario
                 {
                     cUsr_NroDoc = usuarioCreateDto.cUsr_NroDoc,
                     cUsr_ApePat = usuarioCreateDto.cUsr_ApePat,
@@ -311,7 +311,7 @@ namespace GesMgmt.Application.Services.Usuario
                     cUsr_EmailPersonal = usuarioCreateDto.cUsr_EmailPersonal,
                     NroCampanaDiscador = usuarioCreateDto.NroCampanaDiscador
                 };
-                var usuarioCreate = await _unitOfWork.av_Usuarios.AddAsync(av_Usuario);
+                var usuarioCreate = await _unitOfWork.Crm_Usuarios.AddAsync(Crm_Usuario);
                 await _unitOfWork.SaveChangesAsync();
 
                 // Actualizar el Login utilizando la misma instancia trackeada
@@ -319,7 +319,7 @@ namespace GesMgmt.Application.Services.Usuario
                 await _unitOfWork.SaveChangesAsync();
 
                 //INICIO - Grabar en la tabla de UGrupos
-                av_UGrupo av_UGrupo = new av_UGrupo
+                Crm_UGrupo Crm_UGrupo = new Crm_UGrupo
                 {
                     nId_Usuario = usuarioCreate.nId_Usuario,
                     nId_Grupo = usuarioCreateDto.nId_Grupo,
@@ -329,19 +329,19 @@ namespace GesMgmt.Application.Services.Usuario
                     bActivo = true,
                     bGestion = true
                 };
-                await _unitOfWork.av_UGrupos.AddAsync(av_UGrupo);
+                await _unitOfWork.Crm_UGrupos.AddAsync(Crm_UGrupo);
                 await _unitOfWork.SaveChangesAsync();
                 //FIN - Grabar en la tabla de UGrupos
 
                 //INICIO - guardar en historico de contraseñas
-                av_PasswordHis historicoPass = new av_PasswordHis
+                Crm_PasswordHis historicoPass = new Crm_PasswordHis
                 {
                     dFecRegistro = DateTime.Now,
                     nId_Usuario = usuarioCreate.nId_Usuario,
                     cUsr_Pass = usuarioCreate.cUsr_Pass,
                     nId_UsuarioReg = usuarioCreate.nId_Usuario
                 };
-                await _unitOfWork.av_PasswordHiss.AddAsync(historicoPass);
+                await _unitOfWork.Crm_PasswordHiss.AddAsync(historicoPass);
                 await _unitOfWork.SaveChangesAsync();
                 //FIN - guardar en historico de contraseñas
 
@@ -386,7 +386,7 @@ namespace GesMgmt.Application.Services.Usuario
 
             try
             {
-                av_Usuario av_Usuario = new av_Usuario
+                Crm_Usuario Crm_Usuario = new Crm_Usuario
                 {
                     nId_Usuario = usuarioEditDto.nId_Usuario,
                     cUsr_NroDoc = usuarioEditDto.cUsr_NroDocNew,
@@ -413,29 +413,29 @@ namespace GesMgmt.Application.Services.Usuario
 
                 if (usuarioEditDto.bCambioPass)
                 {
-                    av_Usuario.cUsr_Pass = CifrarClave(usuarioEditDto.cUsr_PassNew);
-                    av_Usuario.dUsr_PassUpdate = null;
+                    Crm_Usuario.cUsr_Pass = CifrarClave(usuarioEditDto.cUsr_PassNew);
+                    Crm_Usuario.dUsr_PassUpdate = null;
                 }
                 else
                 {
-                    av_Usuario.cUsr_Pass = usuarioEditDto.cUsr_Pass;
-                    av_Usuario.dUsr_PassUpdate = DateTime.Now;
+                    Crm_Usuario.cUsr_Pass = usuarioEditDto.cUsr_Pass;
+                    Crm_Usuario.dUsr_PassUpdate = DateTime.Now;
                 }
 
-                var usuarioEditado = await _unitOfWork.av_Usuarios.UpdateAsync(av_Usuario);
+                var usuarioEditado = await _unitOfWork.Crm_Usuarios.UpdateAsync(Crm_Usuario);
                 await _unitOfWork.SaveChangesAsync();
 
                 if (usuarioEditDto.bCambioPass)
                 {
                     //INICIO - guardar en historico de contraseñas
-                    av_PasswordHis historicoPass = new av_PasswordHis
+                    Crm_PasswordHis historicoPass = new Crm_PasswordHis
                     {
                         dFecRegistro = DateTime.Now,
                         nId_Usuario = usuarioEditado.nId_Usuario,
                         cUsr_Pass = usuarioEditado.cUsr_Pass,
                         nId_UsuarioReg = usuarioEditado.nId_Usuario
                     };
-                    await _unitOfWork.av_PasswordHiss.AddAsync(historicoPass);
+                    await _unitOfWork.Crm_PasswordHiss.AddAsync(historicoPass);
                     await _unitOfWork.SaveChangesAsync();
                     //FIN - guardar en historico de contraseñas
                 }
@@ -470,7 +470,7 @@ namespace GesMgmt.Application.Services.Usuario
         {
             try
             {
-                var q_Resultados = await _unitOfWork.av_SubZonaGenerals.Query();
+                var q_Resultados = await _unitOfWork.Crm_SubZonaGenerals.Query();
                 var data = (
                             from s in q_Resultados
                             orderby s.cSzgn_Nombre
@@ -523,7 +523,7 @@ namespace GesMgmt.Application.Services.Usuario
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                var usuario = await _unitOfWork.av_Usuarios.GetByIdAsync(usuarioResetDto.nId_Usuario);
+                var usuario = await _unitOfWork.Crm_Usuarios.GetByIdAsync(usuarioResetDto.nId_Usuario);
 
                 usuario.cUsr_Pass = validator.cUsr_PassNueva; //usuarioResetDto.cUsr_PassNueva;
                 if (usuarioResetDto.dFecRegistro == null)
@@ -534,20 +534,20 @@ namespace GesMgmt.Application.Services.Usuario
                 {
                     usuario.dUsr_PassUpdate = usuarioResetDto.dFecRegistro;
                 }
-                
+
                 usuario.nUsr_NroIntentoAcc = 0;
-                await _unitOfWork.av_Usuarios.UpdateAsync(usuario);
+                await _unitOfWork.Crm_Usuarios.UpdateAsync(usuario);
                 await _unitOfWork.SaveChangesAsync();
 
                 //guardar en historico de contraseñas
-                av_PasswordHis historicoPass = new av_PasswordHis
+                Crm_PasswordHis historicoPass = new Crm_PasswordHis
                 {
                     dFecRegistro = DateTime.Now,
                     nId_Usuario = usuarioResetDto.nId_Usuario,
                     cUsr_Pass = validator.cUsr_PassNueva,
                     nId_UsuarioReg = usuarioResetDto.nId_Usuario
                 };
-                await _unitOfWork.av_PasswordHiss.AddAsync(historicoPass);
+                await _unitOfWork.Crm_PasswordHiss.AddAsync(historicoPass);
                 await _unitOfWork.SaveChangesAsync();
 
                 ResetearUsuarioResponseDto resetearUsuarioResponseDto = new ResetearUsuarioResponseDto
@@ -577,8 +577,8 @@ namespace GesMgmt.Application.Services.Usuario
         {
             try
             {
-                var q_zxc = await _unitOfWork.av_ZonaCarteras.GetZonasCarterasByIdClienteAsync(clienteUsuarioDto.nId_Cliente);
-                var q_asig = await _unitOfWork.av_asigUsuarios.GetAsignacionesByIdClienteAndIdUsuarioAsync(clienteUsuarioDto.nId_Cliente, clienteUsuarioDto.nId_Usuario);
+                var q_zxc = await _unitOfWork.Crm_ZonaCarteras.GetZonasCarterasByIdClienteAsync(clienteUsuarioDto.nId_Cliente);
+                var q_asig = await _unitOfWork.Crm_asigUsuarios.GetAsignacionesByIdClienteAndIdUsuarioAsync(clienteUsuarioDto.nId_Cliente, clienteUsuarioDto.nId_Usuario);
 
                 var zonasAsignadas = q_asig.Select(x => x.zona).ToHashSet();
 
@@ -606,8 +606,8 @@ namespace GesMgmt.Application.Services.Usuario
         {
             try
             {
-                var q_zxc = await _unitOfWork.av_ZonaCarteras.GetZonasCarterasByIdClienteAsync(clienteUsuarioDto.nId_Cliente);
-                var q_asig = await _unitOfWork.av_asigUsuarios.GetAsignacionesByIdClienteAndIdUsuarioAsync(clienteUsuarioDto.nId_Cliente, clienteUsuarioDto.nId_Usuario);
+                var q_zxc = await _unitOfWork.Crm_ZonaCarteras.GetZonasCarterasByIdClienteAsync(clienteUsuarioDto.nId_Cliente);
+                var q_asig = await _unitOfWork.Crm_asigUsuarios.GetAsignacionesByIdClienteAndIdUsuarioAsync(clienteUsuarioDto.nId_Cliente, clienteUsuarioDto.nId_Usuario);
 
                 var data = (
                 from a in q_asig

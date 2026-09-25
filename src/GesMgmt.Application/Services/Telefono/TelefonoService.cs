@@ -40,18 +40,18 @@ namespace GesMgmt.Application.Services.Telefono
             try
             {
 
-                var filter = new av_PersTelef
+                var filter = new Crm_PersTelef
                 {
                     nId_PersDeudor = TelefonosDto.nId_Persdeudor
                 };
 
-                var q_Telefono = _unitOfWork.av_PersTelefs.GetTelefonosAsync(filter);
+                var q_Telefono = _unitOfWork.Crm_PersTelefs.GetTelefonosAsync(filter);
                 var totalContactados = await q_Telefono.SumAsync(x => x.ncontactados ?? 0);
-                var q_detalleTelefono = await _unitOfWork.av_DetallePersTelefs.Query();
-                var q_PerDeuGesHrs = await _unitOfWork.av_PersDeudorGestionHrss.Query();
-                var q_PerRefUbi = await _unitOfWork.av_PersRefUbis.Query();
-                var q_PerTelOpe = await _unitOfWork.av_PersTelefOpes.Query();
-                var q_fuBusTel = await _unitOfWork.av_FuenteBusTels.Query();
+                var q_detalleTelefono = await _unitOfWork.Crm_DetallePersTelefs.Query();
+                var q_PerDeuGesHrs = await _unitOfWork.Crm_PersDeudorGestionHrss.Query();
+                var q_PerRefUbi = await _unitOfWork.Crm_PersRefUbis.Query();
+                var q_PerTelOpe = await _unitOfWork.Crm_PersTelefOpes.Query();
+                var q_fuBusTel = await _unitOfWork.Crm_FuenteBusTels.Query();
 
                 var data = await (
                                     from pe in q_Telefono
@@ -147,13 +147,13 @@ namespace GesMgmt.Application.Services.Telefono
             try
             {
                 GetTelefonoAsync data = new GetTelefonoAsync();
-                var telefonoPers = await _unitOfWork.av_PersTelefs.GetTelefonoByIdTelefonoAsync(nId_PersTelef);
+                var telefonoPers = await _unitOfWork.Crm_PersTelefs.GetTelefonoByIdTelefonoAsync(nId_PersTelef);
                 if (telefonoPers != null)
                 {
                     data = new GetTelefonoAsync
                     {
                         nId_PersTelef = telefonoPers.nId_PersTelef,
-                        av_PersDeudor = new av_PersDeudor
+                        Crm_PersDeudor = new Crm_PersDeudor
                         {
                             nId_PersDeudor = telefonoPers.nId_PersDeudor.Value,
                         },
@@ -208,7 +208,7 @@ namespace GesMgmt.Application.Services.Telefono
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_PersTelefOpes.GetResultadosTelefono();
+                var q_Resultados = _unitOfWork.Crm_PersTelefOpes.GetResultadosTelefono();
                 var data = await (
                                     from s in q_Resultados
                                     select new GetTelefonoResultados
@@ -235,7 +235,7 @@ namespace GesMgmt.Application.Services.Telefono
         {
             try
             {
-                var q_Resultados = await _unitOfWork.av_OperadorTelefonicos.Query();
+                var q_Resultados = await _unitOfWork.Crm_OperadorTelefonicos.Query();
                 var data = await (
                                     from s in q_Resultados
                                     select new GetTelefonoOperadores
@@ -262,7 +262,7 @@ namespace GesMgmt.Application.Services.Telefono
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_PersRefUbis.GetUbicacionesTelefono();
+                var q_Resultados = _unitOfWork.Crm_PersRefUbis.GetUbicacionesTelefono();
                 var data = await (
                                     from s in q_Resultados
                                     select new GetTelefonoUbicaciones
@@ -290,7 +290,7 @@ namespace GesMgmt.Application.Services.Telefono
         {
             try
             {
-                var q_Resultados = _unitOfWork.av_PersDeudorGestionHrss.GetHorarioGestionTelefono();
+                var q_Resultados = _unitOfWork.Crm_PersDeudorGestionHrss.GetHorarioGestionTelefono();
                 var data = await (
                                     from s in q_Resultados
                                     select new GetTelefonoHorarioGestion
@@ -319,7 +319,7 @@ namespace GesMgmt.Application.Services.Telefono
         {
             try
             {
-                var q_Resultados = await _unitOfWork.av_FuenteBusTels.Query();
+                var q_Resultados = await _unitOfWork.Crm_FuenteBusTels.Query();
                 var data = await (
                                     from s in q_Resultados
                                     select new GetTelefonoFuenteBusqueda
@@ -365,7 +365,7 @@ namespace GesMgmt.Application.Services.Telefono
 
             try
             {
-                av_PersTelef perstelef = new av_PersTelef
+                Crm_PersTelef perstelef = new Crm_PersTelef
                 {
                     nId_PersDeudor = telefonoCreateDto.nId_PersDeudor,
                     nTelef_Pre = telefonoCreateDto.nTelef_Pre,
@@ -385,15 +385,15 @@ namespace GesMgmt.Application.Services.Telefono
                     nId_OperadorTelefonico = telefonoCreateDto.nId_OperadorTelefonico,
                     bReclamo = telefonoCreateDto.bReclamo,
                 };
-                var telefonoCreate = await _unitOfWork.av_PersTelefs.AddAsync(perstelef);
+                var telefonoCreate = await _unitOfWork.Crm_PersTelefs.AddAsync(perstelef);
                 await _unitOfWork.SaveChangesAsync();
 
                 //buscar en detalle telefono
-                var detalleTelefono = await _unitOfWork.av_DetallePersTelefs.GetDetalleTelefonoSearchAsync(95, telefonoCreate.nId_PersTelef);
+                var detalleTelefono = await _unitOfWork.Crm_DetallePersTelefs.GetDetalleTelefonoSearchAsync(95, telefonoCreate.nId_PersTelef);
 
                 if (detalleTelefono == null)
                 {
-                    av_DetallePersTelef det_perstelef = new av_DetallePersTelef
+                    Crm_DetallePersTelef det_perstelef = new Crm_DetallePersTelef
                     {
                         nId_PersTelef = telefonoCreate.nId_PersTelef,
                         nId_Cliente = 95,
@@ -403,7 +403,7 @@ namespace GesMgmt.Application.Services.Telefono
                         nId_UsuReg = telefonoCreate.nid_usuarioupd
                     };
 
-                    var detalleTelefonoCreate = await _unitOfWork.av_DetallePersTelefs.AddAsync(det_perstelef);
+                    var detalleTelefonoCreate = await _unitOfWork.Crm_DetallePersTelefs.AddAsync(det_perstelef);
                     await _unitOfWork.SaveChangesAsync();
                 }
 
@@ -449,12 +449,12 @@ namespace GesMgmt.Application.Services.Telefono
             try
             {
                 //obtener los datoa antes de actualizar
-                var resultTelefOrig = await _unitOfWork.av_PersTelefs.GetTelefonoByIdTelefonoAsync(telefonoEditDto.nId_PersTelef);
+                var resultTelefOrig = await _unitOfWork.Crm_PersTelefs.GetTelefonoByIdTelefonoAsync(telefonoEditDto.nId_PersTelef);
                 if (telefonoEditDto.nId_PersTelefOpe == 10)
                 {
                     if (resultTelefOrig.nId_PersTelefOpe != 10)
                     {
-                        av_PersTelefOpeDetalle det_perstelefope = new av_PersTelefOpeDetalle
+                        Crm_PersTelefOpeDetalle det_perstelefope = new Crm_PersTelefOpeDetalle
                         {
                             nId_PersTelef = telefonoEditDto.nId_PersTelef,
                             nId_PersTelefOpe = telefonoEditDto.nId_PersTelefOpe,
@@ -462,7 +462,7 @@ namespace GesMgmt.Application.Services.Telefono
                             nId_Usuario = telefonoEditDto.nid_usuarioupd
                         };
 
-                        var detalleTelefonoCreate = await _unitOfWork.av_PersTelefOpeDetalles.AddAsync(det_perstelefope);
+                        var detalleTelefonoCreate = await _unitOfWork.Crm_PersTelefOpeDetalles.AddAsync(det_perstelefope);
                         await _unitOfWork.SaveChangesAsync();
                     }
                 }
@@ -470,7 +470,7 @@ namespace GesMgmt.Application.Services.Telefono
                 if (resultTelefOrig.nId_PersTelefOpe == 10)
                 {
                     //obtener Usuario - Perfil
-                    var usuPerfil = await _unitOfWork.av_Usuarios.GetByIdAsync(telefonoEditDto.nid_usuarioupd.Value);
+                    var usuPerfil = await _unitOfWork.Crm_Usuarios.GetByIdAsync(telefonoEditDto.nid_usuarioupd.Value);
 
                     if (!new[] { 3, 8, 9, 14 }.Contains(usuPerfil.nid_perfil ?? 0))
                     {
@@ -478,7 +478,7 @@ namespace GesMgmt.Application.Services.Telefono
                     }
                     if (telefonoEditDto.nId_PersTelefOpe != 10)
                     {
-                        av_PersTelefOpeDetalle det_perstelefope = new av_PersTelefOpeDetalle
+                        Crm_PersTelefOpeDetalle det_perstelefope = new Crm_PersTelefOpeDetalle
                         {
                             nId_PersTelef = telefonoEditDto.nId_PersTelef,
                             nId_PersTelefOpe = telefonoEditDto.nId_PersTelefOpe,
@@ -486,12 +486,12 @@ namespace GesMgmt.Application.Services.Telefono
                             nId_Usuario = telefonoEditDto.nid_usuarioupd
                         };
 
-                        var detalleTelefonoCreate = await _unitOfWork.av_PersTelefOpeDetalles.AddAsync(det_perstelefope);
+                        var detalleTelefonoCreate = await _unitOfWork.Crm_PersTelefOpeDetalles.AddAsync(det_perstelefope);
                         await _unitOfWork.SaveChangesAsync();
                     }
                 }
 
-                av_PersTelef perstelef = new av_PersTelef
+                Crm_PersTelef perstelef = new Crm_PersTelef
                 {
                     nId_PersTelef = telefonoEditDto.nId_PersTelef,
                     nId_PersDeudor = telefonoEditDto.nId_PersDeudor,
@@ -511,7 +511,7 @@ namespace GesMgmt.Application.Services.Telefono
                     nId_OperadorTelefonico = telefonoEditDto.nId_OperadorTelefonico,
                     bReclamo = telefonoEditDto.bReclamo,
                 };
-                var telefonoCreate = await _unitOfWork.av_PersTelefs.UpdateAsync(perstelef);
+                var telefonoCreate = await _unitOfWork.Crm_PersTelefs.UpdateAsync(perstelef);
                 await _unitOfWork.SaveChangesAsync();
 
                 EditTelefonoResponseDto responseDto = new EditTelefonoResponseDto

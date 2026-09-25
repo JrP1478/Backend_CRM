@@ -26,7 +26,7 @@ namespace GesMgmt.WebAPI.Controllers
             _validationMessageService = validationMessageService;
             _oValMsgDto = new ValidationMessageDto();
             _Logger = logger;
-            _Logger.LogInfo("| ** API.BS.GestionManagement ** |");
+            _Logger.LogInfo("| ** Backend.CRM ** |");
         }
 
         /// <summary>

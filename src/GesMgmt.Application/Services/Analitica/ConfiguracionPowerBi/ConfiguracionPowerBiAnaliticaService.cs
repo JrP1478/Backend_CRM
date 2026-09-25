@@ -11,7 +11,7 @@ namespace GesMgmt.Application.Services.Analitica;
 public sealed class ConfiguracionPowerBiAnaliticaService(
     IAnaliticaOpcionConfiguracionRepository optionRepository,
     IAnaliticaAlcanceGrupoOpcionRepository optionGroupRepository,
-    ISisgesGrupoClienteRepository clientGroupRepository,
+    ICrmGrupoClienteRepository clientGroupRepository,
     IConfiguracionReporteClienteAnaliticaService configurationService,
     ISeguridadPowerBiAnaliticaPolicy powerBiSecurityPolicy,
     IAnaliticaConfiguracionPowerBiWriter writer)
@@ -111,7 +111,7 @@ public sealed class ConfiguracionPowerBiAnaliticaService(
         {
             return AnaliticaAdministracionComandoResult.Invalido(
                 "Grupo asociado inválido",
-                "Gestión Integral de Cobranza debe tener exactamente un grupo SISGES asociado.");
+                "Gestión Integral de Cobranza debe tener exactamente un grupo CRM asociado.");
         }
 
         var previousGroupIds = await optionGroupRepository.ObtenerIdsGruposAsync(

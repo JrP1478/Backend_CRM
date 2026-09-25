@@ -28,8 +28,8 @@ namespace GesMgmt.Application.Services.OpcionService
         {
             try
             {
-                var q_Opts = await _unitOfWork.av_Opcions.Query();
-                var q_OptsFathers = await _unitOfWork.av_Opcions.Query();
+                var q_Opts = await _unitOfWork.Crm_Opcions.Query();
+                var q_OptsFathers = await _unitOfWork.Crm_Opcions.Query();
 
                 var data = (
                                     from opt in q_Opts
@@ -78,7 +78,7 @@ namespace GesMgmt.Application.Services.OpcionService
             try
             {
                 GetOpcionByIdResponseDto data = new GetOpcionByIdResponseDto();
-                var lq_options = await _unitOfWork.av_Opcions.ByIdAsync(nId_Opcion);
+                var lq_options = await _unitOfWork.Crm_Opcions.ByIdAsync(nId_Opcion);
                 if (lq_options != null)
                 {
                     data = new GetOpcionByIdResponseDto
@@ -130,7 +130,7 @@ namespace GesMgmt.Application.Services.OpcionService
 
             try
             {
-                av_Opcion av_Opcion = new av_Opcion
+                Crm_Opcion Crm_Opcion = new Crm_Opcion
                 {
                     sCodigoOpcion = opcionCreateDto.sCodigoOpcion,
                     sNombreOpcion = opcionCreateDto.sNombreOpcion,
@@ -148,7 +148,7 @@ namespace GesMgmt.Application.Services.OpcionService
                     nCrea = opcionCreateDto.nCrea,
                     dFechaCrea = opcionCreateDto.dFechaCrea,
                 };
-                var opcionCreada = await _unitOfWork.av_Opcions.AddAsync(av_Opcion);
+                var opcionCreada = await _unitOfWork.Crm_Opcions.AddAsync(Crm_Opcion);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreateOpcionResponseDto responseDto = new CreateOpcionResponseDto
@@ -193,7 +193,7 @@ namespace GesMgmt.Application.Services.OpcionService
             try
             {
                 // Actualizar los campos del opcion existente
-                av_Opcion av_Opcion = new av_Opcion
+                Crm_Opcion Crm_Opcion = new Crm_Opcion
                 {
                     nId_Opcion = opcionEditDto.nId_Opcion,
                     sCodigoOpcion = opcionEditDto.sCodigoOpcion,
@@ -214,7 +214,7 @@ namespace GesMgmt.Application.Services.OpcionService
                     nModifica = opcionEditDto.nModifica,
                     dFechaModifica = opcionEditDto.dFechaModifica
                 };
-                var opcionExistente = await _unitOfWork.av_Opcions.UpdateAsync(av_Opcion);
+                var opcionExistente = await _unitOfWork.Crm_Opcions.UpdateAsync(Crm_Opcion);
                 await _unitOfWork.SaveChangesAsync();
                 EditOpcionResponseDto responseDto = new EditOpcionResponseDto
                 {
@@ -222,7 +222,7 @@ namespace GesMgmt.Application.Services.OpcionService
                     sCodigoOpcion = opcionExistente.sCodigoOpcion,
                     sNombreOpcion = opcionExistente.sNombreOpcion
                 };
-                
+
                 ResultDto<EditOpcionResponseDto> response = ResultDto<EditOpcionResponseDto>
                                                    .Success(responseDto, Const.SUCCESS_CODE, Const.SUCCESS_MESSAGE, Const.SUCCESS_MESSAGE, Const.OK_REQUEST_CODE);
 

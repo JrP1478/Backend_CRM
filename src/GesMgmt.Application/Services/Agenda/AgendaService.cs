@@ -40,7 +40,7 @@ namespace GesMgmt.Application.Services.Agenda
 
             try
             {
-                av_Agenda agenda = new av_Agenda
+                Crm_Agenda agenda = new Crm_Agenda
                 {
                     dFechNuevaGestion = agendaCreateDto.dFechNuevaGestion,
                     nid_PersDeudor = agendaCreateDto.nid_PersDeudor,
@@ -55,7 +55,7 @@ namespace GesMgmt.Application.Services.Agenda
                     cRespuestaOpe = agendaCreateDto.cRespuestaOpe,
                     nId_OpeCodCliOut = agendaCreateDto.nId_OpeCodCliOut,
                 };
-                var agendaCreate = await _unitOfWork.av_Agendas.AddAsync(agenda);
+                var agendaCreate = await _unitOfWork.Crm_Agendas.AddAsync(agenda);
                 await _unitOfWork.SaveChangesAsync();
 
                 CreateAgendaResponseDto responseDto = new CreateAgendaResponseDto

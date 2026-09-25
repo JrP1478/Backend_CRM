@@ -7,7 +7,7 @@ namespace GesMgmt.Infraestructure.Repositories.Analitica.CentroControlCartera;
 
 internal sealed class SeguimientoPromesasCarteraRepository(
     AnaliticaDbContext analiticaContext,
-    AvalDbContext avalContext)
+    CrmDbContext crmContext)
     : ISeguimientoPromesasCarteraRepository
 {
     private const int TipoGestionTelefonica = 1;
@@ -362,7 +362,7 @@ internal sealed class SeguimientoPromesasCarteraRepository(
             return new Dictionary<int, string?>();
         }
 
-        var rows = await avalContext.av_PersDeudors
+        var rows = await crmContext.Crm_PersDeudors
             .AsNoTracking()
             .Where(row => idsDeudor.Contains(row.nId_PersDeudor))
             .Select(row => new
@@ -442,7 +442,7 @@ internal sealed class SeguimientoPromesasCarteraRepository(
             return new Dictionary<(int IdDeudor, int IdCartera), ActividadOperativa>();
         }
 
-        var operaciones = avalContext.av_DocxCobrarOpes
+        var operaciones = crmContext.Crm_DocxCobrarOpes
             .AsNoTracking()
             .Where(row =>
                 row.nId_Cliente == idClienteCrm
@@ -453,7 +453,7 @@ internal sealed class SeguimientoPromesasCarteraRepository(
                 && row.nId_Cartera.HasValue
                 && idsCartera.Contains(row.nId_Cartera.Value));
 
-        var resultados = avalContext.av_OpeCodCliOuts
+        var resultados = crmContext.Crm_OpeCodCliOuts
             .AsNoTracking()
             .Where(row => row.nId_Cliente == idClienteCrm);
 

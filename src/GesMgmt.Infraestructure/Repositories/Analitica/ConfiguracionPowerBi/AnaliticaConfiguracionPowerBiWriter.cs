@@ -138,7 +138,7 @@ internal sealed class AnaliticaConfiguracionPowerBiWriter(
 
         foreach (var scope in existingScopes)
         {
-            if (requestedGroupIds.Remove(scope.IdGrupoSisges))
+            if (requestedGroupIds.Remove(scope.IdGrupoCrm))
             {
                 scope.EsActivo = true;
                 scope.ActualizadoPor = actualizadoPor;
@@ -162,7 +162,7 @@ internal sealed class AnaliticaConfiguracionPowerBiWriter(
                 new AlcanceOpcionGrupoAnalitica
                 {
                     IdOpcion = idOpcion,
-                    IdGrupoSisges = idGrupo,
+                    IdGrupoCrm = idGrupo,
                     EsActivo = true,
                     CreadoPor = actualizadoPor,
                     FechaCreacion = now,
@@ -258,7 +258,7 @@ internal sealed class AnaliticaConfiguracionPowerBiWriter(
         foreach (var idGrupo in publication.IdsGrupos!)
         {
             var scope = existingScopes.FirstOrDefault(
-                item => item.IdGrupoSisges == idGrupo);
+                item => item.IdGrupoCrm == idGrupo);
 
             if (scope is null)
             {
@@ -268,7 +268,7 @@ internal sealed class AnaliticaConfiguracionPowerBiWriter(
                         IdOpcion = idOpcion,
                         IdClienteCrm = publication.IdCliente,
                         ClienteReporte = publication.Nombre,
-                        IdGrupoSisges = idGrupo,
+                        IdGrupoCrm = idGrupo,
                         EsActivo = true,
                         CreadoPor = actualizadoPor,
                         FechaCreacion = now,

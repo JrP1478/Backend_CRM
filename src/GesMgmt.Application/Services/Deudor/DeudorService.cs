@@ -42,7 +42,7 @@ namespace GesMgmt.Application.Services.Deudor
                 int deudorId = 0;
                 if (letra == "F") //TELEFONO
                 {
-                    var q_deutel = await _unitOfWork.av_PersTelefs.GetDeudorByTelefonoAsync(letra, valor);
+                    var q_deutel = await _unitOfWork.Crm_PersTelefs.GetDeudorByTelefonoAsync(letra, valor);
                     if (q_deutel == null || !q_deutel.Any())
                     {
                         return ResultListDto<IEnumerable<GetDeudorResponseDto>>.Failure("400", "No existe registro buscado.", "ERROR", 400);
@@ -55,27 +55,27 @@ namespace GesMgmt.Application.Services.Deudor
                             .Distinct()
                             .ToList();
 
-                        var q_deudor = await _unitOfWork.av_PersDeudors.Query();
-                        
+                        var q_deudor = await _unitOfWork.Crm_PersDeudors.Query();
+
                         // IMPORTANTE: // Filtramos q_deudor únicamente con los deudores encontrados por teléfono
                         q_deudor = q_deudor.Where(x => deudores.Contains(x.nId_PersDeudor));
-                        IQueryable<av_DocxCobrar> q_dxc;
+                        IQueryable<Crm_DocxCobrar> q_dxc;
                         if (deudorDto.nId_Cliente == 59)
                         {
-                            q_dxc = await _unitOfWork.av_DocxCobrars.GetDocumentosxCobrarByIdClienteAsync(deudorDto.nId_Cliente);
+                            q_dxc = await _unitOfWork.Crm_DocxCobrars.GetDocumentosxCobrarByIdClienteAsync(deudorDto.nId_Cliente);
                             // IMPORTANTE: // Filtramos q_deudor únicamente con los deudores encontrados por teléfono
                             q_dxc = q_dxc.Where(x => deudores.Contains(x.nId_PersDeudor));
                         }
                         else
                         {
-                            q_dxc = await _unitOfWork.av_DocxCobrars.GetDocumentosxCobrarActivosByIdClienteAsync(deudorDto.nId_Cliente);
+                            q_dxc = await _unitOfWork.Crm_DocxCobrars.GetDocumentosxCobrarActivosByIdClienteAsync(deudorDto.nId_Cliente);
                             // IMPORTANTE: // Filtramos q_deudor únicamente con los deudores encontrados por teléfono
                             q_dxc = q_dxc.Where(x => deudores.Contains(x.nId_PersDeudor));
                         }
 
-                        var q_car = await _unitOfWork.av_Carteras.GetCarterasByIdClienteActivoAsync(deudorDto.nId_Cliente);
-                        
-                        var q_deupar = await _unitOfWork.av_PersDeudorParams.GetDeudorParamAsync();
+                        var q_car = await _unitOfWork.Crm_Carteras.GetCarterasByIdClienteActivoAsync(deudorDto.nId_Cliente);
+
+                        var q_deupar = await _unitOfWork.Crm_PersDeudorParams.GetDeudorParamAsync();
                         // IMPORTANTE: // Filtramos q_deudor únicamente con los deudores encontrados por teléfono
                         q_deupar = q_deupar.Where(x => deudores.Contains(x.nId_PersDeudor));
 
@@ -144,14 +144,14 @@ namespace GesMgmt.Application.Services.Deudor
                             var cantidadGestiones = await CantidadGestiones(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor);
 
                             var q_tipificaCall = await Tipificacion(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor, 1);
-                            av_OpeCodCliOut? q_tipificaCall_des = null;
+                            Crm_OpeCodCliOut? q_tipificaCall_des = null;
                             if (q_tipificaCall != null)
                             {
                                 q_tipificaCall_des = await DescripcionTipificacion(item.nId_Cliente, q_tipificaCall.nId_OpeCodCliOut);
                             }
 
                             var q_tipificaCampo = await Tipificacion(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor, 2);
-                            av_OpeCodCliOut? q_tipificaCampo_des = null;
+                            Crm_OpeCodCliOut? q_tipificaCampo_des = null;
                             if (q_tipificaCampo != null)
                             {
                                 q_tipificaCampo_des = await DescripcionTipificacion(item.nId_Cliente, q_tipificaCampo.nId_OpeCodCliOut);
@@ -183,7 +183,7 @@ namespace GesMgmt.Application.Services.Deudor
                 }
                 else if (letra == "T" || letra == "C") //T=cDoc_Numero / C=cPers_CodCliente
                 {
-                    var q_dxc = await _unitOfWork.av_DocxCobrars.GetDocumentosxCobrarByNroDocumentoAsync(letra, deudorDto.nId_Cliente, valor);
+                    var q_dxc = await _unitOfWork.Crm_DocxCobrars.GetDocumentosxCobrarByNroDocumentoAsync(letra, deudorDto.nId_Cliente, valor);
                     if (q_dxc == null || !q_dxc.Any())
                     {
                         return ResultListDto<IEnumerable<GetDeudorResponseDto>>.Failure("400", "No existe registro buscado.", "ERROR", 400);
@@ -191,9 +191,9 @@ namespace GesMgmt.Application.Services.Deudor
                     else
                     {
                         deudorId = q_dxc.FirstOrDefault().nId_PersDeudor;
-                        var q_car = await _unitOfWork.av_Carteras.GetCarterasByIdClienteActivoAsync(deudorDto.nId_Cliente);
-                        var q_deupar = await _unitOfWork.av_PersDeudorParams.GetDeudorParamByIdDeudorAsync(deudorId);
-                        var q_deu = await _unitOfWork.av_PersDeudors.GetDeudoresByIdDeudorAsync(deudorId);
+                        var q_car = await _unitOfWork.Crm_Carteras.GetCarterasByIdClienteActivoAsync(deudorDto.nId_Cliente);
+                        var q_deupar = await _unitOfWork.Crm_PersDeudorParams.GetDeudorParamByIdDeudorAsync(deudorId);
+                        var q_deu = await _unitOfWork.Crm_PersDeudors.GetDeudoresByIdDeudorAsync(deudorId);
 
                         var data = (
                             from dc in q_dxc
@@ -253,14 +253,14 @@ namespace GesMgmt.Application.Services.Deudor
                             var cantidadGestiones = await CantidadGestiones(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor);
 
                             var q_tipificaCall = await Tipificacion(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor, 1);
-                            av_OpeCodCliOut? q_tipificaCall_des = null;
+                            Crm_OpeCodCliOut? q_tipificaCall_des = null;
                             if (q_tipificaCall != null)
                             {
                                 q_tipificaCall_des = await DescripcionTipificacion(item.nId_Cliente, q_tipificaCall.nId_OpeCodCliOut);
                             }
 
                             var q_tipificaCampo = await Tipificacion(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor, 2);
-                            av_OpeCodCliOut? q_tipificaCampo_des = null;
+                            Crm_OpeCodCliOut? q_tipificaCampo_des = null;
                             if (q_tipificaCampo != null)
                             {
                                 q_tipificaCampo_des = await DescripcionTipificacion(item.nId_Cliente, q_tipificaCampo.nId_OpeCodCliOut);
@@ -295,7 +295,7 @@ namespace GesMgmt.Application.Services.Deudor
                 else
                 {
                     //R=cPers_RUC / D=cPers_DNI
-                    var q_deu = await _unitOfWork.av_PersDeudors.GetDeudorByDniRucAsync(letra, valor);
+                    var q_deu = await _unitOfWork.Crm_PersDeudors.GetDeudorByDniRucAsync(letra, valor);
                     if (q_deu == null || !q_deu.Any())
                     {
                         return ResultListDto<IEnumerable<GetDeudorResponseDto>>.Failure("400", "No existe registro buscado.", "ERROR", 400);
@@ -303,18 +303,18 @@ namespace GesMgmt.Application.Services.Deudor
                     else
                     {
                         deudorId = q_deu.FirstOrDefault().nId_PersDeudor;
-                        IQueryable<av_DocxCobrar> q_dxc;
+                        IQueryable<Crm_DocxCobrar> q_dxc;
 
                         if (deudorDto.nId_Cliente == 59)
                         {
-                            q_dxc = await _unitOfWork.av_DocxCobrars.GetDocumentosxCobrarByIdClienteAndIdDeudorAsync(deudorDto.nId_Cliente, deudorId);
+                            q_dxc = await _unitOfWork.Crm_DocxCobrars.GetDocumentosxCobrarByIdClienteAndIdDeudorAsync(deudorDto.nId_Cliente, deudorId);
                         }
                         else
                         {
-                            q_dxc = await _unitOfWork.av_DocxCobrars.GetDocumentosxCobrarActivosAsync(deudorDto.nId_Cliente, deudorId);
+                            q_dxc = await _unitOfWork.Crm_DocxCobrars.GetDocumentosxCobrarActivosAsync(deudorDto.nId_Cliente, deudorId);
                         }
-                        var q_car = await _unitOfWork.av_Carteras.GetCarterasByIdClienteActivoAsync(deudorDto.nId_Cliente);
-                        var q_deupar = await _unitOfWork.av_PersDeudorParams.GetDeudorParamByIdDeudorAsync(deudorId);
+                        var q_car = await _unitOfWork.Crm_Carteras.GetCarterasByIdClienteActivoAsync(deudorDto.nId_Cliente);
+                        var q_deupar = await _unitOfWork.Crm_PersDeudorParams.GetDeudorParamByIdDeudorAsync(deudorId);
 
                         var data = (
                             from dc in q_dxc
@@ -375,14 +375,14 @@ namespace GesMgmt.Application.Services.Deudor
 
 
                             var q_tipificaCall = await Tipificacion(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor, 1);
-                            av_OpeCodCliOut? q_tipificaCall_des = null;
+                            Crm_OpeCodCliOut? q_tipificaCall_des = null;
                             if (q_tipificaCall != null)
                             {
                                 q_tipificaCall_des = await DescripcionTipificacion(item.nId_Cliente, q_tipificaCall.nId_OpeCodCliOut);
                             }
 
                             var q_tipificaCampo = await Tipificacion(item.nId_Cliente, item.nId_Cartera, item.nId_PersDeudor, 2);
-                            av_OpeCodCliOut? q_tipificaCampo_des = null;
+                            Crm_OpeCodCliOut? q_tipificaCampo_des = null;
                             if (q_tipificaCampo != null)
                             {
                                 q_tipificaCampo_des = await DescripcionTipificacion(item.nId_Cliente, q_tipificaCampo.nId_OpeCodCliOut);
@@ -432,7 +432,7 @@ namespace GesMgmt.Application.Services.Deudor
 
         private async Task<CantidadGestionesDto> CantidadGestiones(int nId_Cliente, int nId_Cartera, int nId_PersDeudor)
         {
-            var q_Doc = await _unitOfWork.av_DocxCobrarOpes.GetGestionesCarteraDeudorAsync(nId_Cliente, nId_Cartera, nId_PersDeudor, null);
+            var q_Doc = await _unitOfWork.Crm_DocxCobrarOpes.GetGestionesCarteraDeudorAsync(nId_Cliente, nId_Cartera, nId_PersDeudor, null);
 
             return new CantidadGestionesDto
             {
@@ -441,14 +441,14 @@ namespace GesMgmt.Application.Services.Deudor
             };
         }
 
-        private Task<av_DocxCobrarOpe?> Tipificacion(int nId_Cliente, int nId_Cartera, int nId_PersDeudor, int nId_TipoGestion)
+        private Task<Crm_DocxCobrarOpe?> Tipificacion(int nId_Cliente, int nId_Cartera, int nId_PersDeudor, int nId_TipoGestion)
         {
-            return _unitOfWork.av_DocxCobrarOpes.GetDeudorUltimaGestionTipoAsync(nId_Cliente, nId_Cartera, nId_PersDeudor, nId_TipoGestion);
+            return _unitOfWork.Crm_DocxCobrarOpes.GetDeudorUltimaGestionTipoAsync(nId_Cliente, nId_Cartera, nId_PersDeudor, nId_TipoGestion);
         }
 
-        private Task<av_OpeCodCliOut> DescripcionTipificacion(int nId_Cliente, int? nId_OpeCodCliOut)
+        private Task<Crm_OpeCodCliOut> DescripcionTipificacion(int nId_Cliente, int? nId_OpeCodCliOut)
         {
-            return _unitOfWork.av_OpeCodCliOuts.GetTipificacionById2Async(nId_Cliente, nId_OpeCodCliOut.Value);
+            return _unitOfWork.Crm_OpeCodCliOuts.GetTipificacionById2Async(nId_Cliente, nId_OpeCodCliOut.Value);
         }
 
         private static string FormatearFecha(DateTime? fecha)
@@ -464,11 +464,11 @@ namespace GesMgmt.Application.Services.Deudor
         private async Task<string> MejorStatus(int nId_Cliente, int nId_Cartera, int nId_PersDeudor)
         {
             string valor = string.Empty;
-            var mejorgestionuno = await _unitOfWork.av_DocxCobrarOpes.GetGestionMejorGestionAsync(nId_Cliente, nId_Cartera, nId_PersDeudor);
+            var mejorgestionuno = await _unitOfWork.Crm_DocxCobrarOpes.GetGestionMejorGestionAsync(nId_Cliente, nId_Cartera, nId_PersDeudor);
             if (mejorgestionuno == null)
                 return valor;
 
-            valor = mejorgestionuno.av_OpeCodCliOut.cNombre_OpeCodCliOut ?? "";
+            valor = mejorgestionuno.Crm_OpeCodCliOut.cNombre_OpeCodCliOut ?? "";
             return valor;
         }
         #endregion

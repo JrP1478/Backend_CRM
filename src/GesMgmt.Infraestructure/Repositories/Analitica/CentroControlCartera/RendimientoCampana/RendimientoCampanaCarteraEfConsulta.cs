@@ -6,7 +6,7 @@ namespace GesMgmt.Infraestructure.Repositories.Analitica.CentroControlCartera;
 
 internal static class RendimientoCampanaCarteraEfConsulta
 {
-    private const int IdClienteCrmMaf = 59;
+    private const int IdClienteCrmClienteB = 59;
 
     private static readonly string[] EstadosCumplidos =
     [
@@ -41,7 +41,7 @@ internal static class RendimientoCampanaCarteraEfConsulta
         }
 
         var usarDeduplicacionCampana =
-            idClienteCrm == IdClienteCrmMaf
+            idClienteCrm == IdClienteCrmClienteB
             && !request.IdSubCartera.HasValue;
 
         var eligibleCampaigns = ConstruirCampanasElegibles(
@@ -423,7 +423,7 @@ internal static class RendimientoCampanaCarteraEfConsulta
                 fact.FechaCarga
             };
 
-        // Los hechos detallados aún no persisten clave_cliente_maf.
+        // Los hechos detallados aún no persisten clave_cliente_cliente_b.
         // Mantener el grano cartera/deudor evita fusionar clientes distintos.
         var directCounts = await contacts
             .Where(row => row.TuvoContactoDirecto)

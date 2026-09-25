@@ -25,7 +25,7 @@ namespace GesMgmt.Application.Services.Cliente
         {
             try
             {
-                var q_clientes = await _unitOfWork.av_Clientes.ClientesActivosAsync();
+                var q_clientes = await _unitOfWork.Crm_Clientes.ClientesActivosAsync();
                 var data = await (
                                 from cliente in q_clientes
                                 orderby cliente.cCli_Nombre

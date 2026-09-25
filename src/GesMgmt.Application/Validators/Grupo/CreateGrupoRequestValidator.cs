@@ -55,7 +55,7 @@ namespace GesMgmt.Application.Validators.Grupo
                 return ResultDto<CreateGrupoResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            var grupo = await _unitOfWork.av_Grupos.ByNombreGrupoAsync(_requestDto.cNombre_Grupo.Trim());
+            var grupo = await _unitOfWork.Crm_Grupos.ByNombreGrupoAsync(_requestDto.cNombre_Grupo.Trim());
             if (grupo != null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GRUPO_NOMBRE_EXISTENTE, "ESP");

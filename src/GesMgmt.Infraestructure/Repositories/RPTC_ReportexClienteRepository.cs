@@ -7,10 +7,10 @@ namespace GesMgmt.Infraestructure.Repositories
 {
     public class RPTC_ReportexClienteRepository : IRPTC_ReportexClienteRepository
     {
-        protected readonly AvalDbContext _context;
+        protected readonly CrmDbContext _context;
         protected readonly DbSet<RPTC_ReportexCliente> _dbSet;
 
-        public RPTC_ReportexClienteRepository(AvalDbContext context)
+        public RPTC_ReportexClienteRepository(CrmDbContext context)
         {
             _context = context;
             _dbSet = context.Set<RPTC_ReportexCliente>();

@@ -12,7 +12,7 @@ namespace GesMgmt.Application.Services.Analitica;
 public sealed class AccesoReporteClienteAnaliticaService(
     IAccesoOpcionAnaliticaService optionAccessService,
     IConfiguracionReporteClienteAnaliticaService configurationService,
-    ISisgesOpcionPermisoRepository permissionRepository)
+    ICrmOpcionPermisoRepository permissionRepository)
     : IAccesoReporteClienteAnaliticaService
 {
     public async Task<AnaliticaReporteClienteAccesoResult> ResolverAsync(
@@ -36,14 +36,14 @@ public sealed class AccesoReporteClienteAnaliticaService(
 
         if (omiteValidacionAlcanceGrupoOpcion)
         {
-            var tienePermisoSisges = await permissionRepository.TienePermisoAsync(
+            var tienePermisoCrm = await permissionRepository.TienePermisoAsync(
                 idUsuario,
                 idGrupo,
                 idOpcion,
-                SisgesOptionPermission.Consult,
+                CrmOptionPermission.Consult,
                 cancellationToken);
 
-            if (!tienePermisoSisges)
+            if (!tienePermisoCrm)
             {
                 return Denegado();
             }

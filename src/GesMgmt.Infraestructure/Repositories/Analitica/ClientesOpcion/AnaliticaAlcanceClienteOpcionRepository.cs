@@ -243,7 +243,7 @@ internal sealed class AnaliticaAlcanceClienteOpcionRepository(
     }
 
     // Centro de Control de Cartera is an operational module whose data scope is
-    // inherited from SISGES user/group/client assignments. Requiring a second
+    // inherited from CRM user/group/client assignments. Requiring a second
     // per-user row in Analítica duplicates authorization state and does not
     // scale as users are added or moved between grupos. Other options retain
     // the explicit user_option_scope behavior.

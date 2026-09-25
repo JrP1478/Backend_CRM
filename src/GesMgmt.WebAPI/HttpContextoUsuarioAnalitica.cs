@@ -10,19 +10,19 @@ namespace GesMgmt.WebAPI
     {
         private const string LocalTestingUserIdKey = "AnalyticsTesting:UserId";
         private const string LocalTestingGroupIdKey = "AnalyticsTesting:GroupId";
-        private const string DevelopmentUserIdHeader = "X-Sisges-User-Id";
-        private const string DevelopmentGroupIdHeader = "X-Sisges-Group-Id";
+        private const string DevelopmentUserIdHeader = "X-Crm-User-Id";
+        private const string DevelopmentGroupIdHeader = "X-Crm-Group-Id";
 
         private static readonly string[] UserIdClaimTypes =
         [
-            "sisges_user_id",
+            "crm_user_id",
             "user_id",
             ClaimTypes.NameIdentifier
         ];
 
         private static readonly string[] GroupIdClaimTypes =
         [
-            "sisges_group_id",
+            "crm_group_id",
             "group_id"
         ];
 
@@ -64,7 +64,7 @@ namespace GesMgmt.WebAPI
                 }
             }
 
-            // El frontend SISGES propaga el usuario/grupo real mediante headers.
+            // El frontend CRM propaga el usuario/grupo real mediante headers.
             // Los claims autenticados mantienen prioridad cuando estén disponibles.
             var headerValue = httpContextAccessor.HttpContext?
                 .Request.Headers[developmentHeader]

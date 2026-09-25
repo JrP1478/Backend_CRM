@@ -15,12 +15,12 @@ namespace GesMgmt.Application.Validators.Opcion
         private ValidationMessageDto _oValMsgDto;
         private GetOpcionByIdRequestDto _requestDto;
 
-        public av_Opcion av_opcion;
+        public Crm_Opcion Crm_opcion;
 
         public GetOpcionRequestValidator(
                 IUnitOfWork unitOfWork,
                 IValidationMessageService validationMessageService,
-                GetOpcionByIdRequestDto requestDto 
+                GetOpcionByIdRequestDto requestDto
             )
         {
             _unitOfWork = unitOfWork;
@@ -50,9 +50,9 @@ namespace GesMgmt.Application.Validators.Opcion
                 return ResultDto<GetOpcionByIdResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
             }
 
-            av_opcion = await _unitOfWork.av_Opcions.ByIdAsync(_requestDto.nId_opcion);
+            Crm_opcion = await _unitOfWork.Crm_Opcions.ByIdAsync(_requestDto.nId_opcion);
 
-            if (av_opcion == null)
+            if (Crm_opcion == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_ID_NO_EXISTE, "ESP");
                 return ResultDto<GetOpcionByIdResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
@@ -82,9 +82,9 @@ namespace GesMgmt.Application.Validators.Opcion
         //        return ResultDto<GetOpcionByIdPadreResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);
         //    }
 
-        //    av_opcion = await _unitOfWork.av_Opcions.ByIdPadreAsync(_requestDto.nId_opcion);
+        //    Crm_opcion = await _unitOfWork.Crm_Opcions.ByIdPadreAsync(_requestDto.nId_opcion);
 
-        //    if (av_opcion == null)
+        //    if (Crm_opcion == null)
         //    {
         //        _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.OPCION_CODIGO_NO_EXISTE, "ESP");
         //        return ResultDto<GetOpcionByIdPadreResponseDto>.Failure(_oValMsgDto.Code, _oValMsgDto.Message, _oValMsgDto.MessageFriendly, Const.BAD_REQUEST_CODE);

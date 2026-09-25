@@ -60,7 +60,7 @@ namespace GesMgmt.Application.Validators.Direccion
 
         private async Task<ResultDto<EditDireccionResponseDto>> ValidateDireccion()
         {
-            //cDirecc_Nomb - SISGES: Dirección
+            //cDirecc_Nomb - CRM: Dirección
             if (string.IsNullOrEmpty(_requestDto.cDirecc_Nomb))
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.DIRECCION_LENGTH_ZERO, "ESP");
@@ -77,7 +77,7 @@ namespace GesMgmt.Application.Validators.Direccion
 
         private async Task<ResultDto<EditDireccionResponseDto>> ValidateDepartamento()
         {
-            //nId_Departamento - SISGES: Departamento
+            //nId_Departamento - CRM: Departamento
             if (_requestDto.nId_Departamento == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.DIRECCION_DEPARTAMENTO_REQUERIDO, "ESP");
@@ -94,7 +94,7 @@ namespace GesMgmt.Application.Validators.Direccion
 
         private async Task<ResultDto<EditDireccionResponseDto>> ValidateProvincia()
         {
-            //nId_Provincia - SISGES: Provincia
+            //nId_Provincia - CRM: Provincia
             if (_requestDto.nId_Provincia == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.DIRECCION_PROVINCIA_REQUERIDO, "ESP");
@@ -111,7 +111,7 @@ namespace GesMgmt.Application.Validators.Direccion
 
         private async Task<ResultDto<EditDireccionResponseDto>> ValidateDistrito()
         {
-            //nId_Provincia - SISGES: Distrito
+            //nId_Provincia - CRM: Distrito
             if (_requestDto.nId_Distrito == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.DIRECCION_DISTRITO_REQUERIDO, "ESP");
@@ -128,7 +128,7 @@ namespace GesMgmt.Application.Validators.Direccion
 
         private async Task<ResultDto<EditDireccionResponseDto>> ValidateUbicacion()
         {
-            //nId_Provincia - SISGES: Referencia de Ubicación
+            //nId_Provincia - CRM: Referencia de Ubicación
             if (_requestDto.nId_PersRefUbi == null)
             {
                 _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.DIRECCION_UBICACION_REQUERIDO, "ESP");

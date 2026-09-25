@@ -57,7 +57,7 @@ namespace GesMgmt.Application.Validators.Grupo
 
             if (_requestDto.cNombre_Grupo != _requestDto.cNombre_GrupoNuevo)
             {
-                var grupo = await _unitOfWork.av_Grupos.ByNombreGrupoAsync(_requestDto.cNombre_GrupoNuevo.Trim());
+                var grupo = await _unitOfWork.Crm_Grupos.ByNombreGrupoAsync(_requestDto.cNombre_GrupoNuevo.Trim());
                 if (grupo != null)
                 {
                     _oValMsgDto = await _validationMessageService.GetByCode(ConstMsgVal.GRUPO_NOMBRE_EXISTENTE, "ESP");
