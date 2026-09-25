@@ -1,0 +1,32 @@
+using GesMgmt.Domain.Interfaces.Analitica;
+using GesMgmt.Infraestructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
+namespace GesMgmt.Infraestructure.Repositories.Analitica;
+
+internal sealed class CrmGrupoUsuarioRepository(CrmDbContext context)
+    : ICrmGrupoUsuarioRepository
+{
+    public async Task<IReadOnlyList<int>> ObtenerIdsGruposActivosAsync(
+        int idUsuario,
+        CancellationToken cancellationToken)
+    {
+        if (idUsuario <= 0)
+        {
+            return Array.Empty<int>();
+        }
+
+        return await context.Crm_UGrupos
+            .AsNoTracking()
+            .Where(userGroup =>
+                userGroup.nId_Usuario == idUsuario &&
+                userGroup.bEstado == true &&
+                userGroup.bActivo == true &&
+                userGroup.Crm_Grupo.bEstado == true &&
+                userGroup.nId_Grupo.HasValue)
+            .Select(userGroup => userGroup.nId_Grupo!.Value)
+            .Distinct()
+            .OrderBy(idGrupo => idGrupo)
+            .ToListAsync(cancellationToken);
+    }
+}

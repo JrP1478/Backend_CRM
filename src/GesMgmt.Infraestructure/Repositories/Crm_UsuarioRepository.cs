@@ -1,0 +1,131 @@
+﻿using GesMgmt.Domain.Entities;
+using GesMgmt.Domain.Interfaces;
+using GesMgmt.Infraestructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace GesMgmt.Infraestructure.Repositories
+{
+    public class Crm_UsuarioRepository : ICrm_UsuarioRepository
+    {
+        protected readonly CrmDbContext _context;
+        protected readonly DbSet<Crm_Usuario> _dbSet;
+        private readonly IMemoryCache _cache;
+
+        public Crm_UsuarioRepository(CrmDbContext context, IMemoryCache cache)
+        {
+            _context = context;
+            _dbSet = context.Set<Crm_Usuario>();
+            _cache = cache;
+        }
+
+        public async Task<IQueryable<Crm_Usuario>> Query()
+        {
+            return _dbSet.AsNoTracking();
+        }
+
+        public async Task<Crm_Usuario> GetByIdAsync(int nId_Usuario)
+        {
+            var query = await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.nId_Usuario == nId_Usuario);
+            return query;
+        }
+
+        public async Task<Crm_Usuario> GetLoginUsuarioAsync(string cUsr_Login, string cUsr_Pass)
+        {
+            var query = await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.cUsr_Login == cUsr_Login && s.cUsr_Pass == cUsr_Pass);
+            return query;
+        }
+
+        public async Task<Crm_Usuario> GetByUsuarioAsync(string cUsr_Login)
+        {
+            var query = await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.cUsr_Login == cUsr_Login);
+            return query;
+        }
+
+        public async Task<IQueryable<Crm_Usuario>>GetUsuariosActivos()
+        {
+            return _dbSet
+                .Where(uc => uc.bEstado.Equals(true))
+                .AsNoTracking();
+        }
+
+        public async Task<Crm_Usuario> GetByUsuarioByNroDocumentoAsync(string cUsr_NroDoc)
+        {
+            var query = await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.cUsr_NroDoc == cUsr_NroDoc.Trim());
+            return query;
+        }
+
+        public async Task<Crm_Usuario> GetByUsuarioByAnexoAsync(string cUsr_Anexo)
+        {
+            var query = await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.cUsr_Anexo == cUsr_Anexo.Trim() && s.bEstado == true);
+            return query;
+        }
+
+        public async Task<Crm_Usuario> GetByUsuarioByLoginAsync(string cUsr_Login)
+        {
+            var query = await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.cUsr_Login == cUsr_Login.Trim() && s.bEstado == true);
+            return query;
+        }
+
+        public async Task<Crm_Usuario> AddAsync(Crm_Usuario Crm_Usuario)
+        {
+            await _dbSet.AddAsync(Crm_Usuario);
+            return Crm_Usuario;
+        }
+
+        public async Task<Crm_Usuario> UpdateAsync(Crm_Usuario Crm_Usuario)
+        {
+            _dbSet.Update(Crm_Usuario);
+            return Crm_Usuario;
+        }
+
+        public async Task<Crm_Usuario> UpdateIntentoLoginAsync(string cUsr_Login)
+        {
+            var usuario = await GetByUsuarioByLoginAsync(cUsr_Login);
+            if (usuario != null)
+            {
+                if (usuario.nUsr_NroIntentoAcc == null)
+                {
+                    usuario.nUsr_NroIntentoAcc = 0 + 1;
+                }
+                else
+                {
+                    usuario.nUsr_NroIntentoAcc = usuario.nUsr_NroIntentoAcc + 1;
+                }
+                _dbSet.Update(usuario);
+            }
+            return usuario;
+        }
+
+        public async Task<Crm_Usuario> UpdateIntentoZeroLoginAsync(string cUsr_Login)
+        {
+            var usuario = await GetByUsuarioByLoginAsync(cUsr_Login);
+            if (usuario != null)
+            {
+                if (usuario.nUsr_NroIntentoAcc == null)
+                {
+                    usuario.nUsr_NroIntentoAcc = 0;
+                }
+                else
+                {
+                    usuario.nUsr_NroIntentoAcc = 0;
+                }
+                _dbSet.Update(usuario);
+            }
+            return usuario;
+        }
+
+    }
+}

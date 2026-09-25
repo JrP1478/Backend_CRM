@@ -1,0 +1,65 @@
+﻿
+namespace GesMgmt.Application.DTOs.Telefono
+{
+    public class TelefonoRequestDto
+    {
+        public class GetTelefonosRequestDto
+        {
+
+            public int nId_Cliente { get; set; } //ID_CLIENTE
+            public int nId_Persdeudor { get; set; } //ID_DEUDOR
+
+            // 🔹 PAGINACIÓN
+            public int PageNumber { get; set; } = 1;
+            private int _pageSize = 10;
+            public int PageSize
+            {
+                get => _pageSize;
+                set => _pageSize = value > 1000 ? 1000 : value; // Máximo 50
+            }
+        }
+        public class CreateTelefonoRequestDto
+        {
+            public int nId_PersTelef { get; set; }
+            public int? nId_PersDeudor { get; set; }
+            public string? nTelef_Pre { get; set; }
+            public string? nTelef_Nro { get; set; }
+            public string? nTelef_Anexo { get; set; }
+            public int? nId_PersRefUbi { get; set; } //en crm Ubicación*
+            public int? nTelef_Prioridad { get; set; }
+            public string? cTelef_Coment { get; set; }
+            public int? nId_PersDeudorGestionHrs { get; set; } // en crm Horario de Gestión
+            public int? nId_PersTelefOpe { get; set; } //en crm Resultado*
+            public int? nId_Fuente { get; set; } //en crm Fuente Búsqueda
+            public int? nreferencia { get; set; }
+            public int? nid_usuarioupd { get; set; }
+            public int? nId_OperadorTelefonico { get; set; } //en crm Operador Telefónico*
+            public bool? bEstado { get; set; }
+            public DateTime? dFecUlt_PerstelefOpe { get; set; }
+            public DateTime? dFecCarga_PersTelef { get; set; }
+            public bool? bReclamo { get; set; }
+        }
+
+        public class EditTelefonoRequestDto
+        {
+            public int nId_PersTelef { get; set; }
+            public int? nId_PersDeudor { get; set; }
+            public string? nTelef_Pre { get; set; }
+            public string? nTelef_Nro { get; set; }
+            public string? nTelef_Anexo { get; set; }
+            public int? nId_PersRefUbi { get; set; } //en crm Ubicación*
+            public int? nTelef_Prioridad { get; set; }
+            public string? cTelef_Coment { get; set; }
+            public int? nId_PersDeudorGestionHrs { get; set; } // en crm Horario de Gestión
+            public int? nId_PersTelefOpe { get; set; } //en crm Resultado*
+            public int? nId_Fuente { get; set; } //en crm Fuente Búsqueda
+            public int? nreferencia { get; set; }
+            public int? nid_usuarioupd { get; set; }
+            public int? nId_OperadorTelefonico { get; set; } //en crm Operador Telefónico*
+            public bool? bEstado { get; set; }
+            public DateTime? dFecUlt_PerstelefOpe { get; set; }
+            public DateTime? dFecCarga_PersTelef { get; set; }
+            public bool? bReclamo { get; set; }
+        }
+    }
+}
