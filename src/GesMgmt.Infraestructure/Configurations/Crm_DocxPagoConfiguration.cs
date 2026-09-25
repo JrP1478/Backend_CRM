@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_DocxPagoConfiguration : IEntityTypeConfiguration<av_DocxPago>
+    public class Crm_DocxPagoConfiguration : IEntityTypeConfiguration<Crm_DocxPago>
     {
-        public void Configure(EntityTypeBuilder<av_DocxPago> builder)
+        public void Configure(EntityTypeBuilder<Crm_DocxPago> builder)
         {
-            builder.ToTable("av_DocxPago", "dbo");
+            builder.ToTable("Crm_DocxPago", "dbo");
             builder.HasKey(cpc => cpc.nId_DocxPago);
         }
     }

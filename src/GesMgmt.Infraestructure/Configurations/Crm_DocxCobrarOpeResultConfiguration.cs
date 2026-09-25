@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_DocxCobrarOpeResultConfiguration : IEntityTypeConfiguration<av_DocxCobrarOpeResult>
+    public class Crm_DocxCobrarOpeResultConfiguration : IEntityTypeConfiguration<Crm_DocxCobrarOpeResult>
     {
-        public void Configure(EntityTypeBuilder<av_DocxCobrarOpeResult> builder)
+        public void Configure(EntityTypeBuilder<Crm_DocxCobrarOpeResult> builder)
         {
-            builder.ToTable("av_DocxCobrarOpeResult", "dbo");
+            builder.ToTable("Crm_DocxCobrarOpeResult", "dbo");
             builder.HasKey(doc => doc.nId_DocxCobrarOpeResult);
 
-            builder.HasOne(car => car.av_DocxCobrar)
+            builder.HasOne(car => car.Crm_DocxCobrar)
                 .WithMany()
                 .HasForeignKey(car => car.nId_DocxCobrar);
         }
