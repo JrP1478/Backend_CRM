@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_DiscadorRepository
+    public interface ICrm_ContFormTipoParamOpeRepository
     {
-        Task<IQueryable<av_Discador>> Query();
+        Task<IQueryable<Crm_ContFormTipoParamOpe>> Query();
     }
 }

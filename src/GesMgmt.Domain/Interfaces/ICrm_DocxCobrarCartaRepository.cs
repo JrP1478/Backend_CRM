@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_ContFormTipoParamOpeRepository
+    public interface ICrm_DocxCobrarCartaRepository
     {
-        Task<IQueryable<av_ContFormTipoParamOpe>> Query();
+        Task<IQueryable<Crm_DocxCobrarCarta>> Query();
     }
 }
