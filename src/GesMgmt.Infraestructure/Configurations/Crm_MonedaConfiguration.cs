@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_MonedaConfiguration : IEntityTypeConfiguration<av_Moneda>
+    public class Crm_MonedaConfiguration : IEntityTypeConfiguration<Crm_Moneda>
     {
-        public void Configure(EntityTypeBuilder<av_Moneda> builder)
+        public void Configure(EntityTypeBuilder<Crm_Moneda> builder)
         {
-            builder.ToTable("av_Moneda", "dbo");
+            builder.ToTable("Crm_Moneda", "dbo");
             builder.HasKey(mon => mon.nId_Moneda);
         }
     }

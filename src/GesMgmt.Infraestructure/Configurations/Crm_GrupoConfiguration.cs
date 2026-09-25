@@ -7,14 +7,14 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_GrupoConfiguration : IEntityTypeConfiguration<av_Grupo>
+    public class Crm_GrupoConfiguration : IEntityTypeConfiguration<Crm_Grupo>
     {
-        public void Configure(EntityTypeBuilder<av_Grupo> builder)
+        public void Configure(EntityTypeBuilder<Crm_Grupo> builder)
         {
-            builder.ToTable("av_Grupo", "dbo");
+            builder.ToTable("Crm_Grupo", "dbo");
             builder.HasKey(gr => gr.nId_Grupo);
 
-            builder.HasOne(gr => gr.av_Cliente)
+            builder.HasOne(gr => gr.Crm_Cliente)
                 .WithMany()
                 .HasForeignKey(gr => gr.nid_cliente);
         }

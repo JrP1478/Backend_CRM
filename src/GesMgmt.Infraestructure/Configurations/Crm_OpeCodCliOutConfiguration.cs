@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_OpeCodCliOutConfiguration : IEntityTypeConfiguration<av_OpeCodCliOut>
+    public class Crm_OpeCodCliOutConfiguration : IEntityTypeConfiguration<Crm_OpeCodCliOut>
     {
-        public void Configure(EntityTypeBuilder<av_OpeCodCliOut> builder)
+        public void Configure(EntityTypeBuilder<Crm_OpeCodCliOut> builder)
         {
-            builder.ToTable("av_OpeCodCliOut", "dbo");
+            builder.ToTable("Crm_OpeCodCliOut", "dbo");
             builder.HasKey(ocl => ocl.nId_OpeCodCliOut);
 
-            builder.HasOne(dc => dc.av_Cliente)
+            builder.HasOne(dc => dc.Crm_Cliente)
                 .WithMany()
                 .HasForeignKey(dc => dc.nId_Cliente);
         }

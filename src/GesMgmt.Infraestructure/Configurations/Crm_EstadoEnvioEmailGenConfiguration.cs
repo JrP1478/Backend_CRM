@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_EstadoEnvioEmailGenConfiguration : IEntityTypeConfiguration<av_EstadoEnvioEmailGen>
+    public class Crm_EstadoEnvioEmailGenConfiguration : IEntityTypeConfiguration<Crm_EstadoEnvioEmailGen>
     {
-        public void Configure(EntityTypeBuilder<av_EstadoEnvioEmailGen> builder)
+        public void Configure(EntityTypeBuilder<Crm_EstadoEnvioEmailGen> builder)
         {
-            builder.ToTable("av_EstadoEnvioEmailGen", "dbo");
+            builder.ToTable("Crm_EstadoEnvioEmailGen", "dbo");
             builder.HasKey(car => car.nId_EstadoEnvioEmailGen);
         }
     }

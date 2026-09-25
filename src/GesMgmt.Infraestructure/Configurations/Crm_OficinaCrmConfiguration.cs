@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_OficinaAvalConfiguration : IEntityTypeConfiguration<av_OficinaAval>
+    public class Crm_OficinaCrmConfiguration : IEntityTypeConfiguration<Crm_OficinaCrm>
     {
-        public void Configure(EntityTypeBuilder<av_OficinaAval> builder)
+        public void Configure(EntityTypeBuilder<Crm_OficinaCrm> builder)
         {
-            builder.ToTable("av_OficinaAval", "dbo");
-            builder.HasKey(car => car.nid_OficinaAval);
+            builder.ToTable("Crm_OficinaCrm", "dbo");
+            builder.HasKey(car => car.nid_OficinaCrm);
 
             builder.Property(dc => dc.nId_Usuario).HasColumnName("nid_usuarioResponsable");
 
-            builder.HasOne(dc => dc.av_Usuario)
+            builder.HasOne(dc => dc.Crm_Usuario)
                 .WithMany()
                 .HasForeignKey(dc => dc.nId_Usuario);
         }

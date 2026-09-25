@@ -7,11 +7,11 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_EstadoEnvioEmailErrorConfiguration : IEntityTypeConfiguration<av_EstadoEnvioEmailError>
+    public class Crm_EstadoEnvioEmailErrorConfiguration : IEntityTypeConfiguration<Crm_EstadoEnvioEmailError>
     {
-        public void Configure(EntityTypeBuilder<av_EstadoEnvioEmailError> builder)
+        public void Configure(EntityTypeBuilder<Crm_EstadoEnvioEmailError> builder)
         {
-            builder.ToTable("av_EstadoEnvioEmailError", "dbo");
+            builder.ToTable("Crm_EstadoEnvioEmailError", "dbo");
             builder.HasKey(car => car.nId_EstadoEnvioEmail);
         }
     }
