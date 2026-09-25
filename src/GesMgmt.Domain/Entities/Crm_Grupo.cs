@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Grupo
+    public class Crm_Grupo
     {
         public int nId_Grupo { get; set; }
         public string? cNombre_Grupo { get; set; }
@@ -9,6 +9,6 @@ namespace GesMgmt.Domain.Entities
         public bool? bEstado { get; set; }
         public int? nCant_Grupo { get; set; }
         public int? nid_cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
     }
 }

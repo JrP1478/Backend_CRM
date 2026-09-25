@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrarOpeGes
+    public class Crm_DocxCobrarOpe
     {
-        public int nId_DocxCobrarOpeGes { get; set; }
-        public int? nId_DocxCobrarOpe { get; set; }
+        public int nId_DocxCobrarOpe { get; set; }
         public int nId_DocxCobrar { get; set; }
-        public av_DocxCobrar av_DocxCobrar { get; set; }
+        public Crm_DocxCobrar Crm_DocxCobrar { get; set; }
         public int? nId_OpeCodIn { get; set; }
         public DateTime? dDocCobOpe_FecIni { get; set; }
         public DateTime? dDocCobOpe_FecFin { get; set; }
         public string? cDocOpeCobIn_Descr { get; set; }
         public int nId_OpeCodCliOut { get; set; }
-        public av_OpeCodCliOut av_OpeCodCliOut { get; set; }
+        public Crm_OpeCodCliOut Crm_OpeCodCliOut { get; set; }
         public bool? bEstado { get; set; }
         public int? nId_Usuario { get; set; }
-        public av_Usuario? av_Usuario { get; set; }
+        public Crm_Usuario? Crm_Usuario { get; set; }
         public int? nId_Estrategia { get; set; }
         public int? nId_UsrLider { get; set; }
         public int? nDoc_NroLote { get; set; }
         public string? cDocOpeCobOut_Descr { get; set; }
         public int? nId_Cliente { get; set; }
-        //public av_Cliente? av_Cliente { get; set; }
+        //public Crm_Cliente? Crm_Cliente { get; set; }
         public int? nId_Contrato { get; set; }
         public int? nId_Cartera { get; set; }
         public int nId_PersDeudor { get; set; }
@@ -38,7 +34,7 @@ namespace GesMgmt.Domain.Entities
         public decimal? monto_compDolares { get; set; }
         public bool? cDocxCobOpeInconcert { get; set; }
         public int? nId_TipoGestion { get; set; }
-        public av_TipoGestion? av_TipoGestion { get; set; }
+        public Crm_TipoGestion? Crm_TipoGestion { get; set; }
         public string? cDispositivoMovil { get; set; }
         public string? cusuar { get; set; }
         public string? ccobra { get; set; }

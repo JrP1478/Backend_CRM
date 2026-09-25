@@ -1,9 +1,9 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_EstadoAsteriskAval
+    public class Crm_EstadoAsteriskCrm
     {
-        public int nId_EstadoAsteriskAval { get; set; }
+        public int nId_EstadoAsteriskCrm { get; set; }
         public int? nId_PersDeudor { get; set; }
         public int? nId_Cartera { get; set; }
         public int? nId_Usuario { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_FuenteBusTel
+    public class Crm_FuenteBusTel
     {
         public int nId_Fuente { get; set; }
         public string? cDescripcion { get; set; }

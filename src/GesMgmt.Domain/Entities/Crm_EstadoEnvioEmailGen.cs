@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_EstadoEnvioEmailGen
+    public class Crm_EstadoEnvioEmailGen
     {
         public int nId_EstadoEnvioEmailGen { get; set; }
         public string? cEstadoGenOriginal { get; set; }

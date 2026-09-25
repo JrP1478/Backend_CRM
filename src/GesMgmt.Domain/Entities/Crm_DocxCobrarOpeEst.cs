@@ -1,29 +1,31 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrarOpe
+    public class Crm_DocxCobrarOpeEst
     {
         public int nId_DocxCobrarOpe { get; set; }
         public int nId_DocxCobrar { get; set; }
-        public av_DocxCobrar av_DocxCobrar { get; set; }
-        public int? nId_OpeCodIn { get; set; }
+        public Crm_DocxCobrar Crm_DocxCobrar { get; set; }
+        public int nId_OpeCodIn { get; set; }
         public DateTime? dDocCobOpe_FecIni { get; set; }
         public DateTime? dDocCobOpe_FecFin { get; set; }
         public string? cDocOpeCobIn_Descr { get; set; }
         public int nId_OpeCodCliOut { get; set; }
-        public av_OpeCodCliOut av_OpeCodCliOut { get; set; }
+        //public int nId_OpeCodOut { get; set; }
+        public Crm_OpeCodCliOutEst Crm_OpeCodCliOutEst { get; set; }
         public bool? bEstado { get; set; }
         public int? nId_Usuario { get; set; }
-        public av_Usuario? av_Usuario { get; set; }
+        public Crm_Usuario? Crm_Usuario { get; set; }
         public int? nId_Estrategia { get; set; }
         public int? nId_UsrLider { get; set; }
         public int? nDoc_NroLote { get; set; }
         public string? cDocOpeCobOut_Descr { get; set; }
         public int? nId_Cliente { get; set; }
-        //public av_Cliente? av_Cliente { get; set; }
         public int? nId_Contrato { get; set; }
-        public int? nId_Cartera { get; set; }
+        public int nId_Cartera { get; set; }
+        public Crm_Cartera Crm_Cartera { get; set; }
         public int nId_PersDeudor { get; set; }
+        public Crm_PersDeudor Crm_PersDeudor { get; set; }
         public bool? bOpeEfectiva { get; set; }
         public DateTime? dFechCompromisoPago { get; set; }
         public DateTime? dFechNuevaGestion { get; set; }
@@ -34,28 +36,15 @@ namespace GesMgmt.Domain.Entities
         public decimal? monto_compDolares { get; set; }
         public bool? cDocxCobOpeInconcert { get; set; }
         public int? nId_TipoGestion { get; set; }
-        public av_TipoGestion? av_TipoGestion { get; set; }
-        public string? cDispositivoMovil { get; set; }
+        public Crm_TipoGestion? Crm_TipoGestion { get; set; }
         public string? cusuar { get; set; }
-        public string? ccobra { get; set; }
         public int? usu_reg { get; set; }
-        public string? codges_manito { get; set; }
-        public string? cnombreContacto { get; set; }
-        public string? ccargoContacto { get; set; }
-        public DateTime? dDoc_FecIngresoGes { get; set; }
-        public int? nId_OpeCodOutNp2 { get; set; }
-        public int? nId_DocxPagoComp { get; set; }
-        public int? nId_DocxCobrarParamOpe { get; set; }
+        public int? nid_docxcobraropeOrig { get; set; }
+        public DateTime? dDoc_FecIngreso { get; set; }
         public int? nId_Gestion { get; set; }
-        public string? cLatitud { get; set; }
-        public string? cLongitud { get; set; }
         public int? nId_GestionDisp { get; set; }
         public string? cID_Llamada { get; set; }
-        public int? nId_OpeCodOutEst { get; set; }
-        public string? cTelef_Salida { get; set; }
-        public string? cPeriodo { get; set; }
-        public string? cCorreo { get; set; }
-        public int? nId_DocxCobrarOpe_orig { get; set; }
-        public int? nId_OpeCodCliOutMotivoNoPago { get; set; }
+        public string? cnombreContacto { get; set; }
+        public string? ccargoContacto { get; set; }
     }
 }

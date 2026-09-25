@@ -1,13 +1,13 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrarParam
+    public class Crm_DocxCobrarParam
     {
         public int nId_DocxCobrarParam { get; set; }
         public int? nId_Cartera { get; set; }
         public int nId_DocxCobrar { get; set; }
-        public virtual av_Cartera av_Cartera { get; set; }
-        public virtual av_DocxCobrar av_DocxCobrar { get; set; }
+        public virtual Crm_Cartera Crm_Cartera { get; set; }
+        public virtual Crm_DocxCobrar Crm_DocxCobrar { get; set; }
         public int? bEstado { get; set; }
         public string? cDocParam01 { get; set; }
         public string? cDocParam02 { get; set; }
@@ -36,7 +36,7 @@ namespace GesMgmt.Domain.Entities
         public string? cDocParam25 { get; set; }
         public string? cDocParamZona { get; set; }
         public int? nId_Cliente { get; set; }
-        //public av_Cliente av_Cliente { get; set; }
+        //public Crm_Cliente Crm_Cliente { get; set; }
         public string? cDocParam26 { get; set; }
         public string? cDocParam27 { get; set; }
         public string? cDocParam28 { get; set; }
@@ -266,7 +266,7 @@ namespace GesMgmt.Domain.Entities
         public string? cDocParam249 { get; set; }
         public string? cDocParam250 { get; set; }
         public string? cDocParam_SBS_CantidadEmpresas { get; set; }
-        public string? cDocParam_SBS_Calificacion_AVAL { get; set; }
+        public string? cDocParam_SBS_Calificacion_CRM { get; set; }
         public string? cDocParam_SBS_Calificacion { get; set; }
         public string? cDocParam_SBS_Calificacion_Normal { get; set; }
         public string? cDocParam_SBS_Calificacion_CPP { get; set; }

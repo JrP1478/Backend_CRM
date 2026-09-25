@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxPago
+    public class Crm_DocxPago
     {
         public int nId_DocxPago { get; set; }
         public int nId_DocxCobrar { get; set; }

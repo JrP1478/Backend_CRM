@@ -1,20 +1,20 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrarOpeResult
+    public class Crm_DocxCobrarOpeResult
     {
         public int nId_DocxCobrarOpeResult { get; set; }
         public int nId_DocxCobrar { get; set; }
-        public av_DocxCobrar av_DocxCobrar { get; set; }
+        public Crm_DocxCobrar Crm_DocxCobrar { get; set; }
         public DateTime? dDocCobOpe_FecIni { get; set; }
         public int? nId_OpeCodOut { get; set; }
         public bool? bEstado { get; set; }
         public int? nId_UsuOpe { get; set; }
         public string? cDocOpeCobOut_Descr { get; set; }
         public int nId_Cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
         public int nId_Cartera { get; set; }
-        public av_Cartera av_Cartera { get; set; }
+        public Crm_Cartera Crm_Cartera { get; set; }
         public int nId_PersDeudor { get; set; }
         public DateTime? dDoc_FecIngresoGes { get; set; }
         public string? cDocParam01 { get; set; }

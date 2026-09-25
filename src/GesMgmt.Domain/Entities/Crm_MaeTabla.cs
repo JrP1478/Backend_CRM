@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_MaeTabla
+    public class Crm_MaeTabla
     {
         public int nid_tabla { get; set; }
         public string? nom_tabla { get; set; }
