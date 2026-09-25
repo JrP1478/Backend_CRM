@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_TipoGestion
+    public class Crm_TipoGestion
     {
         public int nId_TipoGestion { get; set; }
         public string? cNomTipoGestion { get; set; }

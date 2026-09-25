@@ -4,13 +4,13 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersDeudorParam
+    public class Crm_PersDeudorParam
     {
         public int nId_PersDeudorParam { get; set; }
         public int nId_Cartera { get; set; }
-        public av_Cartera av_Cartera { get; set; }
+        public Crm_Cartera Crm_Cartera { get; set; }
         public int nId_PersDeudor { get; set; }
-        public av_PersDeudor av_PersDeudor { get; set; }
+        public Crm_PersDeudor Crm_PersDeudor { get; set; }
         public string cPers_CodCliente { get; set; }
         public int nZona { get; set; }
         public string? cDepartamento { get; set; }

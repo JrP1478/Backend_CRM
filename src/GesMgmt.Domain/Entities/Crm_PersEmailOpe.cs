@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersEmailOpe
+    public class Crm_PersEmailOpe
     {
         public int nId_PersEmailOpe { get; set; }
         public string cNombre_PersEmailOpe { get; set; }

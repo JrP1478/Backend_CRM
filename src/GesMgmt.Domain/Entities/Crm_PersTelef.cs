@@ -1,24 +1,24 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersTelef
+    public class Crm_PersTelef
     {
         public int nId_PersTelef { get; set; }
         public int? nId_PersDeudor { get; set; }
-        public av_PersDeudor? av_PersDeudor { get; set; }
+        public Crm_PersDeudor? Crm_PersDeudor { get; set; }
         public string? nTelef_Pre { get; set; }
         public string? nTelef_Nro { get; set; }
         public string? nTelef_Anexo { get; set; }
-        //public av_PersRefUbi? av_PersRefUbi { get; set; }
+        //public Crm_PersRefUbi? Crm_PersRefUbi { get; set; }
         public int? nId_PersRefUbi { get; set; }
         public string? cTelef_Coment { get; set; }
         public int? nId_PersDirecc {  get; set; }
         public bool? bEstado { get; set; }
         public int? nTelef_Prioridad { get; set; }
         public int? nId_PersTelefOpe { get; set; }
-        //public av_PersTelefOpe av_PersTelefOpe { get; set; }
+        //public Crm_PersTelefOpe Crm_PersTelefOpe { get; set; }
         public int? nId_PersDeudorGestionHrs { get; set; }
-        //public av_PersDeudorGestionHrs? av_PersDeudorGestionHrs { get; set; }
+        //public Crm_PersDeudorGestionHrs? Crm_PersDeudorGestionHrs { get; set; }
         public DateTime? dFecUlt_PerstelefOpe { get; set; }
         public DateTime? dFecCarga_PersTelef { get; set; }
         public string? cDireccionTEMPORAL { get; set; }

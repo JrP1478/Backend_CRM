@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersDeudorInfoParamDefCab
+    public class Crm_PersDeudorInfoParamDefCab
     {
         public string? cNombre_Param01 { get; set; }
         public string? cNombre_Param02 { get; set; }

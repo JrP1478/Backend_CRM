@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_TablaCampoGeneral
+    public class Crm_TablaCampoGeneral
     {
         public int? nId_Cliente { get; set; }
         public int? pantalla { get; set; }

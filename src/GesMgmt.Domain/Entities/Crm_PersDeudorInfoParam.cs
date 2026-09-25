@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersDeudorInfoParam
+    public class Crm_PersDeudorInfoParam
     {
         public int nId_PersDeudor { get; set; }
         public string? cPersInf_Param01 { get; set; }

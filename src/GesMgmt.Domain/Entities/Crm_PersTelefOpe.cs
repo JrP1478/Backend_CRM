@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersTelefOpe
+    public class Crm_PersTelefOpe
     {
         public int nId_PersTelefOpe { get; set; }
         public string? cNombre_PersTelefOpe { get; set; }
