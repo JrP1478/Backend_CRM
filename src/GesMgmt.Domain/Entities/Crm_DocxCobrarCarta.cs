@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrarCarta
+    public class Crm_DocxCobrarCarta
     {
         public int nId_DocxCobrarCarta { get; set; }
         public int nId_Cliente { get; set; }

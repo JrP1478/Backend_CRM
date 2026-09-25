@@ -1,13 +1,13 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DetallePersTelef
+    public class Crm_DetallePersTelef
     {
         public int nId_DetallePersTelef { get; set; }
         public int nId_PersTelef { get; set; }
-        public av_PersTelef av_PersTelef { get; set; }
+        public Crm_PersTelef Crm_PersTelef { get; set; }
         public int nId_Cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
         public DateTime? dFec_Registro { get; set; }
         public DateTime? dFec_Actualiza { get; set; }
         public int? nId_Fuente { get; set; }

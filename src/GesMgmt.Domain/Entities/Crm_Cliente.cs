@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Cliente //: BaseEntity
+    public class Crm_Cliente //: BaseEntity
     {
         public int nId_Cliente { get; set; }
         public string? cCli_NroDoc { get; set; }
@@ -47,6 +47,6 @@ namespace GesMgmt.Domain.Entities
         public string? cCli_OCMPredictivo { get; set; }
         public string? cCli_GTELCOMPredictivo { get; set; }
 
-        //public av_DocxCobrar av_DocxCobrar { get; set; }
+        //public Crm_DocxCobrar Crm_DocxCobrar { get; set; }
     }
 }

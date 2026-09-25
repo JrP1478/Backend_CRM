@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrarAdicional
+    public class Crm_DocxCobrarAdicional
     {
         public int nId_DocxCobrarAd { get; set; }
         
@@ -10,10 +10,10 @@ namespace GesMgmt.Domain.Entities
         public int? nId_DocxCobrar { get; set; }
         public int? nId_PersDeudor { get; set; }
 
-        public virtual av_Cliente av_Cliente { get; set; }
-        public virtual av_Cartera av_Cartera { get; set; }
-        public virtual av_DocxCobrar av_DocxCobrar { get; set; }
-        public virtual av_PersDeudor av_PersDeudor { get; set; }
+        public virtual Crm_Cliente Crm_Cliente { get; set; }
+        public virtual Crm_Cartera Crm_Cartera { get; set; }
+        public virtual Crm_DocxCobrar Crm_DocxCobrar { get; set; }
+        public virtual Crm_PersDeudor Crm_PersDeudor { get; set; }
 
         public string? adParam01 { get; set; }
         public string? adParam02 { get; set; }

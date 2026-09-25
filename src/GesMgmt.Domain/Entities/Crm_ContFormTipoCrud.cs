@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_ContFormTipoCrud
+    public class Crm_ContFormTipoCrud
     {
         public int nTipoFormCrud { get; set; }
         public string cNombreTipoForm { get; set; }

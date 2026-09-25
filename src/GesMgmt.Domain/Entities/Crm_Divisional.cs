@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Divisional
+    public class Crm_Divisional
     {
         public int nid_division { get; set; }
         public int? nid_ubigeo { get; set; }

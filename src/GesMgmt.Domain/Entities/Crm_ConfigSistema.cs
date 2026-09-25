@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_ConfigSistema
+    public class Crm_ConfigSistema
     {
         public int nCodTabla { get; set; }
         public string cNomTabla { get; set; }

@@ -1,15 +1,15 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Contrato //: BaseEntity
+    public class Crm_Contrato //: BaseEntity
     {
         public int nId_Contrato { get; set; }
         public int nId_Cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
         public DateTime? dCon_FecIniOpe { get; set; }
         public DateTime? dCon_FecFinOpe { get; set; }
         public bool? bEstado { get; set; }
-        public string? cCon_FirmaAval { get; set; }
+        public string? cCon_FirmaCrm { get; set; }
         public string? cCon_FirmaCliente { get; set; }
         public string? cCon_Detalles { get; set; }
         public int? nId_ConEstado { get; set; }
@@ -20,7 +20,7 @@ namespace GesMgmt.Domain.Entities
         public string? cCon_Pass { get; set; }
         public int? nId_ContratoPadre { get; set; }
         public string? cAlias_Contrato { get; set; }
-        public string? cCod_ClienteAval { get; set; }
+        public string? cCod_ClienteCrm { get; set; }
         public int? nEstad_Con_DocxCobrar { get; set; }
         public int? nEstad_Con_DocxPagar { get; set; }
         public int? nEstad_Con_DocxAFavor { get; set; }

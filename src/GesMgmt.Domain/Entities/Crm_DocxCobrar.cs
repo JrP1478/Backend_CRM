@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_DocxCobrar
+    public class Crm_DocxCobrar
     {
         public int nId_DocxCobrar { get; set; }
 
@@ -11,12 +11,12 @@ namespace GesMgmt.Domain.Entities
         public int? nId_Moneda { get; set; }
         public int? nId_Usuario { get; set; }
 
-        public virtual av_Cliente av_Cliente { get; set; }
-        public virtual av_Cartera av_Cartera { get; set; }
-        public virtual av_PersDeudor av_PersDeudor { get; set; }
-        public virtual av_Moneda av_Moneda { get; set; }
-        public virtual av_Usuario av_Usuario { get; set; }
-        //public virtual av_DocxCobrarParam av_DocxCobrarParam { get; set; }
+        public virtual Crm_Cliente Crm_Cliente { get; set; }
+        public virtual Crm_Cartera Crm_Cartera { get; set; }
+        public virtual Crm_PersDeudor Crm_PersDeudor { get; set; }
+        public virtual Crm_Moneda Crm_Moneda { get; set; }
+        public virtual Crm_Usuario Crm_Usuario { get; set; }
+        //public virtual Crm_DocxCobrarParam Crm_DocxCobrarParam { get; set; }
 
         //public DateTime? dDoc_FecIngreso { get; set; }
         //public int? nId_DocTipo { get; set; }
@@ -103,8 +103,8 @@ namespace GesMgmt.Domain.Entities
         //public int? nCierre_Temp { get; set; }
         //public int? nid_docxcobrar_orig { get; set; }
 
-        // Cambiado a colección para que coincida con la relación One(av_DocxCobrar) - Many(av_DocxCobrarParam)
+        // Cambiado a colección para que coincida con la relación One(Crm_DocxCobrar) - Many(Crm_DocxCobrarParam)
 
-        //public ICollection<av_DocxCobrarOpe> av_DocxCobrarOpes { get; set; }
+        //public ICollection<Crm_DocxCobrarOpe> Crm_DocxCobrarOpes { get; set; }
     }
 }

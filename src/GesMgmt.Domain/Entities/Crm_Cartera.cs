@@ -1,13 +1,13 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Cartera
+    public class Crm_Cartera
     {
         public int nId_Cartera { get; set; }
         public int nId_Cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
         public int nId_Contrato { get; set; }
-        public av_Contrato av_Contrato { get; set; }
+        public Crm_Contrato Crm_Contrato { get; set; }
         public string? cCar_Nombre { get; set; }
         public DateTime? dFecIngreso { get; set; }
         public DateTime? dFecCargaBD { get; set; }
