@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_EstadoEnvioEmailErrorRepository
+    public interface ICrm_EstadoEnvioEmailErrorRepository
     {
-        Task<IQueryable<av_EstadoEnvioEmailError>> Query();
+        Task<IQueryable<Crm_EstadoEnvioEmailError>> Query();
     }
 }

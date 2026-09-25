@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_EstadoEnvioEmailGenRepository
+    public interface ICrm_EstadoEnvioEmailGenRepository
     {
-        Task<IQueryable<av_EstadoEnvioEmailGen>> Query();
+        Task<IQueryable<Crm_EstadoEnvioEmailGen>> Query();
     }
 }
