@@ -1,15 +1,15 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_UsuarioGrupoOpcion
+    public class Crm_UsuarioGrupoOpcion
     {
         public int nId_UsuarioGrupoOpcion { get; set; }
         public int nId_Usuario { get; set; }
-        public av_Usuario av_Usuario { get; set; }
+        public Crm_Usuario Crm_Usuario { get; set; }
         public int nId_Grupo { get; set; }
-        public av_Grupo av_Grupo { get; set; }
+        public Crm_Grupo Crm_Grupo { get; set; }
         public int nId_Opcion { get; set; }
-        public av_Opcion av_Opcion { get; set; }
+        public Crm_Opcion Crm_Opcion { get; set; }
         public bool? bConsultar { get; set; }
         public bool? bInsertar { get; set; }
         public bool? bEditar { get; set; }

@@ -2,12 +2,12 @@ using GesMgmt.Domain.Entities.Analitica;
 
 namespace GesMgmt.Domain.Interfaces.Analitica;
 
-public interface ISisgesGrupoClienteRepository
+public interface ICrmGrupoClienteRepository
 {
-    Task<IReadOnlyList<SisgesGrupoCliente>> ObtenerTodosGruposActivosAsync(
+    Task<IReadOnlyList<CrmGrupoCliente>> ObtenerTodosGruposActivosAsync(
         CancellationToken cancellationToken);
 
-    Task<IReadOnlyList<SisgesGrupoCliente>> ObtenerGruposActivosAsync(
+    Task<IReadOnlyList<CrmGrupoCliente>> ObtenerGruposActivosAsync(
         IReadOnlyCollection<int> idsClientes,
         CancellationToken cancellationToken);
 }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GesMgmt.Domain.Interfaces
 {
-    public interface Iav_BotonClienteRepository
+    public interface ICrm_BotonClienteRepository
     {
-        Task<IQueryable<av_BotonCliente>> Query();
+        Task<IQueryable<Crm_BotonCliente>> Query();
     }
 }

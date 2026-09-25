@@ -2,7 +2,7 @@ using GesMgmt.Domain.Entities.Analitica;
 
 namespace GesMgmt.Domain.Interfaces.Analitica;
 
-public interface ISisgesClienteUsuarioRepository
+public interface ICrmClienteUsuarioRepository
 {
     Task<IReadOnlyList<int>> ObtenerIdsClientesActivosAsync(
         int idUsuario,

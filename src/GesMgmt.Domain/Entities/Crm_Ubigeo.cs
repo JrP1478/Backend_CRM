@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Ubigeo
+    public class Crm_Ubigeo
     {
         public int nId_Ubigeo { get; set; }
         public int? nNivel_Id { get; set; }
