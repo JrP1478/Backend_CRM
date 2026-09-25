@@ -1,13 +1,13 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PerfilOpcion
+    public class Crm_PerfilOpcion
     {
         public int nId_PerfilOpcion { get; set; }
         public int nId_Perfil { get; set; }
-        public av_Perfil av_Perfil { get; set; }
+        public Crm_Perfil Crm_Perfil { get; set; }
         public int nId_Opcion { get; set; }
-        public av_Opcion av_Opcion { get; set; }
+        public Crm_Opcion Crm_Opcion { get; set; }
         public bool bConsultar { get; set; }
         public bool bInsertar { get; set; }
         public bool bEditar { get; set; }

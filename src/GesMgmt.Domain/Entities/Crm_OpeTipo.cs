@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_OpeTipo
+    public class Crm_OpeTipo
     {
         public int nId_OpeTipo { get; set; }
         public string? cNombre_OpeTipo { get; set; }

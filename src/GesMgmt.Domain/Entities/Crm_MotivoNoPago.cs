@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_MotivoNoPago
+    public class Crm_MotivoNoPago
     {
         public int nId_MotivoNoPago { get; set; }
         public int nId_Cliente { get; set; }

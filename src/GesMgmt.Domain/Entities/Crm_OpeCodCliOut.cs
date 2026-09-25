@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_OpeCodCliOut
+    public class Crm_OpeCodCliOut
     {
         public int nId_OpeCodCliOut { get; set; }
         public string? cNombre_OpeCodCliOut { get; set; }
@@ -23,7 +23,7 @@ namespace GesMgmt.Domain.Entities
         public string? cSigla_OpeCodCliOut { get; set; }
         public string? cRequer_OpeCodCliOut { get; set; }
         public int nId_Cliente { get; set; }
-        public av_Cliente av_Cliente { get; set; }
+        public Crm_Cliente Crm_Cliente { get; set; }
         public int? nNivel1 { get; set; }
         public int? nEstado_Gestion { get; set; }
         public int? nValida_DocParamOpe { get; set; }

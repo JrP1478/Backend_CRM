@@ -1,13 +1,13 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_OficinaAval
+    public class Crm_OficinaCrm
     {
-        public int nid_OficinaAval { get; set; }
+        public int nid_OficinaCrm { get; set; }
         public string? cNombre_Oficina { get; set; }
         public string? cDireccion { get; set; }
         public int? nId_Usuario { get; set; }
-        public av_Usuario av_Usuario { get; set; }
+        public Crm_Usuario Crm_Usuario { get; set; }
         public bool? bLimaProv { get; set; }
         public int? nid_usuarioAsistente { get; set; }
         public int? nid_cliente { get; set; }

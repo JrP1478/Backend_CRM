@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_PersDeudor //: BaseEntity
+    public class Crm_PersDeudor //: BaseEntity
     {
         public int nId_PersDeudor { get; set; }
         public string? cPers_DNI { get; set; }
@@ -15,7 +15,7 @@ namespace GesMgmt.Domain.Entities
         public bool? bEstado { get; set; }
         public DateTime? dFecIngreso { get; set; }
         public DateTime? dFecUltMov { get; set; }
-        public int? nId_PersDeudorAval { get; set; }
+        public int? nId_PersDeudorCrm { get; set; }
         public int? nPers_NroDoc { get; set; }
         public int? nPers_AtrazoMax { get; set; }
         public decimal? nPers_DeudaMax { get; set; }
@@ -39,6 +39,6 @@ namespace GesMgmt.Domain.Entities
         public string? cPers_Pasaporte { get; set; }
 
         //Relaciones de navegación
-        //public ICollection<av_DocxCobrar> av_DocxCobrars { get; set; }
+        //public ICollection<Crm_DocxCobrar> Crm_DocxCobrars { get; set; }
     }
 }

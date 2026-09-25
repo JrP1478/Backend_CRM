@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_OpeCodCliOutEst
+    public class Crm_OpeCodCliOutEst
     {
         public int nId_OpeCodCliOut { get; set; }
         public string? cNombre_OpeCodCliOut { get; set; }

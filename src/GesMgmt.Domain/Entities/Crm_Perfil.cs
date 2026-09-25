@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Perfil
+    public class Crm_Perfil
     {
         public int nid_perfil { get; set; }
         public DateTime? per_Fecha { get; set; }

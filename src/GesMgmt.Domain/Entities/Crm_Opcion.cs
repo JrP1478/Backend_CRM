@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Opcion
+    public class Crm_Opcion
     {
         public int nId_Opcion { get; set; }
         public string sCodigoOpcion { get; set; }
