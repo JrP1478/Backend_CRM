@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_Agenda
+    public class Crm_Agenda
     {
         public int nid_agenda { get; set; }
         public DateTime? dFechNuevaGestion { get; set; }

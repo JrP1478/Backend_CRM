@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_CabPantallaCob
+    public class Crm_CabPantallaCob
     {
         public int nId_CabPantalla { get; set; }
         public string cTitulo { get; set; }

@@ -1,6 +1,6 @@
 namespace GesMgmt.Domain.Constants;
 
-public enum SisgesOptionPermission
+public enum CrmOptionPermission
 {
     Consult,
     Insert,

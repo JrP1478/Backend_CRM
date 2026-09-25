@@ -1,7 +1,7 @@
 ﻿
 namespace GesMgmt.Domain.Entities
 {
-    public class av_asigUsuario
+    public class Crm_asigUsuario
     {
         public int nid_asignacion { get; set; }
         public int? nid_usuario { get; set; }
