@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_CarteraConfiguration : IEntityTypeConfiguration<av_Cartera>
+    public class Crm_BotonClienteConfiguration : IEntityTypeConfiguration<Crm_BotonCliente>
     {
-        public void Configure(EntityTypeBuilder<av_Cartera> builder)
+        public void Configure(EntityTypeBuilder<Crm_BotonCliente> builder)
         {
-            builder.ToTable("av_Cartera","dbo");
-            builder.HasKey(car => car.nId_Cartera);
+            builder.ToTable("Crm_BotonCliente", "dbo");
+            builder.HasKey(boton => boton.nId_Boton);
 
-            builder.HasOne(car => car.av_Cliente)
+            builder.HasOne(car => car.Crm_Cliente)
                 .WithMany()
                 .HasForeignKey(car => car.nId_Cliente);
 
-            builder.HasOne(car => car.av_Contrato)
+            builder.HasOne(car => car.Crm_Contrato)
                 .WithMany()
                 .HasForeignKey(car => car.nId_Contrato);
         }

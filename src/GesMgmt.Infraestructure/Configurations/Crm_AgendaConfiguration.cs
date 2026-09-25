@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_AgendaConfiguration : IEntityTypeConfiguration<av_Agenda>
+    public class Crm_AgendaConfiguration : IEntityTypeConfiguration<Crm_Agenda>
     {
-        public void Configure(EntityTypeBuilder<av_Agenda> builder)
+        public void Configure(EntityTypeBuilder<Crm_Agenda> builder)
         {
-            builder.ToTable("av_Agenda", "dbo");
+            builder.ToTable("Crm_Agenda", "dbo");
             builder.HasKey(cpc => cpc.nid_agenda);
         }
     }

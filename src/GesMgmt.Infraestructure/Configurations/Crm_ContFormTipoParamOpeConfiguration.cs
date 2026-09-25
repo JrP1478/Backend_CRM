@@ -7,11 +7,11 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_ContFormTipoParamOpeConfiguration : IEntityTypeConfiguration<av_ContFormTipoParamOpe>
+    public class Crm_ContFormTipoParamOpeConfiguration : IEntityTypeConfiguration<Crm_ContFormTipoParamOpe>
     {
-        public void Configure(EntityTypeBuilder<av_ContFormTipoParamOpe> builder)
+        public void Configure(EntityTypeBuilder<Crm_ContFormTipoParamOpe> builder)
         {
-            builder.ToTable("av_ContFormTipoParamOpe", "dbo");
+            builder.ToTable("Crm_ContFormTipoParamOpe", "dbo");
             builder.HasKey(car => car.nTipoFormParamOpe);
         }
     }

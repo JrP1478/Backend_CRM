@@ -7,11 +7,11 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_asigUsuarioConfiguration : IEntityTypeConfiguration<av_asigUsuario>
+    public class Crm_asigUsuarioConfiguration : IEntityTypeConfiguration<Crm_asigUsuario>
     {
-        public void Configure(EntityTypeBuilder<av_asigUsuario> builder)
+        public void Configure(EntityTypeBuilder<Crm_asigUsuario> builder)
         {
-            builder.ToTable("av_asigUsuario", "dbo");
+            builder.ToTable("Crm_asigUsuario", "dbo");
             builder.HasKey(cpc => cpc.nid_asignacion);
         }
     }

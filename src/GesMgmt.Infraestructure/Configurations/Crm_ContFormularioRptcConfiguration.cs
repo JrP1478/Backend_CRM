@@ -7,18 +7,18 @@ using System.Text;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_ContFormularioRptcConfiguration : IEntityTypeConfiguration<av_ContFormularioRptc>
+    public class Crm_ContFormularioRptcConfiguration : IEntityTypeConfiguration<Crm_ContFormularioRptc>
     {
-        public void Configure(EntityTypeBuilder<av_ContFormularioRptc> builder)
+        public void Configure(EntityTypeBuilder<Crm_ContFormularioRptc> builder)
         {
-            builder.ToTable("av_ContFormularioRptc", "dbo");
+            builder.ToTable("Crm_ContFormularioRptc", "dbo");
             builder.HasKey(car => car.nId_ContFormRptc);
 
-            builder.HasOne(car => car.av_Contrato)
+            builder.HasOne(car => car.Crm_Contrato)
                 .WithMany()
                 .HasForeignKey(car => car.nId_Contrato);
 
-            builder.HasOne(car => car.av_ContFormTipoCrud)
+            builder.HasOne(car => car.Crm_ContFormTipoCrud)
                 .WithMany()
                 .HasForeignKey(car => car.nTipoFormCrud);
         }

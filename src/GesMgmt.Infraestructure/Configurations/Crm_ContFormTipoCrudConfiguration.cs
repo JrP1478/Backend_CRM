@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_ContFormTipoCrudConfiguration : IEntityTypeConfiguration<av_ContFormTipoCrud>
+    public class Crm_ContFormTipoCrudConfiguration : IEntityTypeConfiguration<Crm_ContFormTipoCrud>
     {
-        public void Configure(EntityTypeBuilder<av_ContFormTipoCrud> builder)
+        public void Configure(EntityTypeBuilder<Crm_ContFormTipoCrud> builder)
         {
-            builder.ToTable("av_ContFormTipoCrud", "dbo");
+            builder.ToTable("Crm_ContFormTipoCrud", "dbo");
             builder.HasKey(c => c.nTipoFormCrud);
         }
     }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_CampanaDiscadorConfiguration : IEntityTypeConfiguration<av_CampanaDiscador>
+    public class Crm_CampanaDiscadorConfiguration : IEntityTypeConfiguration<Crm_CampanaDiscador>
     {
-        public void Configure(EntityTypeBuilder<av_CampanaDiscador> builder)
+        public void Configure(EntityTypeBuilder<Crm_CampanaDiscador> builder)
         {
-            builder.ToTable("av_CampanaDiscador", "dbo");
+            builder.ToTable("Crm_CampanaDiscador", "dbo");
             builder.HasKey(car => car.id);
         }
     }

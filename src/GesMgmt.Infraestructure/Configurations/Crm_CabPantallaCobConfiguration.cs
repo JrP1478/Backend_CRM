@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GesMgmt.Infraestructure.Configurations
 {
-    public class av_CabPantallaCobConfiguration : IEntityTypeConfiguration<av_CabPantallaCob>
+    public class Crm_CabPantallaCobConfiguration : IEntityTypeConfiguration<Crm_CabPantallaCob>
     {
-        public void Configure(EntityTypeBuilder<av_CabPantallaCob> builder)
+        public void Configure(EntityTypeBuilder<Crm_CabPantallaCob> builder)
         {
-            builder.ToTable("av_CabPantallaCob", "dbo");
+            builder.ToTable("Crm_CabPantallaCob", "dbo");
             builder.HasKey(cpc => cpc.nId_CabPantalla);
         }
     }
