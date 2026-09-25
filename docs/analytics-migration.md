@@ -15,25 +15,25 @@ una infraestructura Dapper paralela.
 5. `GesMgmt.WebAPI` mantiene controllers y composición/DI; no contiene una carpeta genérica
    `Services` para infraestructura Analytics.
 6. Analytics no agrega un esquema de autenticación propio ni el header de desarrollo
-   `X-Sisges-User-Id`.
+   `X-Crm-User-Id`.
 7. Los endpoints y contratos públicos de Analytics se conservan salvo cambio funcional
    explícitamente aprobado.
-8. Los repositories Analytics no se agregan al `IUnitOfWork` legacy: `AvalDbContext` y
+8. Los repositories Analytics no se agregan al `IUnitOfWork` legacy: `CrmDbContext` y
    `AnalyticsDbContext` permanecen como contextos EF Core separados, aunque la configuración
-   actual de este entorno los conecte a `aval_cob`.
+   actual de este entorno los conecte a `crm_cob`.
 
 ## Contextos de datos
 
-### AvalDbContext
+### CrmDbContext
 
-- Connection string: `ConnectionStrings:AvalCobConnection`.
-- Base: `aval_cob`.
-- También es reutilizado por Analytics cuando necesita consultar datos SISGES existentes.
+- Connection string: `ConnectionStrings:CrmCobConnection`.
+- Base: `crm_cob`.
+- También es reutilizado por Analytics cuando necesita consultar datos CRM existentes.
 
 ### AnalyticsDbContext
 
-- Connection string: `ConnectionStrings:AvalAnalyticsConnection`.
-- Base actual: `aval_cob`.
+- Connection string: `ConnectionStrings:CrmAnalyticsConnection`.
+- Base actual: `crm_cob`.
 - Modela `acceso_analitica`, dimensiones, facts y vistas utilizadas por Analytics y Portfolio
   Control Center.
 - `AnalyticsDatabase:CommandTimeoutSeconds` es opcional; default 15 segundos, rango 1-120.
@@ -45,7 +45,7 @@ SQL y clases `*Sql.cs`. Esa estrategia fue retirada para volver al patrón EF Co
 
 Quedaron migrados a EF Core:
 
-- acceso SISGES de Analytics;
+- acceso CRM de Analytics;
 - opciones, usuarios, clientes y grupos de `acceso_analitica`;
 - configuración Power BI y publicaciones por cliente;
 - Bootstrap y FilterOptions de Portfolio Control Center;
@@ -82,7 +82,7 @@ estándar de configuración ASP.NET Core.
 
 Desde Visual Studio Community 2026:
 
-1. Abrir `API.BS.GestionManagement.slnx`.
+1. Abrir `Backend.CRM.slnx`.
 2. Seleccionar `GesMgmt.WebAPI` como Startup Project.
 3. Ejecutar `Build > Rebuild Solution`.
 4. Ejecutar el perfil HTTPS y validar los endpoints desde Swagger.
@@ -90,8 +90,8 @@ Desde Visual Studio Community 2026:
 Desde PowerShell:
 
 ```powershell
-dotnet restore .\API.BS.GestionManagement.slnx
-dotnet build .\API.BS.GestionManagement.slnx -c Release
+dotnet restore .\Backend.CRM.slnx
+dotnet build .\Backend.CRM.slnx -c Release
 dotnet test .\src\GesMgmt.UnitTests\GesMgmt.UnitTests.csproj -c Release
 ```
 
@@ -99,4 +99,4 @@ dotnet test .\src\GesMgmt.UnitTests\GesMgmt.UnitTests.csproj -c Release
 
 La integración no inventa autenticación para Gestión. Antes de habilitar Analytics en un
 entorno productivo, el host/plataforma debe entregar un `ClaimsPrincipal` autenticado con el
-identificador SISGES que consume `IAnalyticsUserContext`.
+identificador CRM que consume `IAnalyticsUserContext`.

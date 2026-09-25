@@ -364,3 +364,9 @@ FodyWeavers.xsd
 
 # Configuración local
 appsettings.json
+
+# Artefactos locales y metadatos de despliegue (no versionar)
+.sonarqube/
+build-errors.txt
+**/Properties/ServiceDependencies/
+**/Properties/serviceDependencies*.json
