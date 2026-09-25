@@ -1,0 +1,194 @@
+name: One-time repository anonymization
+
+on:
+  push:
+    branches:
+      - cleanup/anonymize-public-repo
+
+permissions:
+  contents: write
+
+jobs:
+  anonymize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout cleanup branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Sanitize repository
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import shutil
+          import re
+
+          root = Path(".")
+          workflow = Path(".github/workflows/anonymize-public-repo.yml")
+
+          delete_paths = [
+              Path(".sonarqube"),
+              Path("build-errors.txt"),
+              Path("src/GesMgmt.WebAPI/Properties/ServiceDependencies"),
+              Path("src/GesMgmt.WebAPI/Properties/serviceDependencies.json"),
+              Path("src/GesMgmt.WebAPI/Properties/serviceDependencies.GesMgmtWebAPI20260527125339 - Zip Deploy.json"),
+          ]
+
+          for path in delete_paths:
+              if path.is_dir():
+                  shutil.rmtree(path)
+              elif path.exists():
+                  path.unlink()
+
+          replacements = [
+              (r"172.23.1.180\\MSSQLSERVER,51601", "REPORTING_SERVER"),
+              ("API.BS.GestionManagement", "Backend.CRM"),
+              ("645a8240-c90e-4542-bf7a-5ecd7bee52a2", "Backend.CRM-LocalDevelopment"),
+              ("SISGES", "CRM"),
+              ("Sisges", "Crm"),
+              ("sisges", "crm"),
+              ("CLARO", "CLIENTE_A"),
+              ("Claro", "ClienteA"),
+              ("claro", "cliente_a"),
+              ("MAF", "CLIENTE_B"),
+              ("Maf", "ClienteB"),
+              ("maf", "cliente_b"),
+              ("AVAL", "CRM"),
+              ("Aval", "Crm"),
+              ("aval", "crm"),
+              ("av_", "Crm_"),
+          ]
+
+          text_exts = {
+              ".cs", ".sql", ".json", ".md", ".txt", ".xml", ".config",
+              ".csproj", ".props", ".targets", ".sln", ".slnx", ".ps1", ".sh",
+              ".yml", ".yaml", ".http", ".runsettings", ".toml", ".ini",
+          }
+          text_names = {".gitignore", ".gitattributes", ".dockerignore", ".editorconfig", "Dockerfile"}
+
+          def is_text(path: Path) -> bool:
+              return path.name in text_names or path.suffix.lower() in text_exts
+
+          def replace_tokens(value: str) -> str:
+              for old, new in replacements:
+                  value = value.replace(old, new)
+              return value
+
+          files = [
+              p for p in root.rglob("*")
+              if p.is_file() and ".git" not in p.parts and is_text(p) and p != workflow
+          ]
+
+          for path in files:
+              try:
+                  content = path.read_text(encoding="utf-8")
+              except UnicodeDecodeError:
+                  continue
+
+              updated = replace_tokens(content)
+              updated = re.sub(r"^.*192\.168\.100\.91.*(?:\r?\n|$)", "", updated, flags=re.MULTILINE)
+
+              if path.as_posix() == "README.md" and "Repositorio anonimizado para portafolio" not in updated:
+                  lines = updated.splitlines(keepends=True)
+                  notice = (
+                      "\n> **Repositorio anonimizado para portafolio.** "
+                      "Los nombres de empresa, clientes, servidores, bases de datos y "
+                      "metadatos de despliegue del entorno original fueron sustituidos "
+                      "por valores genéricos. No se incluyen credenciales ni configuración "
+                      "de producción.\n"
+                  )
+                  if lines:
+                      updated = lines[0] + notice + "".join(lines[1:])
+                  else:
+                      updated = "# Backend.CRM\n" + notice
+
+              if path.as_posix() == ".gitignore" and "Artefactos locales y metadatos de despliegue" not in updated:
+                  if not updated.endswith("\n"):
+                      updated += "\n"
+                  updated += (
+                      "\n# Artefactos locales y metadatos de despliegue (no versionar)\n"
+                      ".sonarqube/\n"
+                      "build-errors.txt\n"
+                      "**/Properties/ServiceDependencies/\n"
+                      "**/Properties/serviceDependencies*.json\n"
+                  )
+
+              if updated != content:
+                  path.write_text(updated, encoding="utf-8")
+
+          # Rename paths from deepest to shallowest after content changes.
+          paths = sorted(
+              [p for p in root.rglob("*") if ".git" not in p.parts and p != workflow],
+              key=lambda p: len(p.parts),
+              reverse=True,
+          )
+          for path in paths:
+              rel = path.as_posix()
+              new_rel = replace_tokens(rel)
+              if new_rel == rel:
+                  continue
+              target = Path(new_rel)
+              target.parent.mkdir(parents=True, exist_ok=True)
+              if target.exists() and target != path:
+                  if target.is_dir() and path.is_dir():
+                      continue
+                  if target.is_file():
+                      target.unlink()
+              path.rename(target)
+
+          # Remove this one-time workflow so it is not retained in the cleaned tree.
+          if workflow.exists():
+              workflow.unlink()
+
+          forbidden = [
+              "172.23.1.180",
+              "192.168.100.91",
+              "API.BS.GestionManagement",
+              "SISGES", "Sisges", "sisges",
+              "CLARO", "Claro", "claro",
+              "MAF", "Maf", "maf",
+              "AVAL", "Aval", "aval",
+              "av_",
+              "alpier_rem@hotmail.com",
+          ]
+          findings = []
+          for path in root.rglob("*"):
+              if ".git" in path.parts:
+                  continue
+              rel = path.as_posix()
+              for token in forbidden:
+                  if token in rel:
+                      findings.append(f"path: {rel} -> {token}")
+              if path.is_file() and is_text(path):
+                  try:
+                      content = path.read_text(encoding="utf-8")
+                  except UnicodeDecodeError:
+                      continue
+                  for token in forbidden:
+                      if token in content:
+                          findings.append(f"content: {rel} -> {token}")
+                          if len(findings) >= 30:
+                              break
+              if len(findings) >= 30:
+                  break
+
+          if findings:
+              raise SystemExit("Sensitive references remain:\n" + "\n".join(findings))
+          PY
+
+      - name: Validate and commit
+        shell: bash
+        run: |
+          git diff --check
+          git status --short
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: anonymize company-specific repository data"
+          git push origin HEAD:cleanup/anonymize-public-repo
